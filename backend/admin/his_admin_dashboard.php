@@ -106,69 +106,11 @@
                             </div> <!-- end col-->
                             <!--End InPatients-->
 
-                            <!--Start Employees-->
-                            <div class="col-md-6 col-xl-4">
-                                <div class="widget-rounded-circle card-box">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
-                                                <i class="mdi mdi-doctor font-22 avatar-title text-primary"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="text-right">
-                                                <?php
-                                                    //code for summing up number of employees in the certain Hospital 
-                                                    $result ="SELECT count(*) FROM his_docs ";
-                                                    $stmt = $mysqli->prepare($result);
-                                                    $stmt->execute();
-                                                    $stmt->bind_result($doc);
-                                                    $stmt->fetch();
-                                                    $stmt->close();
-                                                ?>
-                                                <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $doc;?></span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Hospital Employees</p>
-                                            </div>
-                                        </div>
-                                    </div> <!-- end row-->
-                                </div> <!-- end widget-rounded-circle-->
-                            </div> <!-- end col-->
-                            <!--End Employees-->
                         
                         </div>
 
                         <div class="row">
 
-                        <!--Start Vendors-->
-                            <div class="col-md-6 col-xl-4">
-                                <div class="widget-rounded-circle card-box">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
-                                                <i class="fas fa-user-tag font-22 avatar-title text-primary"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="text-right">
-                                                <?php
-                                                    /*code for summing up number of vendors whom supply eqipments, 
-                                                     *pharms or any other equipments
-                                                     */ 
-                                                    $result ="SELECT count(*) FROM his_vendor ";
-                                                    $stmt = $mysqli->prepare($result);
-                                                    $stmt->execute();
-                                                    $stmt->bind_result($vendor);
-                                                    $stmt->fetch();
-                                                    $stmt->close();
-                                                ?>
-                                                <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $vendor;?></span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Vendors</p>
-                                            </div>
-                                        </div>
-                                    </div> <!-- end row-->
-                                </div> <!-- end widget-rounded-circle-->
-                            </div> <!-- end col--> 
-                            <!--End Vendors-->  
 
                             <!--Start Corporation Assets-->
                             <div class="col-md-6 col-xl-4">
@@ -237,61 +179,7 @@
 
                         
                         <!--Recently Employed Employees-->
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card-box">
-                                    <h4 class="header-title mb-3">Hospital Employees</h4>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless table-hover table-centered m-0">
-
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th colspan="2">Picture</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <?php
-                                                $ret="SELECT * FROM his_docs ORDER BY RAND() LIMIT 10 "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="width: 36px;">
-                                                        <img src="../doc/assets/images/users/<?php echo $row->doc_dpic;?>" alt="img" title="contact-img" class="rounded-circle avatar-sm" />
-                                                    </td>
-                                                    <td>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row->doc_fname;?> <?php echo $row->doc_lname;?>
-                                                    </td>    
-                                                    <td>
-                                                        <?php echo $row->doc_email;?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row->doc_dept;?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="his_admin_view_single_employee.php?doc_id=<?php echo $row->doc_id;?>&&doc_number=<?php echo $row->doc_number;?>" class="btn btn-xs btn-primary"><i class="mdi mdi-eye"></i> View</a>
-                                                    </td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-                                                </tr>
-                                            </tbody>
-                                            <?php }?>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->                                                                                                                                                                                                                                         
-                        </div>
-                        <!-- end row -->
+                        <!-- 
                         
                     </div> <!-- container -->
 

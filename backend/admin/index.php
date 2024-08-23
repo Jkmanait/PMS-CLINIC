@@ -115,8 +115,8 @@
 
                                 </form>
 
-                                <!--
-                                For Now Lets Disable This 
+                                
+                                 <!-- For Now Lets Disable This 
                                 This feature will be implemented on later versions
                                 <div class="text-center">
                                     <h5 class="mt-3 text-muted">Sign in with</h5>
@@ -134,8 +134,8 @@
                                             <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github-circle"></i></a>
                                         </li>
                                     </ul>
-                                </div> 
-                                -->
+                                </div>  -->
+                               
 
                             </div> <!-- end card-body -->
                         </div>

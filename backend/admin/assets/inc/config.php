@@ -2,6 +2,6 @@
 $host="localhost";
 $dbuser="root";
 $dbpass="";
-$db="ipms";
+$db="uhc";
 $mysqli=new mysqli($host,$dbuser, $dbpass, $db);
 ?>

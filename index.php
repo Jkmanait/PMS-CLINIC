@@ -112,8 +112,8 @@
       <a href="login.php" class="btn has-before title-md" value="Make Appointment" class="login-btn btn-primary btn">Patient Login</a>
       <div class="overlay" data-nav-toggler data-overlay></div>
 
-      <!-- <a href="https://emergitrack-user.onrender.com/" class="btn has-before title-md" >Book Ambulance</a>
-      <div class="overlay" data-nav-toggler data-overlay></div> -->
+      <a href="https://emergitrack-user.onrender.com/" class="btn has-before title-md" >#</a>
+      <div class="overlay" data-nav-toggler data-overlay></div>
 
     </div>
   </header>
@@ -519,13 +519,13 @@
 
                 </div>
 
-                <h3 class="headline-sm card-title">Could intermittent fasting reduce breast cancer</h3>
+                <h3 class="headline-sm card-title">News Title</h3>
 
-                <time class="title-sm date" datetime="2022-01-28">28 January, 2022</time>
+                <time class="title-sm date" datetime="2022-01-28">Date</time>
 
                 <p class="card-text">
-                  Unlocking the potential of intermittent fasting in breast cancer 
-                  prevention - a journey guided by expertise
+                blah,blah,blah,blah,blah,blah,blah,blah,
+                blah,blah,blah,blah,blah,blah,blah,blah
                 </p>
 
                 <a href="#" class="btn-text title-lg">Read More</a>
@@ -552,13 +552,13 @@
 
                 </div>
 
-                <h3 class="headline-sm card-title">Give children more autonomy during the pandemic</h3>
+                <h3 class="headline-sm card-title">News Title</h3>
 
-                <time class="title-sm date" datetime="2022-01-28">28 January, 2022</time>
+                <time class="title-sm date" datetime="2022-01-28">Date</time>
 
                 <p class="card-text">
-                  Foster autonomy in children amid the pandemic:
-                  Empower their resilience, encourage self-discovery, and nurture independence. 
+                  blah,blah,blah,blah,blah,blah,blah,blah,
+                  blah,blah,blah,blah,blah,blah,blah,blah
                 </p>
 
                 <a href="#" class="btn-text title-lg">Read More</a>
@@ -585,13 +585,13 @@
 
                 </div>
 
-                <h3 class="headline-sm card-title">How do binge eating and drinking impact the liver?</h3>
+                <h3 class="headline-sm card-title">News Title</h3>
 
-                <time class="title-sm date" datetime="2022-01-28">28 January, 2022</time>
+                <time class="title-sm date" datetime="2022-01-28">Date</time>
 
                 <p class="card-text">
-                  Explore the intricate connection between binge eating, drinking, and liver health.
-                  Delve into the impact of these habits on one of our vital organs. 
+                blah,blah,blah,blah,blah,blah,blah,blah,
+                blah,blah,blah,blah,blah,blah,blah,blah 
                 </p>
 
                 <a href="#" class="btn-text title-lg">Read More</a>
@@ -627,11 +627,11 @@
 
               <div>
                 <p>
-                  Main Email : <a href="mailto:contact@website.com" class="contact-link">contact@&shy;website.com</a>
+                  Main Email : <a href="#" class="contact-link">#</a>
                 </p>
 
                 <p>
-                  Inquiries : <a href="mailto:Info@mail.com" class="contact-link">Info@mail.com</a>
+                  Inquiries : <a href="#" class="contact-link">#</a>
                 </p>
               </div>
 
@@ -645,11 +645,11 @@
 
               <div>
                 <p>
-                  Office Telephone : <a href="tel:0029129102320" class="contact-link">0029129102320</a>
+                  Office Telephone : <a href="tel:#" class="contact-link">#</a>
                 </p>
 
                 <p>
-                  Mobile : <a href="tel:000232439493" class="contact-link">000 2324 39493</a>
+                  Mobile : <a href="tel#" class="contact-link">#</a>
                 </p>
               </div>
 
@@ -670,8 +670,8 @@
             <ion-icon name="map-outline"></ion-icon>
 
             <span class="text">
-              2416 Mapleview Drive <br>
-              Tampa, FL 33634
+            MISSION-BUENAVENTURE 
+            CARE FAMILY HOSPITAL FOUNDATION INC...
             </span>
           </address>
 
