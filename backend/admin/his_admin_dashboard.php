@@ -174,16 +174,7 @@
                             </div> <!-- end col-->
                             <!--End Pharmaceuticals-->
 
-                        </div>
                         
-
-                        
-                        <!--Recently Employed Employees-->
-                        <!-- 
-                        
-                    </div> <!-- container -->
-
-                </div> <!-- content -->
 
                 <!-- Footer Start -->
                 <?php include('assets/inc/footer.php');?>

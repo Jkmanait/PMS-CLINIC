@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2024 at 06:46 AM
+-- Generation Time: Aug 24, 2024 at 02:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -20,30 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `uhc`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `his_accounts`
---
-
-CREATE TABLE `his_accounts` (
-  `acc_id` int(200) NOT NULL,
-  `acc_name` varchar(200) DEFAULT NULL,
-  `acc_desc` text DEFAULT NULL,
-  `acc_type` varchar(200) DEFAULT NULL,
-  `acc_number` varchar(200) DEFAULT NULL,
-  `acc_amount` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `his_accounts`
---
-
-INSERT INTO `his_accounts` (`acc_id`, `acc_name`, `acc_desc`, `acc_type`, `acc_number`, `acc_amount`) VALUES
-(1, 'Individual Retirement Account', '<p>IRA&rsquo;s are simply an account where you stash your money for retirement. The concept is pretty simple, your account balance is not taxed UNTIL you withdraw, at which point you pay the taxes there. This allows you to grow your account with interest without taxes taking away from the balance. The net result is you earn more money.</p>', 'Payable Account', '518703294', '25000'),
-(2, 'Equity Bank', '<p>Find <em>bank account</em> stock <em>images</em> in HD and millions of other royalty-free stock photos, illustrations and vectors in the Shutterstock collection. Thousands of new</p>', 'Receivable Account', '753680912', '12566'),
-(3, 'Test Account Name', '<p>This is a demo test</p>', 'Payable Account', '620157843', '1100');
 
 -- --------------------------------------------------------
 
@@ -81,32 +57,6 @@ CREATE TABLE `his_assets` (
   `asst_status` varchar(200) DEFAULT NULL,
   `asst_dept` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `his_docs`
---
-
-CREATE TABLE `his_docs` (
-  `doc_id` int(20) NOT NULL,
-  `doc_fname` varchar(200) DEFAULT NULL,
-  `doc_lname` varchar(200) DEFAULT NULL,
-  `doc_email` varchar(200) DEFAULT NULL,
-  `doc_pwd` varchar(200) DEFAULT NULL,
-  `doc_dept` varchar(200) DEFAULT NULL,
-  `doc_number` varchar(200) DEFAULT NULL,
-  `doc_dpic` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `his_docs`
---
-
-INSERT INTO `his_docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pwd`, `doc_dept`, `doc_number`, `doc_dpic`) VALUES
-(5, 'Aletha', 'White', 'aletha@mail.com', 'dce0b27ba675df41e9cc07af80ec59c475810824', 'Laboratory', 'BKTWQ', 'defaultimg.jpg'),
-(6, 'Bryan', 'Arreola', 'bryan@mail.com', '55c3b5386c486feb662a0785f340938f518d547f', 'Surgery | Theatre', 'YDS7L', 'user-default-2-min.png'),
-(12, 'Jessica', 'Spencer', 'jessica@mail.com', 'dce0b27ba675df41e9cc07af80ec59c475810824', 'Accounting', '5VIFT', 'usric.png');
 
 -- --------------------------------------------------------
 
@@ -159,7 +109,8 @@ INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_
 (2, 'Mart Developers', 'Fever', '6P8HJ', '<ul><li>Body temperature</li><li>Blood</li><li>Stool</li><li>Urine</li></ul>', '<ul><li>Body Temperature 67 Degree Celcious(Abnormal)</li><li>Blood - Malaria Bacterial Tested Postive</li><li>Stool - Mucus tested postive</li><li>Urine -Urea Level were 20% higher than normal</li></ul><p><strong>Fever Tested Positive</strong></p>', '9DMN5', '2020-01-12 13:41:07'),
 (3, 'John Doe', 'Malaria', 'RAV6C', '<p><strong>Pain areas: </strong>in the abdomen or muscles</p><p><strong>Whole body: </strong>chills, fatigue, fever, night sweats, shivering, or sweating</p><p><strong>Gastrointestinal: </strong>diarrhoea, nausea, or vomiting</p><p><strong>Also common: </strong>fast heart rate, headache, mental confusion, or pallor</p>', '<p><strong>Pain areas: </strong>in the abdomen or muscles -Tested Positive</p><p><strong>Whole body: </strong>chills, fatigue, fever, night sweats, shivering, or sweating - Tested Positive</p><p><strong>Gastrointestinal: </strong>diarrhoea, nausea, or vomiting - Tested Positive</p><p>&nbsp;</p>', '90ZNX', '2020-01-13 12:31:48'),
 (4, 'Cynthia Connolly', 'Demo Test', '3Z14K', '<p>demo demo demo demo</p>', '<p>54545</p>', 'G0VZU', '2022-10-20 17:48:05'),
-(5, 'Christine Moore', 'Demo Test', '4TLG0', '<ol><li>Test One</li><li>Test Two</li><li>Test Three</li><li>Test Four</li><li>Test Five</li></ol>', '<ol><li>Result One</li><li>Result Two</li><li>Result Three</li></ol>', 'RA4UM', '2022-10-22 11:01:11');
+(5, 'Christine Moore', 'Demo Test', '4TLG0', '<ol><li>Test One</li><li>Test Two</li><li>Test Three</li><li>Test Four</li><li>Test Five</li></ol>', '<ol><li>Result One</li><li>Result Two</li><li>Result Three</li></ol>', 'RA4UM', '2022-10-22 11:01:11'),
+(6, 'Michael White', 'Demo Test', 'DCRI8', '<p>sdsdsd</p>', NULL, '2QFE6', '2024-08-23 05:13:42');
 
 -- --------------------------------------------------------
 
@@ -378,12 +329,6 @@ INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytem
 --
 
 --
--- Indexes for table `his_accounts`
---
-ALTER TABLE `his_accounts`
-  ADD PRIMARY KEY (`acc_id`);
-
---
 -- Indexes for table `his_admin`
 --
 ALTER TABLE `his_admin`
@@ -394,12 +339,6 @@ ALTER TABLE `his_admin`
 --
 ALTER TABLE `his_assets`
   ADD PRIMARY KEY (`asst_id`);
-
---
--- Indexes for table `his_docs`
---
-ALTER TABLE `his_docs`
-  ADD PRIMARY KEY (`doc_id`);
 
 --
 -- Indexes for table `his_equipments`
@@ -466,12 +405,6 @@ ALTER TABLE `his_vitals`
 --
 
 --
--- AUTO_INCREMENT for table `his_accounts`
---
-ALTER TABLE `his_accounts`
-  MODIFY `acc_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `his_admin`
 --
 ALTER TABLE `his_admin`
@@ -484,12 +417,6 @@ ALTER TABLE `his_assets`
   MODIFY `asst_id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `his_docs`
---
-ALTER TABLE `his_docs`
-  MODIFY `doc_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
 -- AUTO_INCREMENT for table `his_equipments`
 --
 ALTER TABLE `his_equipments`
@@ -499,7 +426,7 @@ ALTER TABLE `his_equipments`
 -- AUTO_INCREMENT for table `his_laboratory`
 --
 ALTER TABLE `his_laboratory`
-  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `his_medical_records`
