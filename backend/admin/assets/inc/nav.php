@@ -84,21 +84,9 @@
                     <i class="mdi mdi-chevron-down"></i> 
                 </a>
                 <div class="dropdown-menu">
-                    <a href="his_admin_add_employee.php" class="dropdown-item" style="font-size: 18px;">
-                        <i class="fe-users mr-1"></i>
-                        <span>Employee</span>
-                    </a>
                     <a href="his_admin_register_patient.php" class="dropdown-item" style="font-size: 18px;">
                         <i class="fe-activity mr-1"></i>
                         <span>Patient</span>
-                    </a>
-                    <a href="his_admin_add_payroll.php" class="dropdown-item" style="font-size: 18px;">
-                        <i class="fe-layers mr-1"></i>
-                        <span>Payroll</span>
-                    </a>
-                    <a href="his_admin_add_vendor.php" class="dropdown-item" style="font-size: 18px;">
-                        <i class="fe-shopping-cart mr-1"></i>
-                        <span>Vendor</span>
                     </a>
                     <a href="his_admin_add_medical_record.php" class="dropdown-item" style="font-size: 18px;">
                         <i class="fe-list mr-1"></i>
@@ -111,6 +99,10 @@
                     <a href="his_admin_surgery_records.php" class="dropdown-item" style="font-size: 18px;">
                         <i class="fe-anchor mr-1"></i>
                         <span>Surgical/Theatre Report</span>
+                    </a>
+                    <a href="his_admin_surgery_records.php" class="dropdown-item" style="font-size: 18px;">
+                        <i class="fe-anchor mr-1"></i>
+                        <span>Appointment</span>
                     </a>
                     <div class="dropdown-divider"></div>
                 </div>

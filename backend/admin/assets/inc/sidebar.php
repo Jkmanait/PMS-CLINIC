@@ -74,9 +74,7 @@
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="his_admin_inpatient_records.php" style="font-size: 16px;">InPatient Records</a></li>
                         <li><a href="his_admin_outpatient_records.php" style="font-size: 16px;">OutPatient Records</a></li>
-                        <li><a href="his_admin_employee_records.php" style="font-size: 16px;">Employee Records</a></li>
                         <li><a href="his_admin_pharmaceutical_records.php" style="font-size: 16px;">Pharmaceutical Records</a></li>
-                        <li><a href="his_admin_accounting_records.php" style="font-size: 16px;">Accounting Records</a></li>
                         <li><a href="his_admin_medical_records.php" style="font-size: 16px;">Medical Records</a></li>
                     </ul>
                 </li>
@@ -103,7 +101,6 @@
                         <li><a href="his_admin_patient_lab_test.php" style="font-size: 16px;">Patient Lab Tests</a></li>
                         <li><a href="his_admin_patient_lab_result.php" style="font-size: 16px;">Patient Lab Results</a></li>
                         <li><a href="his_admin_patient_lab_vitals.php" style="font-size: 16px;">Patient Vitals</a></li>
-                        <li><a href="his_admin_employee_lab_vitals.php" style="font-size: 16px;">Employee Vitals</a></li>
                         <li><a href="his_admin_lab_report.php" style="font-size: 16px;">Lab Reports</a></li>
                         <hr>
                         <li><a href="his_admin_add_lab_equipment.php" style="font-size: 16px;">Add Lab Equipment</a></li>
@@ -124,6 +121,21 @@
                         <li><a href="his_admin_manage_theatre_patient.php" style="font-size: 16px;">Manage Patients</a></li>
                         <li><a href="his_admin_surgery_records.php" style="font-size: 16px;">Surgery Records</a></li>
                     </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" style="font-size: 18px;">
+                        <i class="fa fa-calendar"></i>
+                        <span> Appointment </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <!-- <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_add_equipment.php" style="font-size: 16px;">Add Equipment</a></li>
+                        <li><a href="his_admin_manage_equipment.php" style="font-size: 16px;">Manage Equipments</a></li>
+                        <li><a href="his_admin_add_theatre_patient.php" style="font-size: 16px;">Add Patient</a></li>
+                        <li><a href="his_admin_manage_theatre_patient.php" style="font-size: 16px;">Manage Patients</a></li>
+                        <li><a href="his_admin_surgery_records.php" style="font-size: 16px;">Surgery Records</a></li>
+                    </ul> -->
                 </li>
 
             </ul>

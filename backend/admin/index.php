@@ -89,13 +89,14 @@
 
                             <div class="card-body p-4">
                                 
-                                <div class="text-center w-75 m-auto">
+                            <div class="text-center w-75 m-auto">
                                 <a href="../../index.php" class="logo">
-                                    <img src="../../assets/images/logo.png" width="30" height="15" alt="ipms home">
-                                    </a>
+                                    <img src="../../assets/images/logo.png.png" width="0" height="10" alt="ipms home">
+                                </a>
 
-                                    <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
-                                </div>
+                                <p class="text-muted mb-4 mt-3">Enter your email address and password to access the admin panel.</p>
+                            </div>
+
 
                                 <form method='post' >
 

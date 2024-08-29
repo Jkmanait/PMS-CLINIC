@@ -293,44 +293,69 @@
     </style>
 </head>
 <body>
-    <ul class="tab-list" data-reveal="left">
-        <li>
-            <button class="tab-btn active" data-target="vision-content">Vision</button>
-        </li>
-        <li>
-            <button class="tab-btn" data-target="mission-content">Mission</button>
-        </li>
-        <li>
-            <button class="tab-btn" data-target="strategy-content">Strategy</button>
-        </li>
-    </ul>
+<ul class="tab-list" data-reveal="left">
+    <li>
+        <button class="tab-btn active" data-target="vision-content">Vision</button>
+    </li>
+    <li>
+        <button class="tab-btn" data-target="mission-content">Mission</button>
+    </li>
+    <li>
+        <button class="tab-btn" data-target="strategy-content">Strategy</button>
+    </li>
+</ul>
 
-    <div id="vision-content" class="tab-content active">
-        Vision content goes here.
-    </div>
-    <div id="mission-content" class="tab-content">
-        Crafting a future of excellence. Our commitment transcends boundaries, and our strategic approach ensures impactful outcomes.
-        We embrace challenges, paving the way for success with dedication and innovation.
-    </div>
-    <div id="strategy-content" class="tab-content">
-        Strategy content goes here.
-    </div>
+<div id="vision-content" class="tab-content active">
+    Vision content goes here.
+</div>
+<div id="mission-content" class="tab-content">
+    Crafting a future of excellence. Our commitment transcends boundaries, and our strategic approach ensures impactful outcomes.
+    We embrace challenges, paving the way for success with dedication and innovation.
+</div>
+<div id="strategy-content" class="tab-content">
+    Strategy content goes here.
+</div>
 
-    <script>
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+<script>
+    document.querySelectorAll('.tab-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
 
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-                let targetContent = document.getElementById(button.getAttribute('data-target'));
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            });
+            let targetContent = document.getElementById(button.getAttribute('data-target'));
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
         });
-    </script>
+    });
+</script>
+
+<style>
+    /* Default text color for tab buttons */
+    .tab-btn {
+        color: #000; /* Replace with your preferred default color */
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Text color for the active tab button */
+    .tab-btn.active {
+        color: #007bff; /* Replace with your preferred active color */
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+</style>
+
+
 
             <!-- <p class="tab-text" data-reveal="left">
               Crafting a future of excellence. Our commitment transcends boundaries, and our strategic approach ensures impactful outcomes.
