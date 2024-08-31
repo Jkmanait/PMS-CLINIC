@@ -6,7 +6,7 @@
 		{
             $pat_id = $_GET['pat_id'];
 
-            /*
+            
 			$pat_fname=$_POST['pat_fname'];
 			$pat_lname=$_POST['pat_lname'];
 			$pat_number=$_POST['pat_number'];
@@ -15,7 +15,7 @@
             $pat_addr=$_POST['pat_addr'];
             $pat_age = $_POST['pat_age'];
             $pat_dob = $_POST['pat_dob'];
-            */
+            
             
             $pat_discharge_status = $_POST['pat_discharge_status'];
             //sql to insert captured values
@@ -70,6 +70,7 @@
                     <div class="container-fluid">
                         
                         <!-- start page title -->
+                         <br>
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
@@ -80,6 +81,7 @@
                                             <li class="breadcrumb-item active">Discharge Patients</li>
                                         </ol>
                                     </div>
+                                    <br>
                                     <h4 class="page-title">Discharge Patient</h4>
                                 </div>
                             </div>

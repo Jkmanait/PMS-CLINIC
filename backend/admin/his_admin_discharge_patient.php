@@ -4,7 +4,7 @@
   include('assets/inc/checklogin.php');
   check_login();
   $aid=$_SESSION['ad_id'];
-  /*
+  
   if(isset($_GET['delete']))
   {
         $id=intval($_GET['delete']);
@@ -23,7 +23,7 @@
                 $err = "Try Again Later";
             }
     }
-    */
+    
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +55,7 @@
                     <div class="container-fluid">
                         
                         <!-- start page title -->
+                         <br>
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
@@ -65,6 +66,7 @@
                                             <li class="breadcrumb-item active">Discharge Patients</li>
                                         </ol>
                                     </div>
+                                    <br>
                                     <h4 class="page-title">Discharge Patients</h4>
                                 </div>
                             </div>

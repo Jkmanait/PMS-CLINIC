@@ -47,6 +47,7 @@
                         <div class="container-fluid">
                             
                             <!-- start page title -->
+                             <br>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="page-title-box">
@@ -57,7 +58,7 @@
                                                 <li class="breadcrumb-item active">View  Records</li>
                                             </ol>
                                         </div>
-                                        <h4 class="page-title">#<?php echo $row->lab_number;?></h4>
+                                        <!-- <h4 class="page-title">#<?php echo $row->lab_number;?></h4> -->
                                     </div>
                                 </div>
                             </div>     

@@ -32,6 +32,7 @@
                 <div class="content">
 
                     <!-- Start Content-->
+                     <br>
                     <div class="container-fluid">
                         
                         <!-- start page title -->
@@ -42,7 +43,7 @@
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Inventory</a></li>
-                                            <li class="breadcrumb-item active">Equipments | Assets Inventory</li>
+                                            <li class="breadcrumb-item active">Equipments Inventory</li>
                                         </ol>
                                     </div>
                                 </div>

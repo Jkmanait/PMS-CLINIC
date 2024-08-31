@@ -62,6 +62,21 @@
     <html lang="en">
         <?php include('assets/inc/head.php');?>
     <body>
+        <style>
+        /* Increase font size for the entire page */
+        body {
+            font-size: 16px; /* Adjust the size to your preference */
+        }
+
+        /* Increase font size for specific sections */
+        .content-page {
+            font-size: 18px; /* Adjust the size to your preference */
+        }
+
+        .page-title-box h4, .card-box h4, .form-group label {
+            font-size: 18px; /* Adjust the size to your preference */
+        }
+    </style>
 
         <!-- Begin page -->
         <div id="wrapper">
@@ -95,6 +110,7 @@
                         <div class="container-fluid">
 
                             <!-- start page title -->
+                             <br>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="page-title-box">
@@ -118,10 +134,10 @@
 
                                         <h4 class="mb-0"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?></h4>
                                         <p class="text-muted">@System_Administrator_HMIS</p>
-                                        <div class="text-left mt-3">
-                                            <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ml-2"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?></span></p>
-                                            <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ml-2 "><?php echo $row->ad_email;?></span></p>
-                                        </div>
+                                        <div class="text-left mt-3" style="font-size: 18px;">
+                <p class="text-muted mb-2" style="font-size: 18px;"><strong>Full Name :</strong> <span class="ml-2"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?></span></p>
+                <p class="text-muted mb-2" style="font-size: 18px;"><strong>Email :</strong> <span class="ml-2"><?php echo $row->ad_email;?></span></p>
+            </div>
 
                                     </div> <!-- end card-box -->
                                    

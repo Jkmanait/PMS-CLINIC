@@ -6,7 +6,7 @@
         <div id="sidebar-menu">
 
             <ul class="metismenu" id="side-menu">
-
+                <br>
                 <li class="menu-title" style="font-size: 20px;">Navigation</li>
 
                 <li>

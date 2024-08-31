@@ -65,6 +65,7 @@
                     <div class="container-fluid">
                         
                         <!-- start page title -->
+                         <br>
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
@@ -134,8 +135,8 @@
                                                 </div>
                                                 <div class="form-group col-md-2" style="display:none">
                                                     <?php 
-                                                        $length = 5;    
-                                                        $patient_number =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length);
+                                                        $length = 7;    
+                                                        $patient_number =  substr(str_shuffle('0123456789'),1,$length);
                                                     ?>
                                                     <label for="inputZip" class="col-form-label">Patient Number</label>
                                                     <input type="text" name="pat_number" value="<?php echo $patient_number;?>" class="form-control" id="inputZip">

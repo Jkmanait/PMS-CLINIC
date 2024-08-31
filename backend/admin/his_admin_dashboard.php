@@ -10,6 +10,19 @@
     
     <!--Head Code-->
     <?php include("assets/inc/head.php");?>
+    <style>
+        .page-title {
+            font-size: 28px; /* Adjust size as needed */
+        }
+
+        .text-muted {
+            font-size: 22px; /* Adjust size for subtitles */
+        }
+
+        .text-dark {
+            font-size: 26px; /* Adjust size for main stats */
+        }
+    </style>
 
     <body>
 
@@ -38,8 +51,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    
-                                    <h4 class="page-title">Dashboard</h4>
+                                    <br>
+                                    <h4 class="page-title" style="font-size: 24px;">Dashboard</h4>
                                 </div>
                             </div>
                         </div>     

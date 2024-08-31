@@ -11,21 +11,6 @@
     <div class="navbar-custom" style="height: 100px; padding: 15px; background-color: light-green;">
         <ul class="list-unstyled topnav-menu float-right mb-0">
 
-            <li class="d-none d-sm-block">
-                <form class="app-search">
-                    <div class="app-search-box">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..." style="font-size: 18px;">
-                            <div class="input-group-append">
-                                <button class="btn" type="submit">
-                                    <i class="fe-search" style="font-size: 20px;"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </li>
-
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <img src="assets/images/users/<?php echo $row->ad_dpic;?>" alt="dpic" class="rounded-circle" style="height: 50px; width: 50px;">
