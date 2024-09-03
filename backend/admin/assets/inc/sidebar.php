@@ -110,6 +110,20 @@
 
                 <li>
                     <a href="javascript: void(0);" style="font-size: 18px;">
+                        <i class="mdi mdi-note"></i>
+                        <span> Nurse's Notes </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_nurse_note_test.php" style="font-size: 16px;">Nurse's Notes Tests</a></li>
+                        <li><a href="his_admin_nurse_note_result.php" style="font-size: 16px;">Nurse's Notes Results</a></li>
+                        <li><a href="his_admin_nurse_note_report.php" style="font-size: 16px;">Nurse's Notes Reports</a></li>
+                       
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" style="font-size: 18px;">
                         <i class="mdi mdi-scissors-cutting"></i>
                         <span> Surgical / Theatre </span>
                         <span class="menu-arrow"></span>

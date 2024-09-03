@@ -97,38 +97,41 @@
                             <?php }?>
                             <div class="col-lg-8 col-xl-8">
                                 <div class="card-box">
-                                    <ul class="nav nav-pills navtab-bg nav-justified">
-                                        <li class="nav-item">
-                                            <a href="#aboutme" data-toggle="tab" aria-expanded="false" class="nav-link active">
-                                                Prescription
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#timeline" data-toggle="tab" aria-expanded="true" class="nav-link ">
-                                                 Vitals
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                                Lab Records
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <ul class="nav nav-pills navtab-bg nav-justified">
+                                <li class="nav-item">
+                                    <a href="#aboutme" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                        Prescription
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#timeline" data-toggle="tab" aria-expanded="true" class="nav-link ">
+                                        Vitals
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                        Lab Records
+                                    </a>
+                                </li>
+                                
+                                
+                            </ul>
                                     <!--Medical History-->
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="aboutme">
                                              <ul class="list-unstyled timeline-sm">
                                                 <?php
-                                                    $pres_pat_number =$_GET['pat_number'];
-                                                    $ret="SELECT  * FROM his_prescriptions WHERE pres_pat_number ='$pres_pat_number'";
-                                                    $stmt= $mysqli->prepare($ret) ;
-                                                    // $stmt->bind_param('i',$pres_pat_number );
-                                                    $stmt->execute() ;//ok
-                                                    $res=$stmt->get_result();
+                                                    $pres_pat_number = $_GET['pat_number'];
+                                                    $ret = "SELECT * FROM his_prescriptions WHERE pres_pat_number = ?";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->bind_param('s', $pres_pat_number); // Assuming pat_number is a string
+                                                    $stmt->execute();
+                                                    $res = $stmt->get_result();
                                                     //$cnt=1;
                                                     
-                                                    while($row=$res->fetch_object())
-                                                        {
+                                                    while ($row = $res->fetch_object()) {
+                                                        // Display prescription data
+                                            
                                                     $mysqlDateTime = $row->pres_date; //trim timestamp to date
 
                                                 ?>
@@ -159,16 +162,17 @@
                                                         </tr>
                                                     </thead>
                                                     <?php
-                                                        $vit_pat_number =$_GET['pat_number'];
-                                                        $ret="SELECT  * FROM his_vitals WHERE vit_pat_number ='$vit_pat_number'";
-                                                        $stmt= $mysqli->prepare($ret) ;
-                                                        // $stmt->bind_param('i',$vit_pat_number );
-                                                        $stmt->execute() ;//ok
-                                                        $res=$stmt->get_result();
+                                                        $vit_pat_number = $_GET['pat_number'];
+                                                        $ret = "SELECT * FROM his_vitals WHERE vit_pat_number = ?";
+                                                        $stmt = $mysqli->prepare($ret);
+                                                        $stmt->bind_param('s', $vit_pat_number);
+                                                        $stmt->execute();
+                                                        $res = $stmt->get_result();
                                                         //$cnt=1;
                                                         
-                                                        while($row=$res->fetch_object())
-                                                            {
+                                                        while ($row = $res->fetch_object()) {
+                                                            // Display vitals data in table rows
+                                                        
                                                         $mysqlDateTime = $row->vit_daterec; //trim timestamp to date
 
                                                     ?>
@@ -190,16 +194,17 @@
                                         <div class="tab-pane" id="settings">
                                             <ul class="list-unstyled timeline-sm">
                                                 <?php
-                                                    $lab_pat_number =$_GET['pat_number'];
-                                                    $ret="SELECT  * FROM his_laboratory WHERE lab_pat_number  = '$lab_pat_number'";
-                                                    $stmt= $mysqli->prepare($ret) ;
-                                                    // $stmt->bind_param('i',$lab_pat_number);
-                                                    $stmt->execute() ;//ok
-                                                    $res=$stmt->get_result();
+                                                    $lab_pat_number = $_GET['pat_number'];
+                                                    $ret = "SELECT * FROM his_laboratory WHERE lab_pat_number = ?";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->bind_param('s', $lab_pat_number);
+                                                    $stmt->execute();
+                                                    $res = $stmt->get_result();
                                                     //$cnt=1;
                                                     
-                                                    while($row=$res->fetch_object())
-                                                        {
+                                                    while ($row = $res->fetch_object()) {
+                                                        // Display lab records data
+                                                    
                                                     $mysqlDateTime = $row->lab_date_rec; //trim timestamp to date
 
                                                 ?>
@@ -230,8 +235,11 @@
                                         </div>
                                         </div>
                                         <!-- end lab records content-->
+                                        
 
-                                    </div> <!-- end tab-content -->
+                                        <!-- end nurse's note content-->
+                                        </div> <!-- end tab-content -->
+
                                 </div> <!-- end card-box-->
 
                             </div> <!-- end col -->
@@ -264,7 +272,7 @@
         <script src="assets/js/vendor.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.min.js"></script>
+        <!-- <script src="assets/js/app.min.js"></script> -->
 
     </body>
 
