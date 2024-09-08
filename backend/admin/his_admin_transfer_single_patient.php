@@ -1,7 +1,7 @@
 <!--Server side code to handle  Patient Transfer-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['transfer_patient']))
 		{
             $t_pat_number = $_POST['t_pat_number'];

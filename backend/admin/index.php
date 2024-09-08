@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('assets/inc/config.php');//get configuration file
+    include('../../configuration/config.php');//get configuration file
     if(isset($_POST['admin_login']))
     {
         $ad_email=$_POST['ad_email'];

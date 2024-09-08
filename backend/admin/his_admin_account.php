@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['update_profile']))
 		{
 			$ad_fname=$_POST['ad_fname'];

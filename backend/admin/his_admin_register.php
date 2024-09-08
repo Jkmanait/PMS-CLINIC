@@ -1,7 +1,7 @@
 <!--Server side code to handle  sign up-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['admin_sup']))
 		{
 			$ad_fname=$_POST['ad_fname'];

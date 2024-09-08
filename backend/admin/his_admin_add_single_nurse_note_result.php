@@ -1,7 +1,7 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['add_nurse_note_result']))
 		{
 			$nur_note_name = $_POST['nur_note_name'];

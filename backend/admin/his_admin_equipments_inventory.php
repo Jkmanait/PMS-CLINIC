@@ -1,6 +1,6 @@
 <?php
   session_start();
-  include('assets/inc/config.php');
+  include('../../configuration/config.php');
   include('assets/inc/checklogin.php');
   check_login();
   $aid=$_SESSION['ad_id'];

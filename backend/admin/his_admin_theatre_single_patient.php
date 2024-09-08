@@ -1,7 +1,7 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['add_patient']))
 		{
             $s_pat_number = $_POST['s_pat_number'];

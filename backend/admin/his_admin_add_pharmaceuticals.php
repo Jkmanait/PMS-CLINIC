@@ -1,7 +1,7 @@
 
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['add_pharmaceutical']))
 		{
 			$phar_name = $_POST['phar_name'];

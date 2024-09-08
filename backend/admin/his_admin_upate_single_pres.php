@@ -1,7 +1,7 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['update_patient_presc']))
 		{
 			$pres_pat_name = $_POST['pres_pat_name'];

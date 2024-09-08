@@ -1,7 +1,7 @@
 <!--Server side code to handle  Patient Discharge-->
 <?php
 	session_start();
-	include('assets/inc/config.php');
+	include('../../configuration/config.php');
 		if(isset($_POST['discharge_patient']))
 		{
             $pat_id = $_GET['pat_id'];
