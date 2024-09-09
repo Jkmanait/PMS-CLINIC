@@ -11,16 +11,38 @@
     <!--Head Code-->
     <?php include("assets/inc/head.php");?>
     <style>
+        /* Global text color */
+        body {
+            color: black;
+        }
+
         .page-title {
             font-size: 28px; /* Adjust size as needed */
+            color: black;    /* Ensure page title text is black */
         }
 
         .text-muted {
             font-size: 22px; /* Adjust size for subtitles */
+            color: black;    /* Ensure subtitle text is black */
         }
 
         .text-dark {
             font-size: 26px; /* Adjust size for main stats */
+            color: black;    /* Ensure main stats text is black */
+        }
+
+        /* Ensure links and other text elements are black */
+        a {
+            color: black;
+        }
+
+        /* Ensure text in widgets and other components is black */
+        .widget-rounded-circle .text-dark {
+            color: black;
+        }
+
+        .widget-rounded-circle .text-muted {
+            color: black;
         }
     </style>
 
@@ -52,7 +74,7 @@
                             <div class="col-12">
                                 <div class="page-title-box">
                                     <br>
-                                    <h4 class="page-title" style="font-size: 24px;">Dashboard</h4>
+                                    <h4 class="page-title">Dashboard</h4>
                                 </div>
                             </div>
                         </div>     
@@ -60,34 +82,34 @@
                         
 
                         <div class="row">
-                            <!--Start OutPatients-->
-                            <div class="col-md-6 col-xl-4">
-                                <div class="widget-rounded-circle card-box">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
-                                                <i class="fab fa-accessible-icon  font-22 avatar-title text-primary"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="text-right">
-                                                <?php
-                                                    //code for summing up number of out patients 
-                                                    $result ="SELECT count(*) FROM his_patients WHERE pat_type = 'OutPatient' ";
-                                                    $stmt = $mysqli->prepare($result);
-                                                    $stmt->execute();
-                                                    $stmt->bind_result($outpatient);
-                                                    $stmt->fetch();
-                                                    $stmt->close();
-                                                ?>
-                                                <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $outpatient;?></span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Out Patients</p>
-                                            </div>
-                                        </div>
-                                    </div> <!-- end row-->
-                                </div> <!-- end widget-rounded-circle-->
-                            </div> <!-- end col-->
-                            <!--End Out Patients-->
+                        <div class="col-md-6 col-xl-4">
+    <div class="widget-rounded-circle card-box">
+        <div class="row">
+            <div class="col-6">
+                <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
+                    <i class="fab fa-accessible-icon font-22 avatar-title text-primary"></i>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-right">
+                    <?php
+                        //code for summing up number of out patients 
+                        $result = "SELECT count(*) FROM his_patients WHERE pat_type = 'OutPatient'";
+                        $stmt = $mysqli->prepare($result);
+                        $stmt->execute();
+                        $stmt->bind_result($outpatient);
+                        $stmt->fetch();
+                        $stmt->close();
+                    ?>
+                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $outpatient; ?></span></h3>
+                    <p class="text-muted mb-1 text-truncate" style="color: black;">Out Patients</p>
+                </div>
+            </div>
+        </div> <!-- end row-->
+    </div> <!-- end widget-rounded-circle-->
+</div> <!-- end col-->
+<!--End Out Patients-->
+
 
 
                             <!--Start InPatients-->
@@ -186,6 +208,8 @@
                                 </div> <!-- end widget-rounded-circle-->
                             </div> <!-- end col-->
                             <!--End Pharmaceuticals-->
+
+                            
 
                         
 
