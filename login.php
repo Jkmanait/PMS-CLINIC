@@ -26,11 +26,11 @@
         $email=$_POST['useremail'];
         $password=$_POST['userpassword'];
         $error='<label for="promter" class="form-label"></label>';
-        $result= $database->query("select * from webuser where email='$email'");
+        $result= $mysqli->query("select * from webuser where email='$email'");
         if($result->num_rows==1){
             $utype=$result->fetch_assoc()['usertype'];
             if ($utype=='p'){
-                $checker = $database->query("select * from patient where pemail='$email' and ppassword='$password'");
+                $checker = $mysqli->query("select * from patient where pemail='$email' and ppassword='$password'");
                 if ($checker->num_rows==1){
 
                     $_SESSION['user']=$email;
@@ -40,7 +40,7 @@
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
                 }
             }elseif($utype=='a'){
-                $checker = $database->query("select * from admin where aemail='$email' and apassword='$password'");
+                $checker = $mysqli->query("select * from admin where aemail='$email' and apassword='$password'");
                 if ($checker->num_rows==1){
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='a';
@@ -51,7 +51,7 @@
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
                 }
             }elseif($utype=='d'){
-                $checker = $database->query("select * from doctor where docemail='$email' and docpassword='$password'");
+                $checker = $mysqli->query("select * from doctor where docemail='$email' and docpassword='$password'");
                 if ($checker->num_rows==1){
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='d';

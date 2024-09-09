@@ -42,9 +42,9 @@
     }
     
 
-    //import database
+    //import mysqli
     include("../configuration/config.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $mysqli->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -84,7 +84,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
+                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
                     </td>
                 </tr>
                 
@@ -130,10 +130,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $mysqli->query("select  * from  patient;");
+                                $doctorrow = $mysqli->query("select  * from  doctor;");
+                                $appointmentrow = $mysqli->query("select  * from  appointment where appodate>='$today';");
+                                $schedulerow = $mysqli->query("select  * from  schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -281,7 +281,7 @@
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
                                                 $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
                                                 //echo $sqlmain;
-                                                $result= $database->query($sqlmain);
+                                                $result= $mysqli->query($sqlmain);
                 
                                                 if($result->num_rows==0){
                                                     echo '<tr>

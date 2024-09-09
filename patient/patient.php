@@ -37,9 +37,9 @@
     }
     
 
-    //import database
+    //import mysqli
     include("../configuration/config.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $mysqli->query("select * from doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
@@ -148,8 +148,8 @@
                             
                             <?php
                                 echo '<datalist id="patient">';
-                                $list11 = $database->query($sqlmain);
-                               //$list12= $database->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
+                                $list11 = $mysqli->query($sqlmain);
+                               //$list12= $mysqli->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -271,7 +271,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $mysqli->query($sqlmain);
                                 //echo $sqlmain;
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -349,7 +349,7 @@
         $id=$_GET["id"];
         $action=$_GET["action"];
             $sqlmain= "select * from patient where pid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $mysqli->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
             $email=$row["pemail"];

@@ -1,16 +1,17 @@
 <?php
+// Database connection parameters
+$host = "localhost";
+$dbuser = "root";
+$dbpass = "";
+$db = "uhc";
 
-    $database= new mysqli("localhost","root","","uhc");
-    if ($database->connect_error){
-        die("Connection failed:  ".$database->connect_error);
-    }
+// Create a new MySQLi instance
+$mysqli = new mysqli($host, $dbuser, $dbpass, $db);
 
-?>
+// Check connection
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
 
-<?php
-$host="localhost";
-$dbuser="root";
-$dbpass="";
-$db="uhc";
-$mysqli=new mysqli($host,$dbuser, $dbpass, $db);
+// Your database connection is now established and can be used for queries
 ?>

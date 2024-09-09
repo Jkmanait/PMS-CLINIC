@@ -37,9 +37,9 @@
     }
     
 
-    //import database
+    //import mysqli
     include("../configuration/config.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $mysqli->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -69,7 +69,7 @@
     }
 
     $sqlmain.="order by appointment.appodate  asc";
-    $result= $database->query($sqlmain);
+    $result= $mysqli->query($sqlmain);
     ?>
     <div class="container">
         <div class="menu">
@@ -101,7 +101,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
+                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
                     </td>
                 </tr>
                 
@@ -403,13 +403,13 @@
             '; 
         }elseif($action=='view'){
             $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $mysqli->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $mysqli->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];

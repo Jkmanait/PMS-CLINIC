@@ -37,9 +37,9 @@
     }
     
 
-    //import database
+    //import mysqli
     include("../configuration/config.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $mysqli->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -87,7 +87,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">All Doctors</p></a></div>
+                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
                     </td>
                 </tr>
                 
@@ -123,8 +123,8 @@
                                         
                                         <?php
                                             echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                                            $list11 = $mysqli->query("select DISTINCT * from  doctor;");
+                                            $list12 = $mysqli->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
 
                                             
@@ -207,7 +207,7 @@
                                     $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
 
                                     //echo $sqlmain;
-                                    $result= $database->query($sqlmain);
+                                    $result= $mysqli->query($sqlmain);
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
@@ -217,7 +217,7 @@
                                     $scheduletime=$row["scheduletime"];
                                     $sql2="select * from appointment where scheduleid=$id";
                                     //echo $sql2;
-                                     $result12= $database->query($sql2);
+                                     $result12= $mysqli->query($sql2);
                                      $apponum=($result12->num_rows)+1;
                                     
                                     echo '

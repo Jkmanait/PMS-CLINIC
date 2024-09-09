@@ -37,9 +37,9 @@
     }
     
 
-    //import database
+    //import mysqli
     include("../configuration/config.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $mysqli->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -85,7 +85,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
+                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
                     </td>
                 </tr>
                 
@@ -130,7 +130,7 @@
                     }
 
 
-                $result= $database->query($sqlmain)
+                $result= $mysqli->query($sqlmain)
 
 
                 ?>
@@ -148,8 +148,8 @@
                                         
                                         <?php
                                             echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                                            $list11 = $mysqli->query("select DISTINCT * from  doctor;");
+                                            $list12 = $mysqli->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
 
                                             
