@@ -11,40 +11,35 @@
     <!--Head Code-->
     <?php include("assets/inc/head.php");?>
     <style>
-        /* Global text color */
-        body {
-            color: black;
-        }
+    /* Make text bigger and color black */
+    body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
+        font-size: 18px; /* Adjust size as needed */
+        color: black;    /* Text color */
+    }
 
-        .page-title {
-            font-size: 28px; /* Adjust size as needed */
-            color: black;    /* Ensure page title text is black */
-        }
+    /* Increase font size for table headers */
+    th {
+        font-size: 20px; /* Larger font for headers */
+    }
 
-        .text-muted {
-            font-size: 22px; /* Adjust size for subtitles */
-            color: black;    /* Ensure subtitle text is black */
-        }
+    /* Larger font size for page titles */
+    h4.page-title {
+        font-size: 24px;
+        color: black;
+    }
 
-        .text-dark {
-            font-size: 26px; /* Adjust size for main stats */
-            color: black;    /* Ensure main stats text is black */
-        }
+    /* Search input and buttons */
+    input[type="text"], button {
+        font-size: 18px;
+        color: black;
+    }
 
-        /* Ensure links and other text elements are black */
-        a {
-            color: black;
-        }
+    /* Pagination */
+    .pagination {
+        font-size: 18px;
+    }
 
-        /* Ensure text in widgets and other components is black */
-        .widget-rounded-circle .text-dark {
-            color: black;
-        }
-
-        .widget-rounded-circle .text-muted {
-            color: black;
-        }
-    </style>
+</style>
 
     <body>
 

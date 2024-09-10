@@ -11,6 +11,37 @@
 
     <?php include('assets/inc/head.php');?>
 
+    <style>
+    /* Make text bigger and color black */
+    body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
+        font-size: 18px; /* Adjust size as needed */
+        color: black;    /* Text color */
+    }
+
+    /* Increase font size for table headers */
+    th {
+        font-size: 20px; /* Larger font for headers */
+    }
+
+    /* Larger font size for page titles */
+    h4.page-title {
+        font-size: 24px;
+        color: black;
+    }
+
+    /* Search input and buttons */
+    input[type="text"], button {
+        font-size: 18px;
+        color: black;
+    }
+
+    /* Pagination */
+    .pagination {
+        font-size: 18px;
+    }
+
+</style>
+
     <body>
 
         <!-- Begin page -->
@@ -75,15 +106,54 @@
                                     
                                     <div class="text-left mt-3">
                                         
-                                        <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ml-2"><?php echo $row->pat_fname;?> <?php echo $row->pat_lname;?></span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ml-2"><?php echo $row->pat_phone;?></span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Address :</strong> <span class="ml-2"><?php echo $row->pat_addr;?></span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Date Of Birth :</strong> <span class="ml-2"><?php echo $row->pat_dob;?></span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Age :</strong> <span class="ml-2"><?php echo $row->pat_age;?> Years</span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Ailment :</strong> <span class="ml-2"><?php echo $row->pat_ailment;?></span></p>
-                                        <hr>
-                                        <p class="text-muted mb-2 font-13"><strong>Date Recorded :</strong> <span class="ml-2"><?php echo date("d/m/Y - h:m", strtotime($mysqlDateTime));?></span></p>
-                                        <hr>
+                                    <style>
+    /* Inline styling to make the text bigger and black */
+    .info-text {
+        font-size: 18px;  /* Adjust this size as per your requirement */
+        color: black;     /* Text color set to black */
+    }
+
+    .info-text strong {
+        font-size: 18px;  /* Ensures strong text is also bigger */
+        color: black;
+    }
+    .info-text span{
+        font-size: 18px;  /* Ensures strong text is also bigger */
+        color: black;
+    }
+</style>
+
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Full Name :</strong>
+    <span class="ml-2"><?php echo $row->pat_fname;?> <?php echo $row->pat_lname;?></span>
+</p>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Mobile :</strong>
+    <span class="ml-2"><?php echo $row->pat_phone;?></span>
+</p>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Address :</strong>
+    <span class="ml-2"><?php echo $row->pat_addr;?></span>
+</p>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Date Of Birth :</strong>
+    <span class="ml-2"><?php echo $row->pat_dob;?></span>
+</p>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Age :</strong>
+    <span class="ml-2"><?php echo $row->pat_age;?> Years</span>
+</p>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Ailment :</strong>
+    <span class="ml-2"><?php echo $row->pat_ailment;?></span>
+</p>
+<hr>
+<p class="text-muted mb-2 font-13 info-text">
+    <strong>Date Recorded :</strong>
+    <span class="ml-2"><?php echo date("d/m/Y - h:m", strtotime($mysqlDateTime));?></span>
+</p>
+<hr>
+
 
 
 

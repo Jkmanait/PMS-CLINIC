@@ -33,7 +33,7 @@ $date = date('Y-m-d');
 $_SESSION["date"]=$date;
 
 
-//import database
+//import mysqli
 include("configuration/config.php");
 
 
@@ -42,7 +42,7 @@ include("configuration/config.php");
 
 if($_POST){
 
-    $result= $database->query("select * from webuser");
+    $result= $mysqli->query("select * from webuser");
 
     $fname=$_SESSION['personal']['fname'];
     $lname=$_SESSION['personal']['lname'];
@@ -57,7 +57,7 @@ if($_POST){
     
     if ($newpassword==$cpassword){
         $sqlmain= "select * from webuser where email=?;";
-        $stmt = $database->prepare($sqlmain);
+        $stmt = $mysqli->prepare($sqlmain);
         $stmt->bind_param("s",$email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -65,8 +65,8 @@ if($_POST){
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
             //TODO
-            $database->query("insert into patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            $database->query("insert into webuser values('$email','p')");
+            $mysqli->query("insert into patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            $mysqli->query("insert into webuser values('$email','p')");
 
             //print_r("insert into patient values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
@@ -120,7 +120,7 @@ if($_POST){
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="tel" name="tele" class="input-text"  placeholder="ex: 0712345678" pattern="[0]{1}[0-9]{9}" >
+                    <input type="tel" name="tele" class="input-text"  placeholder="ex: 09123456789" pattern="09[0-9]{9}" >
                 </td>
             </tr>
             <tr>
