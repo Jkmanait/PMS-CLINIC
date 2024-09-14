@@ -44,7 +44,7 @@
 <style>
     /* Make all text uppercase and black */
     body, label, input, select, button {
-        font-size: 15px;
+        font-size: px;
         color: black;
     }
 </style>
@@ -110,7 +110,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail4" class="col-form-label">Date Of Birth</label>
-                                                <input type="text" required="required" name="pat_dob" class="form-control" id="inputEmail4" placeholder="DD/MM/YYYY">
+                                                <input type="date" required="required" name="pat_dob" class="form-control" id="inputEmail4" placeholder="DD/MM/YYYY">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputPassword4" class="col-form-label">Age</label>
