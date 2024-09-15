@@ -1,359 +1,336 @@
+<?php
+  session_start();
+  include('../configuration/config.php');
+  
+  $aid=$_SESSION['ad_id'];
+?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Dashboard</title>
+    
+    <!--Head Code-->
+    <?php include("assets/inc/head.php");?>
     <style>
-        .dashbord-tables{
-            animation: transitionIn-Y-over 0.5s;
-        }
-        .filter-container{
-            animation: transitionIn-Y-bottom  0.5s;
-        }
-        .sub-table,.anime{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-    </style>
-    
-    
-</head>
-<body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
-        header("location: ../login.php");
+    /* Make text bigger and color black */
+    body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
+        font-size: 18px; /* Adjust size as needed */
+        color: black;    /* Text color */
     }
-    
 
-    //import mysqli
-    include("../configuration/config.php");
-    $userrow = $mysqli->query("select * from patient where pemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
+    /* Increase font size for table headers */
+    th {
+        font-size: 20px; /* Larger font for headers */
+    }
 
+    /* Larger font size for page titles */
+    h4.page-title {
+        font-size: 24px;
+        color: black;
+    }
 
-    //echo $userid;
-    //echo $username;
-    
-    ?>
-    <div class="container">
-        <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                    <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home menu-active menu-icon-home-active" >
-                        <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">My Medical Record</p></a></div>
-                    </td>
-                </tr>
+    /* Search input and buttons */
+    input[type="text"], button {
+        font-size: 18px;
+        color: black;
+    }
+
+    /* Pagination */
+    .pagination {
+        font-size: 18px;
+    }
+
+</style>
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- Topbar Start -->
+            <?php include('assets/inc/nav.php');?>
+            <!-- end Topbar -->
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
                 
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Scheduled Sessions</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Bookings</p></a></div>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
-                        <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
-                    </td>
-                </tr>
-                
-            </table>
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <br>
+                                    <h4 class="page-title">Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+                        
+
+                        <div class="row">
+                        <div class="row">
+    <!-- doctor -->
+<div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
+    <div class="widget-rounded-circle card-box">
+        <div class="row">
+            <div class="col-6">
+                <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
+                    <i class="fas fa-user-md fa-2x avatar-title" style="color: black;"></i> <!-- Adjusted to fa-2x for proper sizing -->
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-right">
+                    <?php
+                        // Ensure the database connection is established
+                        if ($mysqli) {
+                            // Summing up number of doctors
+                            $result = "SELECT count(*) FROM doctor";
+                            $stmt = $mysqli->prepare($result);
+                            if ($stmt) {
+                                $stmt->execute();
+                                $stmt->bind_result($doctor);
+                                $stmt->fetch();
+                                $stmt->close();
+                            } else {
+                                echo "Error in SQL query: " . $mysqli->error;
+                            }
+                        } else {
+                            echo "Database connection error";
+                        }
+                    ?>
+                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $doctor; ?></span></h3>
+                    <p class="mb-1 text-truncate text-dark">List of Doctor</p>
+                    
+                    <!-- View Button -->
+                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Doctors</button>
+                </div>
+            </div>
         </div>
-        <div class="dash-body" style="margin-top: 15px">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;" >
-                        
-                        <tr >
-                            
-                            <td colspan="1" class="nav-bar" >
-                            <p style="font-size: 23px;padding-left:12px;font-weight: 600;margin-left:20px;">Home</p>
-                          
-                            </td>
-                            <td width="25%">
+    </div>
+</div>
 
-                            </td>
-                            <td width="15%">
-                                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                                    Today's Date
-                                </p>
-                                <p class="heading-sub12" style="padding: 0;margin: 0;">
-                                    <?php 
-                                date_default_timezone_set('Asia/Kolkata');
-        
-                                $today = date('Y-m-d');
-                                echo $today;
-
-
-                                $patientrow = $mysqli->query("select  * from  patient;");
-                                $doctorrow = $mysqli->query("select  * from  doctor;");
-                                $appointmentrow = $mysqli->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $mysqli->query("select  * from  schedule where scheduledate='$today';");
-
-
-                                ?>
-                                </p>
-                            </td>
-                            <td width="10%">
-                                <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                            </td>
-        
-        
+<!-- Modal -->
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Doctor Name</th>
                         </tr>
-                <tr>
-                    <td colspan="4" >
-                        
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Fetch and display the list of doctors
+                        $result = "SELECT docname FROM doctor"; // Adjusted query to fetch only docname
+                        $stmt = $mysqli->prepare($result);
+                        if ($stmt) {
+                            $stmt->execute();
+                            $stmt->bind_result($docname); // Bind only docname
+
+                            while ($stmt->fetch()) {
+                                echo '<tr>';
+                                echo '<td>' . htmlspecialchars($docname) . '</td>'; // Display doctor name
+                                echo '</tr>';
+                            }
+                            $stmt->close();
+                        } else {
+                            echo "Error in SQL query: " . $mysqli->error;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- doctor -->
+<div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
+    <div class="widget-rounded-circle card-box">
+        <div class="row">
+            <div class="col-6">
+                <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
+                    <i class="fas fa-stethoscope fa-2x avatar-title" style="color: black;"></i> 
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-right">
+                    <?php
+                        // Ensure the database connection is established
+                        if ($mysqli) {
+                            // Summing up number of doctors
+                            $result = "SELECT count(*) FROM doctor";
+                            $stmt = $mysqli->prepare($result);
+                            if ($stmt) {
+                                $stmt->execute();
+                                $stmt->bind_result($doctor);
+                                $stmt->fetch();
+                                $stmt->close();
+                            } else {
+                                echo "Error in SQL query: " . $mysqli->error;
+                            }
+                        } else {
+                            echo "Database connection error";
+                        }
+                    ?>
+                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $doctor; ?></span></h3>
+                    <p class="mb-1 text-truncate text-dark">Services Offered</p>
                     
-                    
-                </td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <table border="0" width="100%"">
-                            <tr>
-                                <td width="50%">
+                    <!-- View Button -->
+                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Services</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                    
+<!-- Modal -->
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Doctor Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Fetch and display the list of doctors
+                        $result = "SELECT docname FROM doctor"; // Adjusted query to fetch only docname
+                        $stmt = $mysqli->prepare($result);
+                        if ($stmt) {
+                            $stmt->execute();
+                            $stmt->bind_result($docname); // Bind only docname
 
+                            while ($stmt->fetch()) {
+                                echo '<tr>';
+                                echo '<td>' . htmlspecialchars($docname) . '</td>'; // Display doctor name
+                                echo '</tr>';
+                            }
+                            $stmt->close();
+                        } else {
+                            echo "Error in SQL query: " . $mysqli->error;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-                                    <center>
-                                        <table class="filter-container" style="border: none;" border="0">
-                                            <tr>
-                                                <td colspan="4">
-                                                    <p style="font-size: 20px;font-weight:600;padding-left: 12px;">Status</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width: 25%;">
-                                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex">
-                                                        <div>
-                                                                <div class="h1-dashboard">
-                                                                    <?php    echo $doctorrow->num_rows  ?>
-                                                                </div><br>
-                                                                <div class="h3-dashboard">
-                                                                    All Doctors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </div>
-                                                        </div>
-                                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
-                                                    </div>
-                                                </td>
-                                                <td style="width: 25%;">
-                                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;">
-                                                        <div>
-                                                                <div class="h1-dashboard">
-                                                                    <?php    echo $patientrow->num_rows  ?>
-                                                                </div><br>
-                                                                <div class="h3-dashboard">
-                                                                    All Patients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </div>
-                                                        </div>
-                                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/patients-hover.svg');"></div>
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                <td style="width: 25%;">
-                                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex; ">
-                                                        <div>
-                                                                <div class="h1-dashboard" >
-                                                                    <?php    echo $appointmentrow ->num_rows  ?>
-                                                                </div><br>
-                                                                <div class="h3-dashboard" >
-                                                                    NewBooking &nbsp;&nbsp;
-                                                                </div>
-                                                        </div>
-                                                                <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../img/icons/book-hover.svg');"></div>
-                                                    </div>
-                                                    
-                                                </td>
-
-                                                <td style="width: 25%;">
-                                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;padding-top:21px;padding-bottom:21px;">
-                                                        <div>
-                                                                <div class="h1-dashboard">
-                                                                    <?php    echo $schedulerow ->num_rows  ?>
-                                                                </div><br>
-                                                                <div class="h3-dashboard" style="font-size: 15px">
-                                                                    Today Sessions
-                                                                </div>
-                                                        </div>
-                                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/session-iceblue.svg');"></div>
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                        </table>
-                                    </center>
-
-
-
-
-
-
-
-
-                                </td>
-                                <td>
-
-
-                            
-                                    <p style="font-size: 20px;font-weight:600;padding-left: 40px;" class="anime">Your Upcoming Booking</p>
-                                    <center>
-                                        <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
-                                        <table width="85%" class="sub-table scrolldown" border="0" >
-                                        <thead>
-                                            
-                                        <tr>
-                                        <th class="table-headin">
-                                                    
-                                                
-                                                    Appoint. Number
-                                                    
-                                                    </th>
-                                                <th class="table-headin">
-                                                    
-                                                
-                                                Session Title
-                                                
-                                                </th>
-                                                
-                                                <th class="table-headin">
-                                                    Doctor
-                                                </th>
-                                                <th class="table-headin">
-                                                    
-                                                    Sheduled Date & Time
-                                                    
-                                                </th>
-                                                    
-                                                </tr>
-                                        </thead>
-                                        <tbody>
-                                        
-                                            <?php
-                                            $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
-                                                //echo $sqlmain;
-                                                $result= $mysqli->query($sqlmain);
-                
-                                                if($result->num_rows==0){
-                                                    echo '<tr>
-                                                    <td colspan="4">
-                                                    <br><br><br><br>
-                                                    <center>
-                                                    <img src="../img/notfound.svg" width="25%">
-                                                    
-                                                    <br>
-                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Nothing to show here!</p>
-                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Channel a Doctor &nbsp;</font></button>
-                                                    </a>
-                                                    </center>
-                                                    <br><br><br><br>
-                                                    </td>
-                                                    </tr>';
-                                                    
-                                                }
-                                                else{
-                                                for ( $x=0; $x<$result->num_rows;$x++){
-                                                    $row=$result->fetch_assoc();
-                                                    $scheduleid=$row["scheduleid"];
-                                                    $title=$row["title"];
-                                                    $apponum=$row["apponum"];
-                                                    $docname=$row["docname"];
-                                                    $scheduledate=$row["scheduledate"];
-                                                    $scheduletime=$row["scheduletime"];
-                                                   
-                                                    echo '<tr>
-                                                        <td style="padding:30px;font-size:25px;font-weight:700;"> &nbsp;'.
-                                                        $apponum
-                                                        .'</td>
-                                                        <td style="padding:20px;"> &nbsp;'.
-                                                        substr($title,0,30)
-                                                        .'</td>
-                                                        <td>
-                                                        '.substr($docname,0,20).'
-                                                        </td>
-                                                        <td style="text-align:center;">
-                                                            '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
-                                                        </td>
-
-                
-                                                       
-                                                    </tr>';
-                                                    
-                                                }
-                                            }
-                                                 
-                                            ?>
-                 
-                                            </tbody>
-                
-                                        </table>
-                                        </div>
-                                        </center>
-
-
-
-
-
-
-
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                <tr>
-            </table>
+    <!-- Corporation Assets -->
+    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
+        <div class="widget-rounded-circle card-box ">
+            <div class="row">
+                <div class="col-6">
+                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
+                        <i class="mdi mdi-flask font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-right">
+                        <?php
+                            // Summing up number of assets
+                            $result = "SELECT count(*) FROM his_equipments";
+                            $stmt = $mysqli->prepare($result);
+                            $stmt->execute();
+                            $stmt->bind_result($assets);
+                            $stmt->fetch();
+                            $stmt->close();
+                        ?>
+                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $assets; ?></span></h3>
+                        <p class="mb-1 text-truncate" style="color: black;">Corporation Assets</p> <!-- Text color black -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Pharmaceuticals -->
+    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
+        <div class="widget-rounded-circle card-box">
+            <div class="row">
+                <div class="col-6">
+                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
+                        <i class="mdi mdi-pill font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-right">
+                        <?php
+                            // Summing up number of pharmaceuticals
+                            $result = "SELECT count(*) FROM his_pharmaceuticals";
+                            $stmt = $mysqli->prepare($result);
+                            $stmt->execute();
+                            $stmt->bind_result($phar);
+                            $stmt->fetch();
+                            $stmt->close();
+                        ?>
+                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $phar; ?></span></h3>
+                        <p class="mb-1 text-truncate" style="color: black;">Pharmaceuticals</p> <!-- Text color black -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</body>
+
+
+                            
+
+                        
+
+                <!-- Footer Start -->
+                <?php include('assets/inc/footer.php');?>
+                <!-- end Footer -->
+
+           
+        <!-- Vendor js -->
+        <script src="assets/js/vendor.min.js"></script>
+
+        <!-- Plugins js-->
+        <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="assets/libs/jquery-knob/jquery.knob.min.js"></script>
+        <script src="assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.time.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.tooltip.min.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.selection.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.crosshair.js"></script>
+        <!-- Bootstrap JS and dependencies (Ensure these are included in your project) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+        <!-- Dashboar 1 init js-->
+        <script src="assets/js/pages/dashboard-1.init.js"></script>
+
+        <!-- App js-->
+        <script src="assets/js/app.min.js"></script>
+        
+    </body>
+
 </html>

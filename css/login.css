@@ -59,3 +59,18 @@ td{
     margin-bottom: 15px;
     width: 100%;
 }
+
+.position-relative {
+    position: relative;
+}
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+.input-text {
+    padding-right: 40px; /* Add space for the eye icon */
+}
