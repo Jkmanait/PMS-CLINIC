@@ -12,11 +12,11 @@
             <span>My Medical Record</span>
         </a>
 
-        <div class="dropdown-divider"></div>
+        <!-- <div class="dropdown-divider"></div>
         <a href="schedule.php" class="dropdown-item" style="font-size: 18px; color: black;">
             <i class="fe-calendar mr-1"></i>
             <span>Schedule Session</span>
-        </a>
+        </a> -->
 
         <div class="dropdown-divider"></div>
         <a href="appointment.php" class="dropdown-item" style="font-size: 18px; color: black;">
@@ -59,7 +59,7 @@
 
     <!-- LOGO -->
     <div class="logo-box" style="display: flex; align-items: center; white-space: nowrap;">
-    <a href="his_admin_dashboard.php" class="logo text-center" style="display: flex; align-items: center;">
+    <a href="index.php" class="logo text-center" style="display: flex; align-items: center;">
         <span class="logo-lg">
             <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
         </span>

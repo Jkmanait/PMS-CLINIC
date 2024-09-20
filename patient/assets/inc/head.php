@@ -9,9 +9,13 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!-- Plugins css -->
+        <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
         <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="assets/css/style.css">
 
         <!-- App css -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
@@ -48,5 +52,6 @@
                 </script>
 
         <?php } ?>
+                
 
 </head>

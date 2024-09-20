@@ -1,9 +1,37 @@
 <?php
   session_start();
   include('../configuration/config.php');
-  
-  $aid=$_SESSION['ad_id'];
+  // Example login logic
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get username and password from login form
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // Query to check if the username and password are correct
+    $query = "SELECT * FROM patients WHERE username = ? AND password = ?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('ss', $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 1) {
+        // User exists, fetch data
+        $patientRow = $result->fetch_assoc();
+        
+        // Set patientID in session
+        $_SESSION['patientID'] = $patientRow['patient_id'];  // Store patient ID in session
+        $_SESSION['patientLogin'] = true;  // Store login status in session
+        
+        // Redirect to dashboard or home page
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        // Invalid credentials
+        $error = "Invalid username or password";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
     

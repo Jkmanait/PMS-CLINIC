@@ -7,7 +7,9 @@
 
             <ul class="metismenu" id="side-menu">
                 <br>
-                <li class="menu-title" style="font-size: 20px; color: black;">Navigation</li>
+<li class="menu-title" style="font-size: 20px; color: black; display: flex; justify-content: space-between; align-items: center;">
+    <span>Navigation</span>
+</li>
 
                 <li>
                     <a href="his_admin_dashboard.php" style="font-size: 18px; color: black;">
@@ -29,6 +31,17 @@
                         <hr>
                         <li><a href="his_admin_discharge_patient.php" style="font-size: 16px; color: black;">Discharge Patients</a></li>
                         <li><a href="his_admin_patient_transfer.php" style="font-size: 16px; color: black;">Patient Transfers</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
+                        <i class="fa fa-calendar"></i>
+                        <span> Appointment </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_appointment.php" style="font-size: 16px;">My Appointment</a></li>
                     </ul>
                 </li>
 
@@ -137,20 +150,6 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
-                        <i class="fa fa-calendar"></i>
-                        <span> Appointment </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <!-- <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_add_equipment.php" style="font-size: 16px;">Add Equipment</a></li>
-                        <li><a href="his_admin_manage_equipment.php" style="font-size: 16px;">Manage Equipments</a></li>
-                        <li><a href="his_admin_add_theatre_patient.php" style="font-size: 16px;">Add Patient</a></li>
-                        <li><a href="his_admin_manage_theatre_patient.php" style="font-size: 16px;">Manage Patients</a></li>
-                        <li><a href="his_admin_surgery_records.php" style="font-size: 16px;">Surgery Records</a></li>
-                    </ul> -->
-                </li>
 
             </ul>
 
