@@ -1,58 +1,39 @@
 <?php
-    session_start();
-    include('../configuration/config.php');
+session_start();
+include('../configuration/config.php');
+
+// Handle form submission
+if (isset($_POST['book_appointment'])) {
+    $patient_id = $_POST['patient_id'];
+    $doctor_id = $_POST['doctor_id'];
+    $appointment_date = $_POST['date'];
+    $appointment_time = $_POST['time'];
+    $appointment_reason = $_POST['appointment_reason'];
+    $appointment_status = 'Pending'; // Default status
+
+    // SQL to insert captured values (matching correct column names)
+    $query = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, appointment_reason, appointment_status)
+              VALUES (?, ?, ?, ?, ?, ?)";
     
-    // Check if the patient is logged in
-    if (!isset($_SESSION['patientLogin'])) {
-        $_SESSION['loginMsg'] = 'You must log in first!';
-        header("Location: login.php");
-        exit();
-    }
-
-    // Check if patientID is set in session
-    if (!isset($_SESSION['patientID'])) {
-        die("Error: Patient ID not found. Please log in.");
-    }
-
-    $patientID = $_SESSION['patientID']; // Assuming patient ID is stored in session
-
-    // Ensure adminID is passed correctly (e.g., from query string or form input)
-    if (!isset($_GET['adminID'])) {
-        die("Error: Admin ID not provided.");
-    }
-    
-    $adminID = intval($_GET['adminID']); // Admin ID from query parameter
-    
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Get form data
-        $appointmentDate = $_POST['date'];
-        $appointmentTime = $_POST['time'];
+    // Check if the statement can be prepared
+    if ($stmt = $mysqli->prepare($query)) {
+        // Correct bind_param to use 'iissss' (int, int, string, string, string, string)
+        $stmt->bind_param('iissss', $patient_id, $doctor_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
         
-        // Check if admin ID exists in the database
-        $checkAdmin = $mysqli->prepare("SELECT ad_id FROM his_admin WHERE ad_id = ?");
-        $checkAdmin->bind_param("i", $adminID);
-        $checkAdmin->execute();
-        $result = $checkAdmin->get_result();
-        
-        if ($result->num_rows == 0) {
-            die("Error: Admin ID does not exist.");
-        }
-
-        // Insert the appointment into the database
-        $insertAppointment = "INSERT INTO appointments (admin_id, patient_id, appointment_date, appointment_time) 
-                              VALUES (?, ?, ?, ?)";
-        $stmt = $mysqli->prepare($insertAppointment);
-        $stmt->bind_param("iiss", $adminID, $patientID, $appointmentDate, $appointmentTime);
-        
+        // Execute the query and check for success
         if ($stmt->execute()) {
-            echo "Appointment successfully booked!";
+            $success = "Appointment Booked Successfully";
         } else {
-            echo "Error: " . $mysqli->error;
+            $err = "Failed to Book Appointment. Please Try Again.";
         }
-        
-        $stmt->close();
+    } else {
+        $err = "Failed to prepare the query: " . $mysqli->error;
     }
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +52,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Book an Appointment</h3>
-                                <form action="" method="POST">
+                                <!-- Display success or error message -->
+                                <?php if (isset($success)) { echo "<div class='alert alert-success'>$success</div>"; } ?>
+                                <?php if (isset($err)) { echo "<div class='alert alert-danger'>$err</div>"; } ?>
+                                
+                                <form method="POST">
                                     <div class="form-group">
                                         <label for="date">Choose Appointment Date</label>
                                         <input type="date" name="date" class="form-control" required>
@@ -80,8 +65,13 @@
                                         <label for="time">Choose Appointment Time</label>
                                         <input type="time" name="time" class="form-control" required>
                                     </div>
-                                    <input type="hidden" name="adminID" value="<?= $adminID ?>"> <!-- The ID of the admin -->
-                                    <button type="submit" class="btn btn-primary mt-3">Book Appointment</button>
+                                    <div class="form-group">
+                                        <label for="appointment_reason">Reason for Appointment</label>
+                                        <input type="text" name="appointment_reason" class="form-control" required>
+                                    </div>
+                                    <input type="hidden" name="patient_id" value="<?= $patient_id ?>"> <!-- Set the patient ID here -->
+                                    <input type="hidden" name="doctor_id" value="<?= $doctor_id ?>"> <!-- Set the doctor ID here -->
+                                    <button type="submit" name="book_appointment" class="btn btn-primary mt-3">Book Appointment</button>
                                 </form>
                             </div>
                         </div>

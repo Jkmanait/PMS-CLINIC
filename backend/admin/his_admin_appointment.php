@@ -1,98 +1,91 @@
 <?php
-	session_start();
-	include('../../configuration/config.php');
+session_start();
+include('../../configuration/config.php');
 
-    // Check if the form was submitted
-    if (isset($_POST['book_appointment'])) {
-        // Capture form data
-        $admin_id = $_POST['admin_id']; // Admin ID (from form)
-        $patient_id = $_SESSION['patientID']; // Assuming patient ID is stored in session
-        $appointment_date = $_POST['appointment_date'];
-        $appointment_time = $_POST['appointment_time'];
+// Fetch all appointments
+$query = "SELECT a.id, a.patient_id, a.doctor_id, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.patient_name, d.docname 
+          FROM appointments a
+          JOIN patients p ON a.patient_id = p.id
+          JOIN doctor d ON a.doctor_id = d.id";
+$result = $mysqli->query($query);
+
+// Update appointment status
+if (isset($_POST['update_status'])) {
+    $appointment_id = $_POST['appointment_id'];
+    $new_status = $_POST['new_status'];
+
+    $update_query = "UPDATE appointments SET appointment_status = ? WHERE id = ?";
+    if ($update_stmt = $mysqli->prepare($update_query)) {
+        $update_stmt->bind_param('si', $new_status, $appointment_id);
+        $update_stmt->execute();
         
-        // Prepare SQL query to insert appointment data
-        $query = "INSERT INTO appointments (admin_id, patient_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?)";
-        $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('iiss', $admin_id, $patient_id, $appointment_date, $appointment_time);
-        $stmt->execute();
-        
-        // Check if the statement executed successfully
-        if ($stmt) {
-            // Appointment booked successfully
-            $success = "Appointment booked successfully!";
+        if ($update_stmt->affected_rows > 0) {
+            $success = "Appointment status updated successfully.";
         } else {
-            // There was an error
-            $err = "Failed to book appointment. Please try again.";
+            $err = "Failed to update appointment status. No changes made.";
         }
-        
-        // Close the statement
-        $stmt->close();
+    } else {
+        $err = "Failed to prepare the update query: " . $mysqli->error;
     }
-
-    // Query to fetch appointment data
-    $query = "SELECT 
-                a.appointment_date, 
-                a.appointment_time, 
-                a.created_at,
-                p.patient_name 
-              FROM appointments a 
-              JOIN patients p ON a.patient_id = p.patient_id";  // Assuming you have a 'patients' table
-
-    $appointments = $mysqli->query($query); // Run the query
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Head Code -->
-    <?php include("assets/inc/head.php"); ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Appointments</title>
+    <link rel="stylesheet" href="path/to/bootstrap.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Manage Appointments</h2>
+        
+        <!-- Display success or error messages -->
+        <?php if (isset($success)) { echo "<div class='alert alert-success'>$success</div>"; } ?>
+        <?php if (isset($err)) { echo "<div class='alert alert-danger'>$err</div>"; } ?>
 
-    <body>
-        <div id="wrapper">
-            <!-- Topbar Start -->
-            <?php include('assets/inc/nav.php'); ?>
-            <!-- End Topbar -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()) { ?>
+                <tr>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['patient_name']; ?></td>
+                    <td><?php echo $row['docname']; ?></td>
+                    <td><?php echo $row['appointment_date']; ?></td>
+                    <td><?php echo $row['appointment_time']; ?></td>
+                    <td><?php echo $row['appointment_reason']; ?></td>
+                    <td><?php echo $row['appointment_status']; ?></td>
+                    <td>
+                        <form method="post" action="">
+                            <input type="hidden" name="appointment_id" value="<?php echo $row['id']; ?>">
+                            <select name="new_status" class="form-control">
+                                <option value="Approved" <?php if ($row['appointment_status'] == 'Approved') echo 'selected'; ?>>Approve</option>
+                                <option value="Canceled" <?php if ($row['appointment_status'] == 'Canceled') echo 'selected'; ?>>Cancel</option>
+                                <option value="Pending" <?php if ($row['appointment_status'] == 'Pending') echo 'selected'; ?>>Pending</option>
+                            </select>
+                            <button type="submit" name="update_status" class="btn btn-primary btn-sm mt-2">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
 
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-md-10 offset-md-1">
-                        <h3>Appointments</h3>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Patient Name</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Booked On</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if($appointments->num_rows > 0) { 
-                                    while($row = $appointments->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td><?= $row['patient_name'] ?></td>
-                                        <td><?= $row['appointment_date'] ?></td>
-                                        <td><?= $row['appointment_time'] ?></td>
-                                        <td><?= $row['created_at'] ?></td>
-                                    </tr>
-                                <?php } 
-                                } else { ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center">No Appointments Found</td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Start -->
-            <?php include('assets/inc/footer.php'); ?>
-            <!-- End Footer -->
-
-            <script src="assets/js/vendor.min.js"></script>
-            <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        </div>
-    </body>
+    <script src="path/to/bootstrap.js"></script>
+</body>
 </html>
