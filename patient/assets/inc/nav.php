@@ -12,11 +12,11 @@
             <span>My Medical Record</span>
         </a>
 
-        <!-- <div class="dropdown-divider"></div>
-        <a href="schedule.php" class="dropdown-item" style="font-size: 18px; color: black;">
+        <div class="dropdown-divider"></div>
+        <a href="schedule_session.php" class="dropdown-item" style="font-size: 18px; color: black;">
             <i class="fe-calendar mr-1"></i>
             <span>Schedule Session</span>
-        </a> -->
+        </a>
 
         <div class="dropdown-divider"></div>
         <a href="appointment.php" class="dropdown-item" style="font-size: 18px; color: black;">

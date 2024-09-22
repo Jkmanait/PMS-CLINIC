@@ -1,51 +1,42 @@
 <?php
 session_start();
 include('../../configuration/config.php');
+include('assets/inc/checklogin.php');
+check_login();
+$aid = $_SESSION['ad_id'];
 
-// Fetch all appointments
-$query = "SELECT a.id, a.patient_id, a.doctor_id, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.patient_name, d.docname 
-          FROM appointments a
-          JOIN patients p ON a.patient_id = p.id
-          JOIN doctor d ON a.doctor_id = d.id";
-$result = $mysqli->query($query);
+// Approve appointment
+if (isset($_GET['approve_appointment_id'])) {
+    $patient_id = intval($_GET['approve_appointment_id']);
+    $stmt = $mysqli->prepare("UPDATE appointments SET appointment_status = 'Approved' WHERE patient_id = ?");
+    $stmt->bind_param('i', $patient_id);
+    $stmt->execute();
+    $stmt->close();
 
-// Update appointment status and create notification
-if (isset($_POST['update_status'])) {
-    $appointment_id = $_POST['appointment_id'];
-    $new_status = $_POST['new_status'];
-    $patient_id = $_POST['patient_id'];
-
-    // Update appointment status
-    $update_query = "UPDATE appointments SET appointment_status = ? WHERE id = ?";
-    if ($stmt = $mysqli->prepare($update_query)) {
-        $stmt->bind_param('si', $new_status, $appointment_id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            // Create notification message based on status
-            $message = "";
-            if ($new_status == "Approved") {
-                $message = "Your appointment on " . $_POST['appointment_date'] . " at " . $_POST['appointment_time'] . " has been approved.";
-            } elseif ($new_status == "Canceled") {
-                $message = "Your appointment on " . $_POST['appointment_date'] . " at " . $_POST['appointment_time'] . " has been canceled.";
-            }
-
-            // Insert notification for patient
-            $notification_query = "INSERT INTO notifications (patient_id, message) VALUES (?, ?)";
-            if ($notif_stmt = $mysqli->prepare($notification_query)) {
-                $notif_stmt->bind_param('is', $patient_id, $message);
-                $notif_stmt->execute();
-            }
-
-            $success = "Appointment status updated and notification sent successfully.";
-        } else {
-            $err = "Failed to update appointment status. No changes made.";
-        }
+    if ($stmt) {
+        $success = "Appointment Approved";
     } else {
-        $err = "Failed to prepare the update query: " . $mysqli->error;
+        $err = "Try Again Later";
     }
 }
+
+// Disapprove appointment
+if (isset($_GET['disapprove_appointment_id'])) {
+    $patient_id = intval($_GET['disapprove_appointment_id']);
+    $stmt = $mysqli->prepare("UPDATE appointments SET appointment_status = 'Disapproved' WHERE patient_id = ?");
+    $stmt->bind_param('i', $patient_id);
+    $stmt->execute();
+    $stmt->close();
+
+    if ($stmt) {
+        $success = "Appointment Disapproved";
+    } else {
+        $err = "Try Again Later";
+    }
+}
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -158,15 +149,16 @@ if (isset($_POST['update_status'])) {
                                                 <td><?php echo $row->appointment_status; ?></td>
                                                 <td>
                                                     <?php if ($row->appointment_status != 'Approved') { ?>
-                                                        <a href="his_admin_manage_appointments.php?approve_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-success">
+                                                        <a href="his_admin_manage_appointments.php?approve_appointment_id=<?php echo $row->patient_id;?>" class="badge badge-success">
                                                             <i class="fas fa-check"></i> Approve
                                                         </a>
                                                     <?php } ?>
 
                                                     <?php if ($row->appointment_status != 'Disapproved') { ?>
-                                                        <a href="his_admin_manage_appointments.php?disapprove_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-danger">
+                                                        <a href="his_admin_manage_appointments.php?disapprove_appointment_id=<?php echo $row->patient_id;?>" class="badge badge-danger">
                                                             <i class="fas fa-times"></i> Disapprove
                                                         </a>
+
                                                     <?php } ?>
                                                 </td>
                                             </tr>

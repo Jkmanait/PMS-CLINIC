@@ -269,62 +269,92 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-    <!-- Corporation Assets -->
-    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
-        <div class="widget-rounded-circle card-box ">
-            <div class="row">
-                <div class="col-6">
-                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                        <i class="mdi mdi-flask font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="text-right">
-                        <?php
-                            // Summing up number of assets
-                            $result = "SELECT count(*) FROM his_equipments";
-                            $stmt = $mysqli->prepare($result);
-                            $stmt->execute();
-                            $stmt->bind_result($assets);
-                            $stmt->fetch();
-                            $stmt->close();
-                        ?>
-                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $assets; ?></span></h3>
-                        <p class="mb-1 text-truncate" style="color: black;">Corporation Assets</p> <!-- Text color black -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Fetch Appointment Data and Services -->
+    <?php
+// Fetch appointment data for the graph
+$appointmentsData = [];
+if ($mysqli) {
+    $result = "SELECT appointment_date, COUNT(*) as total FROM appointments GROUP BY appointment_date";
+    $stmt = $mysqli->prepare($result);
+    if ($stmt) {
+        $stmt->execute();
+        $stmt->bind_result($appointment_date, $total);
 
-    <!-- Pharmaceuticals -->
-    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
-        <div class="widget-rounded-circle card-box">
-            <div class="row">
-                <div class="col-6">
-                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                        <i class="mdi mdi-pill font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="text-right">
-                        <?php
-                            // Summing up number of pharmaceuticals
-                            $result = "SELECT count(*) FROM his_pharmaceuticals";
-                            $stmt = $mysqli->prepare($result);
-                            $stmt->execute();
-                            $stmt->bind_result($phar);
-                            $stmt->fetch();
-                            $stmt->close();
-                        ?>
-                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $phar; ?></span></h3>
-                        <p class="mb-1 text-truncate" style="color: black;">Pharmaceuticals</p> <!-- Text color black -->
-                    </div>
-                </div>
-            </div>
+        while ($stmt->fetch()) {
+            $appointmentsData[] = ['date' => $appointment_date, 'total' => $total];
+        }
+        $stmt->close();
+    } else {
+        echo "Error in SQL query: " . $mysqli->error;
+    }
+}
+?>
+
+<!-- Appointment Graph Section -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card-box" style="background-color: #f0f0f0;"> <!-- Gray background for the graph container -->
+            <h4 class="header-title mb-3">Appointments Over Time</h4>
+            <canvas id="appointmentGraph" style="height: 400px; background-color: #f0f0f0;"></canvas> <!-- Gray background for the canvas -->
         </div>
     </div>
 </div>
+
+<!-- Footer and Other Content -->
+
+<!-- Chart.js Script for Graph -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Data for the appointments graph
+    var appointmentData = <?php echo json_encode($appointmentsData); ?>;
+    var labels = appointmentData.map(function(item) {
+        return item.date;
+    });
+    var data = appointmentData.map(function(item) {
+        return item.total;
+    });
+
+    // Create the graph
+    var ctx = document.getElementById('appointmentGraph').getContext('2d');
+    var appointmentChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Appointments',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                pointBackgroundColor: 'black', // Black color for points (circles on the graph)
+                pointBorderColor: 'black'      // Black color for point borders
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'black' // Black color for Y-axis labels
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'black' // Black color for X-axis labels
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'black' // Black color for legend text
+                    }
+                }
+            }
+        }
+    });
+</script>
+
 
 
 

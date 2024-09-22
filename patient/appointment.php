@@ -5,20 +5,20 @@ include('../configuration/config.php');
 // Handle form submission
 if (isset($_POST['book_appointment'])) {
     $patient_id = $_POST['patient_id'];
-    $doctor_id = $_POST['doctor_id'];
+    
     $appointment_date = $_POST['date'];
     $appointment_time = $_POST['time'];
     $appointment_reason = $_POST['appointment_reason'];
     $appointment_status = 'Pending'; // Default status
 
     // SQL to insert captured values (matching correct column names)
-    $query = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, appointment_reason, appointment_status)
-              VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status)
+              VALUES (?, ?, ?, ?, ?)";
     
     // Check if the statement can be prepared
     if ($stmt = $mysqli->prepare($query)) {
         // Correct bind_param to use 'iissss' (int, int, string, string, string, string)
-        $stmt->bind_param('iissss', $patient_id, $doctor_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
+        $stmt->bind_param('issss', $patient_id,  $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
         
         // Execute the query and check for success
         if ($stmt->execute()) {
@@ -46,6 +46,8 @@ if (isset($_POST['book_appointment'])) {
             <?php include('assets/inc/nav.php'); ?>
             <!-- End Topbar -->
 
+            <br>
+
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
@@ -70,7 +72,7 @@ if (isset($_POST['book_appointment'])) {
                                         <input type="text" name="appointment_reason" class="form-control" required>
                                     </div>
                                     <input type="hidden" name="patient_id" value="<?= $patient_id ?>"> <!-- Set the patient ID here -->
-                                    <input type="hidden" name="doctor_id" value="<?= $doctor_id ?>"> <!-- Set the doctor ID here -->
+                                    
                                     <button type="submit" name="book_appointment" class="btn btn-primary mt-3">Book Appointment</button>
                                 </form>
                             </div>
