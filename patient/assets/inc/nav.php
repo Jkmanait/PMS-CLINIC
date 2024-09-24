@@ -23,6 +23,12 @@
             <i class="fe-calendar mr-1"></i>
             <span>My Booking</span>
         </a>
+
+        <div class="dropdown-divider"></div>
+        <a href="xray.php" class="dropdown-item" style="font-size: 18px; color: black;">
+            <i class="fe-calendar mr-1"></i>
+            <span>My X-Ray</span>
+        </a>
         
         <div class="dropdown-divider"></div>
     </div>

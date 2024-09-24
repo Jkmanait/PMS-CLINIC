@@ -106,6 +106,18 @@
 
                 <li>
                     <a href="javascript: void(0);" style="font-size: 18px; color: black;">
+                        <i class="mdi mdi-skull"></i>
+                        <span> X-Ray </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_add_xray.php" style="font-size: 16px; color: black;">Add X-Ray</a></li>
+                        <li><a href="his_admin_manage_xray.php" style="font-size: 16px; color: black;">Manage X-ray</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
                         <i class="mdi mdi-flask"></i>
                         <span> Laboratory </span>
                         <span class="menu-arrow"></span>
