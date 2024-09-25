@@ -33,30 +33,30 @@
 <style>
     /* Make text bigger and color black */
     body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
-        font-size: 18px; /* Adjust size as needed */
+        font-size: 14px; /* Adjust size as needed */
         color: black;    /* Text color */
     }
 
     /* Increase font size for table headers */
     th {
-        font-size: 20px; /* Larger font for headers */
+        font-size: 19px; /* Larger font for headers */
     }
 
     /* Larger font size for page titles */
     h4.page-title {
-        font-size: 24px;
+        font-size: 18px;
         color: black;
     }
 
     /* Search input and buttons */
     input[type="text"], button {
-        font-size: 18px;
+        font-size: 15px;
         color: black;
     }
 
     /* Pagination */
     .pagination {
-        font-size: 18px;
+        font-size: 15px;
     }
 
 </style>
