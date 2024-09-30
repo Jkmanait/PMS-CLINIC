@@ -2,10 +2,9 @@
 session_start();
 include('../configuration/config.php');
 
-// Create a dummy session for demonstration if no session exists
+// Ensure session contains patient_id
 if (!isset($_SESSION['patient_id'])) {
-    // You can set a default value here for demonstration purposes
-    $_SESSION['patient_id'] = 1;  // Assuming '1' is a valid patient ID in your database
+    $_SESSION['patient_id'] = 1; // Dummy ID for demonstration, replace with actual logic
 }
 
 $patient_id = $_SESSION['patient_id'];
@@ -34,7 +33,7 @@ if (isset($_POST['update_profile'])) {
         if ($stmt) {
             $stmt->bind_param('ssi', $pname, $pemail, $patient_id);
             if ($stmt->execute()) {
-                $success = "Profile Updated";
+                $success = "Profile Updated Successfully";
             } else {
                 $err = "Error: Could not update profile. " . $stmt->error;
             }
@@ -53,7 +52,7 @@ if (isset($_POST['update_pwd'])) {
     $new_password = sha1(md5($_POST['new_password']));
     $confirm_password = sha1(md5($_POST['confirm_password']));
 
-    // Check if the new passwords match
+    // Check if new passwords match
     if ($new_password !== $confirm_password) {
         $err = "New password and confirmation password do not match.";
     } else {
