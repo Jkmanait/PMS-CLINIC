@@ -1,38 +1,72 @@
-
 <div class="navbar-custom" style="height: 100px; padding: 15px; background-color: dark-green;">
     <ul class="list-unstyled topnav-menu float-right mb-0">
 
-    <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
-     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
-        <i class="fe-menu" style="margin-right: 20px;"></i>
-    </a>
-    <div class="dropdown-menu" style="margin-left: -90px; position: relative;">
-        <a href="#" class="dropdown-item" style="font-size: 18px; color: black;">
-            <i class="fe-list mr-1"></i>
-            <span>My Medical Record</span>
-        </a>
+    <!-- Notification Bell -->
+    <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
+                <i class="fe-bell" style="font-size: 25px; margin-right: 25px;"></i>
+                <span class="badge badge-danger rounded-circle noti-icon-badge">3</span> <!-- Notification count -->
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+                <div class="dropdown-item noti-title">
+                    <h6 class="m-0">
+                        <span class="float-right">
+                            <a href="#" class="text-dark">
+                                <small>Clear All</small>
+                            </a>
+                        </span>Notifications
+                    </h6>
+                </div>
 
-        <div class="dropdown-divider"></div>
-        <a href="schedule_session.php" class="dropdown-item" style="font-size: 18px; color: black;">
-            <i class="fe-calendar mr-1"></i>
-            <span>Schedule Session</span>
-        </a>
+                <div class="slimscroll noti-scroll">
+                    <!-- Example Notification Items -->
+                    <a href="#" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-primary">
+                            <i class="fe-calendar"></i>
+                        </div>
+                        <p class="notify-details">Appointment Reminder<span class="text-muted">1 hour ago</span></p>
+                    </a>
 
-        <div class="dropdown-divider"></div>
-        <a href="appointment.php" class="dropdown-item" style="font-size: 18px; color: black;">
-            <i class="fe-calendar mr-1"></i>
-            <span>My Booking</span>
-        </a>
+                    <a href="#" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-success">
+                            <i class="fe-check-circle"></i>
+                        </div>
+                        <p class="notify-details">Test Results Available<span class="text-muted">2 hours ago</span></p>
+                    </a>
 
-        <div class="dropdown-divider"></div>
-        <a href="xray.php" class="dropdown-item" style="font-size: 18px; color: black;">
-            <i class="fe-calendar mr-1"></i>
-            <span>My X-Ray</span>
-        </a>
-        
-        <div class="dropdown-divider"></div>
-    </div>
-</li>
+                    <a href="#" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-danger">
+                            <i class="fe-alert-circle"></i>
+                        </div>
+                        <p class="notify-details">X-ray Report Ready<span class="text-muted">5 hours ago</span></p>
+                    </a>
+                </div>
+
+        <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
+            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
+                <i class="fe-menu" style="margin-right: 20px;"></i>
+            </a>
+            <div class="dropdown-menu" style="margin-left: -90px; position: relative;">
+                <a href="#" class="dropdown-item" style="font-size: 18px; color: black;">
+                    <i class="fe-list mr-1"></i>
+                    <span>My Medical Record</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a href="appointment.php" class="dropdown-item" style="font-size: 18px; color: black;">
+                    <i class="fe-calendar mr-1"></i>
+                    <span>My Booking</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a href="xray.php" class="dropdown-item" style="font-size: 18px; color: black;">
+                    <i class="fe-calendar mr-1"></i>
+                    <span>My X-Ray</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+            </div>
+        </li>
 
 
         <li class="dropdown notification-list ">
@@ -65,17 +99,16 @@
 
     <!-- LOGO -->
     <div class="logo-box" style="display: flex; align-items: center; white-space: nowrap;">
-    <a href="index.php" class="logo text-center" style="display: flex; align-items: center;">
-        <span class="logo-lg">
-            <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
-        </span>
-        <span class="logo-sm">
-                    <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
-                </span>
-        <h1 style="font-size: 20px; color: white; margin-left: 15px; white-space: nowrap;">Mission-Buenaventure Care Family Hospital</h1>
-    </a>
-</div>
-
+        <a href="index.php" class="logo text-center" style="display: flex; align-items: center;">
+            <span class="logo-lg">
+                <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
+            </span>
+            <span class="logo-sm">
+                <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
+            </span>
+            <h1 style="font-size: 20px; color: white; margin-left: 15px; white-space: nowrap;">Mission-Buenaventure Care Family Hospital</h1>
+        </a>
+    </div>
 
     <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
     </ul>

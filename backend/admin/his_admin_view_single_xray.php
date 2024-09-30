@@ -58,18 +58,17 @@
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
             <?php
-                $xray_pat_numberr=$_GET['xray_pat_number'];
-                $xray_id=$_GET['xray_id'];
-                $ret="SELECT  * FROM his_xrays WHERE xray_id = ?";
-                $stmt= $mysqli->prepare($ret) ;
-                $stmt->bind_param('i',$xray_id);
-                $stmt->execute() ;//ok
-                $res=$stmt->get_result();
-                //$cnt=1;
-                while($row=$res->fetch_object())
-                {
-                    $mysqlDateTime = $row->uploaded_at;
-            ?>
+    $xray_pat_numberr=$_GET['xray_pat_number'];
+    $xray_id=$_GET['xray_id'];
+    $ret="SELECT * FROM his_xrays WHERE xray_id = ?";
+    $stmt= $mysqli->prepare($ret);
+    $stmt->bind_param('i', $xray_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    while($row = $res->fetch_object()) {
+        $mysqlDateTime = $row->uploaded_at;
+?>
 
                 <div class="content-page">
                     <div class="content">
@@ -103,7 +102,7 @@
 
                                             <div class="tab-content pt-0">
                                                 <div class="tab-pane active show" id="product-1-item">
-                                                    <img src="../../img/<?php echo $row->xray_image_path; ?>" alt="X-Ray Image" class="img-fluid mx-auto d-block rounded">
+                                                    <img src="../../xray/<?php echo $row->xray_image_path; ?>" alt="X-Ray" class="img-fluid mx-auto d-block rounded">
                                                 </div>
                                             </div>
 
