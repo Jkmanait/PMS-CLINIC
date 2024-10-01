@@ -2,37 +2,51 @@
 session_start();
 include('../configuration/config.php');
 
+// Check if the patient is logged in and patient_id is set
+if (!isset($_SESSION['patient_id'])) {
+    // Redirect the user to the login page if patient_id is not set
+    header('Location: login.php');
+    exit();
+} else {
+    // If patient_id is set, store it in a variable
+    $patient_id = $_SESSION['patient_id'];
+}
+
 // Handle form submission
 if (isset($_POST['book_appointment'])) {
-    $patient_id = $_POST['patient_id'];
-    
+    // Get the posted values
     $appointment_date = $_POST['date'];
     $appointment_time = $_POST['time'];
     $appointment_reason = $_POST['appointment_reason'];
     $appointment_status = 'Pending'; // Default status
 
-    // SQL to insert captured values (matching correct column names)
-    $query = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status)
-              VALUES (?, ?, ?, ?, ?)";
-    
-    // Check if the statement can be prepared
-    if ($stmt = $mysqli->prepare($query)) {
-        // Correct bind_param to use 'iissss' (int, int, string, string, string, string)
-        $stmt->bind_param('issss', $patient_id,  $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
-        
-        // Execute the query and check for success
-        if ($stmt->execute()) {
-            $success = "Appointment Booked Successfully";
-        } else {
-            $err = "Failed to Book Appointment. Please Try Again.";
-        }
+    // Prevent booking past dates
+    if (strtotime($appointment_date) < strtotime(date('Y-m-d'))) {
+        $err = "Cannot book an appointment in the past.";
     } else {
-        $err = "Failed to prepare the query: " . $mysqli->error;
+        // SQL query to insert the appointment data
+        $query = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status)
+                  VALUES (?, ?, ?, ?, ?)";
+
+        // Check if the SQL statement can be prepared
+        if ($stmt = $mysqli->prepare($query)) {
+            // Bind the parameters to the query
+            $stmt->bind_param('issss', $patient_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
+
+            // Execute the query and check for success
+            if ($stmt->execute()) {
+                $success = "Appointment Booked Successfully";
+            } else {
+                // Log detailed error for debugging
+                $err = "Failed to Book Appointment. Error: " . $stmt->error;
+            }
+        } else {
+            // Log detailed error for debugging
+            $err = "Failed to prepare the query. Error: " . $mysqli->error;
+        }
     }
 }
-
 ?>
-
 
 
 <!DOCTYPE html>
@@ -71,8 +85,6 @@ if (isset($_POST['book_appointment'])) {
                                         <label for="appointment_reason">Reason for Appointment</label>
                                         <input type="text" name="appointment_reason" class="form-control" required>
                                     </div>
-                                    <input type="hidden" name="patient_id" value="<?= $patient_id ?>"> <!-- Set the patient ID here -->
-                                    
                                     <button type="submit" name="book_appointment" class="btn btn-primary mt-3">Book Appointment</button>
                                 </form>
                             </div>

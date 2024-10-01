@@ -141,33 +141,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+<!-- Services Modal -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                <h5 class="modal-title" id="serviceModalLabel">List of Services</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Doctor Name</th>
+                            <th>Service Name</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Fetch and display the list of doctors
-                        $result = "SELECT docname FROM doctor"; // Adjusted query to fetch only docname
+                        // Fetch and display the list of services
+                        $result = "SELECT service_name, description FROM services"; // Adjust query for services
                         $stmt = $mysqli->prepare($result);
                         if ($stmt) {
                             $stmt->execute();
-                            $stmt->bind_result($docname); // Bind only docname
+                            $stmt->bind_result($service_name, $description); // Bind the results
 
                             while ($stmt->fetch()) {
                                 echo '<tr>';
-                                echo '<td>' . htmlspecialchars($docname) . '</td>'; // Display doctor name
+                                echo '<td>' . htmlspecialchars($service_name) . '</td>'; // Display service name
+                                echo '<td>' . htmlspecialchars($description) . '</td>'; // Display service description
                                 echo '</tr>';
                             }
                             $stmt->close();
@@ -185,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-<!-- doctor -->
+<!-- Services Overview -->
 <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
     <div class="widget-rounded-circle card-box">
         <div class="row">
@@ -199,12 +201,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php
                         // Ensure the database connection is established
                         if ($mysqli) {
-                            // Summing up number of doctors
-                            $result = "SELECT count(*) FROM doctor";
+                            // Summing up the number of services
+                            $result = "SELECT count(*) FROM services";
                             $stmt = $mysqli->prepare($result);
                             if ($stmt) {
                                 $stmt->execute();
-                                $stmt->bind_result($doctor);
+                                $stmt->bind_result($service_count);
                                 $stmt->fetch();
                                 $stmt->close();
                             } else {
@@ -214,18 +216,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             echo "Database connection error";
                         }
                     ?>
-                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $doctor; ?></span></h3>
+                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $service_count; ?></span></h3>
                     <p class="mb-1 text-truncate text-dark">Services Offered</p>
                     
                     <!-- View Button -->
-                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Services</button>
+                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#serviceModal">View Services</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
+
+<!-- doctor -->
 <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

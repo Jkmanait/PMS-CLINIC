@@ -56,3 +56,35 @@ td{
     width: 100%;
 }
 
+.container {
+    animation: transitionIn-X 0.5s;
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.input-text {
+    flex: 1;
+}
+.input-text.first-name {
+    margin-right: 20px;
+}
+.checkmark {
+    display: none;
+    color: green;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.checkmark.valid {
+    display: inline;
+}
+.wrongmark {
+    display: none;
+    color: red;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.wrongmark.invalid {
+    display: inline;
+}

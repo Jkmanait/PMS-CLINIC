@@ -2,11 +2,11 @@
 session_start();
 include('../../configuration/config.php');
 
-// Fetch all appointments
-$query = "SELECT a.id, a.patient_id, a.doctor_id, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.patient_name, d.docname 
+// Fetch all appointments including the patient's name from the patients table
+$query = "SELECT a.id, a.patient_id, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.pname 
           FROM appointments a
-          JOIN patients p ON a.patient_id = p.id
-          JOIN doctor d ON a.doctor_id = d.id";
+          JOIN patient p ON a.patient_id = p.patient_id";
+
 $result = $mysqli->query($query);
 
 // Update appointment status and create notification
@@ -17,6 +17,7 @@ if (isset($_POST['update_status'])) {
 
     // Update appointment status
     $update_query = "UPDATE appointments SET appointment_status = ? WHERE id = ?";
+    
     if ($stmt = $mysqli->prepare($update_query)) {
         $stmt->bind_param('si', $new_status, $appointment_id);
         $stmt->execute();
@@ -42,10 +43,13 @@ if (isset($_POST['update_status'])) {
             $err = "Failed to update appointment status. No changes made.";
         }
     } else {
+        // Output SQL error for debugging
         $err = "Failed to prepare the update query: " . $mysqli->error;
+        echo $err;
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -129,8 +133,8 @@ if (isset($_POST['update_status'])) {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Patient ID</th>
-                                                
+                                                <th>Patient Account ID</th>
+                                                <th>Patient Name</th>
                                                 <th>Appointment Date</th>
                                                 <th>Appointment Time</th>
                                                 <th>Reason</th>
@@ -140,7 +144,10 @@ if (isset($_POST['update_status'])) {
                                         </thead>
                                         <?php
                                             // Fetch details of all appointments
-                                            $ret = "SELECT * FROM appointments ORDER BY created_at DESC";
+                                            $ret = "SELECT a.id, a.patient_id, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.pname 
+                                                    FROM appointments a 
+                                                    JOIN patient p ON a.patient_id = p.patient_id
+                                                    ORDER BY a.created_at DESC";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute();
                                             $res = $stmt->get_result();
@@ -148,29 +155,31 @@ if (isset($_POST['update_status'])) {
                                             while ($row = $res->fetch_object()) {
                                         ?>
 
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo $cnt; ?></td>
-                                                <td><?php echo $row->patient_id; ?></td>
-                                                <td><?php echo $row->appointment_date; ?></td>
-                                                <td><?php echo $row->appointment_time; ?></td>
-                                                <td><?php echo $row->appointment_reason; ?></td>
-                                                <td><?php echo $row->appointment_status; ?></td>
-                                                <td>
-                                                    <?php if ($row->appointment_status != 'Approved') { ?>
-                                                        <a href="his_admin_manage_appointments.php?approve_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-success">
-                                                            <i class="fas fa-check"></i> Approve
-                                                        </a>
-                                                    <?php } ?>
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo $cnt; ?></td>
+                                                    <td><?php echo $row->patient_id; ?></td>
+                                                    <td><?php echo $row->pname; // Display patient name ?></td>
+                                                    <td><?php echo $row->appointment_date; ?></td>
+                                                    <td><?php echo $row->appointment_time; ?></td>
+                                                    <td><?php echo $row->appointment_reason; ?></td>
+                                                    <td><?php echo $row->appointment_status; ?></td>
+                                                    <td>
+                                                        <?php if ($row->appointment_status != 'Approved') { ?>
+                                                            <a href="his_admin_manage_appointments.php?approve_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-success">
+                                                                <i class="fas fa-check"></i> Approve
+                                                            </a>
+                                                        <?php } ?>
 
-                                                    <?php if ($row->appointment_status != 'Disapproved') { ?>
-                                                        <a href="his_admin_manage_appointments.php?disapprove_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-danger">
-                                                            <i class="fas fa-times"></i> Disapprove
-                                                        </a>
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                                        <?php if ($row->appointment_status != 'Disapproved') { ?>
+                                                            <a href="his_admin_manage_appointments.php?disapprove_appointment_patient_id=<?php echo $row->patient_id;?>" class="badge badge-danger">
+                                                                <i class="fas fa-times"></i> Disapprove
+                                                            </a>
+                                                        <?php } ?>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
 
                                         <?php $cnt = $cnt + 1; } ?>
                                         <tfoot>
