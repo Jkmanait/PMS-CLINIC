@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2024 at 04:03 PM
+-- Generation Time: Oct 02, 2024 at 01:42 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -20,6 +20,54 @@ SET time_zone = "+00:00";
 --
 -- Database: `uhc`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `appointment_date` date NOT NULL,
+  `appointment_time` time NOT NULL,
+  `appointment_reason` varchar(255) DEFAULT NULL,
+  `appointment_status` varchar(50) DEFAULT 'Pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `patient_id`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
+(1, 1, '2024-10-04', '10:10:00', 'fever', 'Pending', '2024-10-01 23:09:13'),
+(2, 1, '2024-10-05', '10:10:00', 'fever', 'Pending', '2024-10-01 23:40:01'),
+(3, 2, '2024-10-05', '10:10:00', 'fever', 'Pending', '2024-10-01 23:40:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor`
+--
+
+CREATE TABLE `doctor` (
+  `docid` int(11) NOT NULL,
+  `docemail` varchar(255) DEFAULT NULL,
+  `docname` varchar(255) DEFAULT NULL,
+  `docpassword` varchar(255) DEFAULT NULL,
+  `docnic` varchar(15) DEFAULT NULL,
+  `doctel` varchar(15) DEFAULT NULL,
+  `specialties` int(2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `doctor`
+--
+
+INSERT INTO `doctor` (`docid`, `docemail`, `docname`, `docpassword`, `docnic`, `doctel`, `specialties`) VALUES
+(1, 'doctor@gmail.com', 'Dr. Juan Dela Cruz', 'doctor', '000000000', '0110000000', 1);
 
 -- --------------------------------------------------------
 
@@ -105,7 +153,8 @@ CREATE TABLE `his_laboratory` (
 --
 
 INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_pat_number`, `lab_pat_tests`, `lab_pat_results`, `lab_number`, `lab_date_rec`) VALUES
-(12, 'Arnel  Puagang', 'demo test', 'BX946', '<ul>\r\n	<li>Basic Metabolic Panel (BMP)</li>\r\n	<li>Comprehensive Metabolic Panel (CMP)</li>\r\n</ul>\r\n', 'Basic Metabolic Panel (BMP)\r\nComprehensive Metabolic Panel (CMP)\r\nLipid Profile', 'PKLWF', '2024-08-29 03:18:41');
+(12, 'Arnel  Puagang', 'demo test', 'BX946', '<ul>\r\n	<li>Basic Metabolic Panel (BMP)</li>\r\n	<li>Comprehensive Metabolic Panel (CMP)</li>\r\n</ul>\r\n', 'Basic Metabolic Panel (BMP)\r\nComprehensive Metabolic Panel (CMP)\r\nLipid Profile', 'PKLWF', '2024-08-29 03:18:41'),
+(13, 'Hencez Taborno', 'Diabetes', 'FB4TY', '<p>sad</p>\r\n', 'asd', 'MQ2HD', '2024-09-10 03:11:20');
 
 -- --------------------------------------------------------
 
@@ -130,7 +179,36 @@ CREATE TABLE `his_medical_records` (
 --
 
 INSERT INTO `his_medical_records` (`mdr_id`, `mdr_number`, `mdr_pat_name`, `mdr_pat_adr`, `mdr_pat_age`, `mdr_pat_ailment`, `mdr_pat_number`, `mdr_pat_prescr`, `mdr_date_rec`) VALUES
-(12, 'YSHZK', 'Arnel  Puagang', 'tankulan', '24', 'demo test', 'BX946', '<ul>\r\n	<li>Antibiotics</li>\r\n	<li>Antihistamines</li>\r\n	<li>Chronic Pain Medicines</li>\r\n	<li>Diethylstilbestrol.</li>\r\n</ul>\r\n', '2024-08-29 03:03:11.1842');
+(15, 'HSZVE', 'Arnel  Puagang', 'tankulan', '24', 'demo test', 'BX946', '<p>sad</p>\r\n', '2024-09-10 03:09:58.4730'),
+(16, '1TCNM', 'Roniel  Barrio', 'Manolo Fortich', '23', 'Diabetes', 'AYZKI', '<p>sad</p>\r\n', '2024-09-10 05:54:49.9399'),
+(17, 'EH81C', 'James Kenneth Manait', 'Damilag', '23', 'Fever', 'SQ0DO', '<p>sample</p>\r\n', '2024-09-16 14:12:16.4188');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_nurse_note`
+--
+
+CREATE TABLE `his_nurse_note` (
+  `nur_id` int(20) NOT NULL,
+  `nur_note_name` varchar(200) NOT NULL,
+  `nur_note_ailment` varchar(200) NOT NULL,
+  `nur_note_number` varchar(200) NOT NULL,
+  `nur_note_tests` longtext NOT NULL,
+  `nur_note_results` longtext NOT NULL,
+  `nur_number` varchar(200) NOT NULL,
+  `nur_date_rec` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `his_nurse_note`
+--
+
+INSERT INTO `his_nurse_note` (`nur_id`, `nur_note_name`, `nur_note_ailment`, `nur_note_number`, `nur_note_tests`, `nur_note_results`, `nur_number`, `nur_date_rec`) VALUES
+(1, 'James Kenneth Manait', 'Fever', 'SQ0DO', '<p>1</p>\r\n', '2', 'GJH2V', '2024-09-03 13:47:44'),
+(2, 'Roniel  Barrio', 'Diabetes', 'AYZKI', '<p>asd</p>\r\n', 'fasasfsaasf', 'XM4S7', '2024-09-03 14:16:11'),
+(3, 'Arnel  Puagang', 'demo test', 'BX946', '<p>hehe</p>\r\n', 'haha', 'W7HGK', '2024-09-03 14:23:23'),
+(4, 'Roniel  Barrio', 'Diabetes', 'AYZKI', '<p>sadas</p>\r\n', '', 'F9BDE', '2024-09-10 05:40:18');
 
 -- --------------------------------------------------------
 
@@ -162,7 +240,8 @@ INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_
 (15, 'Roniel ', 'Barrio', '111111', '23', 'AYZKI', 'Manolo Fortich', '090909090912', 'InPatient', '2024-08-29 02:16:49.829152', 'Diabetes', NULL),
 (16, 'James Kenneth', 'Manait', '052901', '23', 'SQ0DO', 'Damilag', '090909090000', 'OutPatient', '2024-08-29 02:17:30.892880', 'Fever', NULL),
 (17, 'Karla', 'Lagrimas', '092301', '23', 'AP2MT', 'Damilag', '090909011111', 'InPatient', '2024-08-29 02:18:26.550250', 'Fever', NULL),
-(18, 'Hencez', 'Taborno', '092201', '23', 'FB4TY', 'Manolo Fortich', '090909090111', 'InPatient', '2024-08-29 02:18:54.044562', 'Diabetes', NULL);
+(18, 'Hencez', 'Taborno', '092201', '23', 'FB4TY', 'Manolo Fortich', '090909090111', 'InPatient', '2024-08-29 02:18:54.044562', 'Diabetes', NULL),
+(19, 'Reggie', 'Madrijanon', '090909', '24', '0812674', 'Manolo Fortich', '090909090901', 'InPatient', '2024-08-31 13:29:07.103371', 'Fever', NULL);
 
 -- --------------------------------------------------------
 
@@ -202,15 +281,6 @@ CREATE TABLE `his_pharmaceuticals` (
   `phar_vendor` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `his_pharmaceuticals`
---
-
-INSERT INTO `his_pharmaceuticals` (`phar_id`, `phar_name`, `phar_bcode`, `phar_desc`, `phar_qty`, `phar_cat`, `phar_vendor`) VALUES
-(1, 'Paracetamol', '134057629', '<ul><li><strong>Paracetamol</strong>, also known as <strong>acetaminophen</strong> and <strong>APAP</strong>, is a medication used to treat <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a> and <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>. It is typically used for mild to moderate pain relief. There is mixed evidence for its use to relieve fever in children.&nbsp; It is often sold in combination with other medications, such as in many <a href=\"https://en.wikipedia.org/wiki/Cold_medication\">cold medications</a> Paracetamol is also used for severe pain, such as <a href=\"https://en.wikipedia.org/wiki/Cancer_pain\">cancer pain</a> and pain after surgery, in combination with <a href=\"https://en.wikipedia.org/wiki/Opioid_analgesic\">opioid pain medication</a>. It is typically used either by mouth or <a href=\"https://en.wikipedia.org/wiki/Rectally\">rectally</a>, but is also available by <a href=\"https://en.wikipedia.org/wiki/Intravenous\">injection into a vein</a>. Effects last between two and four hours.</li><li>Paracetamol is generally safe at recommended doses.The recommended maximum daily dose for an adult is three to four grams. Higher doses may lead to toxicity, including <a href=\"https://en.wikipedia.org/wiki/Liver_failure\">liver failure</a> Serious skin rashes may rarely occur. It appears to be safe during <a href=\"https://en.wikipedia.org/wiki/Pregnancy\">pregnancy</a> and when <a href=\"https://en.wikipedia.org/wiki/Breastfeeding\">breastfeeding</a>.In those with liver disease, it may still be used, but in lower doses. It is classified as a mild <a href=\"https://en.wikipedia.org/wiki/Analgesic\">analgesic</a>. It does not have significant <a href=\"https://en.wikipedia.org/wiki/Anti-inflammatory\">anti-inflammatory</a> activity. How it works is not entirely clear.</li><li>Paracetamol was first made in 1877. It is the most commonly used medication for pain and fever in both the United States and Europe. It is on the <a href=\"https://en.wikipedia.org/wiki/World_Health_Organization%27s_List_of_Essential_Medicines\">World Health Organization&#39;s List of Essential Medicines</a>, the safest and most effective medicines needed in a <a href=\"https://en.wikipedia.org/wiki/Health_system\">health system</a>.<a href=\"https://en.wikipedia.org/wiki/Paracetamol#cite_note-WHO21st-24\">[24]</a> Paracetamol is available as a <a href=\"https://en.wikipedia.org/wiki/Generic_medication\">generic medication</a> with trade names including <a href=\"https://en.wikipedia.org/wiki/Tylenol_(brand)\">Tylenol</a> and <a href=\"https://en.wikipedia.org/wiki/Panadol_(brand)\">Panadol</a>, among others.The wholesale price in the <a href=\"https://en.wikipedia.org/wiki/Developing_world\">developing world</a> is less than US$0.01 per dose. In the United States, it costs about US$0.04 per dose. In 2019, it was the 17th most prescribed medication in the United States, with more than 29&nbsp;million prescriptions.</li></ul>', '500', 'Antipyretics', 'Dawa Limited Kenya'),
-(2, 'Aspirin', '452760813', '<ul><li><strong>Aspirin</strong>, also known as <strong>acetylsalicylic acid</strong> (<strong>ASA</strong>), is a <a href=\"https://en.wikipedia.org/wiki/Medication\">medication</a> used to reduce <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a>, <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>, or <a href=\"https://en.wikipedia.org/wiki/Inflammation\">inflammation</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Specific inflammatory conditions which aspirin is used to treat include <a href=\"https://en.wikipedia.org/wiki/Kawasaki_disease\">Kawasaki disease</a>, <a href=\"https://en.wikipedia.org/wiki/Pericarditis\">pericarditis</a>, and <a href=\"https://en.wikipedia.org/wiki/Rheumatic_fever\">rheumatic fever</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin given shortly after a <a href=\"https://en.wikipedia.org/wiki/Myocardial_infarction\">heart attack</a> decreases the risk of death.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is also used long-term to help prevent further heart attacks, <a href=\"https://en.wikipedia.org/wiki/Ischaemic_stroke\">ischaemic strokes</a>, and <a href=\"https://en.wikipedia.org/wiki/Thrombus\">blood clots</a> in people at high risk.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> It may also decrease the risk of certain types of <a href=\"https://en.wikipedia.org/wiki/Cancer\">cancer</a>, particularly <a href=\"https://en.wikipedia.org/wiki/Colorectal_cancer\">colorectal cancer</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-6\">[6]</a> For pain or fever, effects typically begin within 30 minutes.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is a <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drug\">nonsteroidal anti-inflammatory drug</a> (NSAID) and works similarly to other NSAIDs but also suppresses the normal functioning of <a href=\"https://en.wikipedia.org/wiki/Platelet\">platelets</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a></li><li>One common <a href=\"https://en.wikipedia.org/wiki/Adverse_effect\">adverse effect</a> is an <a href=\"https://en.wikipedia.org/wiki/Upset_stomach\">upset stomach</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> More significant side effects include <a href=\"https://en.wikipedia.org/wiki/Stomach_ulcer\">stomach ulcers</a>, <a href=\"https://en.wikipedia.org/wiki/Stomach_bleeding\">stomach bleeding</a>, and worsening <a href=\"https://en.wikipedia.org/wiki/Asthma\">asthma</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Bleeding risk is greater among those who are older, drink <a href=\"https://en.wikipedia.org/wiki/Alcohol_(drug)\">alcohol</a>, take other NSAIDs, or are on other <a href=\"https://en.wikipedia.org/wiki/Anticoagulants\">blood thinners</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is not recommended in the last part of <a href=\"https://en.wikipedia.org/wiki/Pregnancy\">pregnancy</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> It is not generally recommended in children with <a href=\"https://en.wikipedia.org/wiki/Infection\">infections</a> because of the risk of <a href=\"https://en.wikipedia.org/wiki/Reye_syndrome\">Reye syndrome</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> High doses may result in <a href=\"https://en.wikipedia.org/wiki/Tinnitus\">ringing in the ears</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a></li></ul>', '500', 'Analgesics', 'Cosmos Kenya Limited'),
-(3, 'Test Pharma', '465931288', '<p>This is a demo test.&nbsp;</p><p>&nbsp;</p>', '36', 'Antibiotics', 'Cosmos Pharmaceutical Limited');
-
 -- --------------------------------------------------------
 
 --
@@ -223,15 +293,6 @@ CREATE TABLE `his_pharmaceuticals_categories` (
   `pharm_cat_vendor` varchar(200) DEFAULT NULL,
   `pharm_cat_desc` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `his_pharmaceuticals_categories`
---
-
-INSERT INTO `his_pharmaceuticals_categories` (`pharm_cat_id`, `pharm_cat_name`, `pharm_cat_vendor`, `pharm_cat_desc`) VALUES
-(1, 'Antipyretics', 'Cosmos Kenya Limited', '<ul><li>An <strong>antipyretic</strong> (<a href=\"https://en.wikipedia.org/wiki/Help:IPA/English\">/ËŒ&aelig;ntipaÉªËˆrÉ›tÉªk/</a>, from <em>anti-</em> &#39;against&#39; and <em><a href=\"https://en.wiktionary.org/wiki/pyretic\">pyretic</a></em> &#39;feverish&#39;) is a substance that reduces <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>. Antipyretics cause the <a href=\"https://en.wikipedia.org/wiki/Hypothalamus\">hypothalamus</a> to override a <a href=\"https://en.wikipedia.org/wiki/Prostaglandin\">prostaglandin</a>-induced increase in <a href=\"https://en.wikipedia.org/wiki/Thermoregulation\">temperature</a>. The body then works to lower the temperature, which results in a reduction in fever.</li><li>Most antipyretic medications have other purposes. The most common antipyretics in the United States are <a href=\"https://en.wikipedia.org/wiki/Ibuprofen\">ibuprofen</a> and <a href=\"https://en.wikipedia.org/wiki/Aspirin\">aspirin</a>, which are <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drugs\">nonsteroidal anti-inflammatory drugs</a> (NSAIDs) used primarily as <a href=\"https://en.wikipedia.org/wiki/Analgesics\">analgesics</a> (pain relievers), but which also have antipyretic properties; and <a href=\"https://en.wikipedia.org/wiki/Acetaminophen\">acetaminophen</a> (paracetamol), an analgesic with weak anti-inflammatory properties.<a href=\"https://en.wikipedia.org/wiki/Antipyretic#cite_note-2\">[2]</a></li></ul>'),
-(2, 'Analgesics', 'Dawa Limited Kenya', '<ul><li><p>An <strong>analgesic</strong> or <strong>painkiller</strong> is any member of the group of <a href=\"https://en.wikipedia.org/wiki/Pharmaceutical_drug\">drugs</a> used to achieve analgesia, relief from <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a>.</p><p>Analgesic drugs act in various ways on the <a href=\"https://en.wikipedia.org/wiki/Peripheral_nervous_system\">peripheral</a> and <a href=\"https://en.wikipedia.org/wiki/Central_nervous_system\">central</a> nervous systems. They are distinct from <a href=\"https://en.wikipedia.org/wiki/Anesthetic\">anesthetics</a>, which temporarily affect, and in some instances completely eliminate, <a href=\"https://en.wikipedia.org/wiki/Sense\">sensation</a>. Analgesics include <a href=\"https://en.wikipedia.org/wiki/Paracetamol\">paracetamol</a> (known in North America as <a href=\"https://en.wikipedia.org/wiki/Acetaminophen\">acetaminophen</a> or simply APAP), the <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drug\">nonsteroidal anti-inflammatory drugs</a> (NSAIDs) such as the <a href=\"https://en.wikipedia.org/wiki/Salicylate\">salicylates</a>, and <a href=\"https://en.wikipedia.org/wiki/Opioid\">opioid</a> drugs such as <a href=\"https://en.wikipedia.org/wiki/Morphine\">morphine</a> and <a href=\"https://en.wikipedia.org/wiki/Oxycodone\">oxycodone</a>.</p></li></ul>'),
-(3, 'Antibiotics', 'Cosmos Kenya Limited', '<p>Antibiotics</p>');
 
 -- --------------------------------------------------------
 
@@ -257,7 +318,9 @@ CREATE TABLE `his_prescriptions` (
 --
 
 INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pres_pat_number`, `pres_number`, `pres_pat_addr`, `pres_pat_type`, `pres_date`, `pres_pat_ailment`, `pres_ins`) VALUES
-(7, 'Arnel  Puagang', '24', 'BX946', 'V7PLS', 'tankulan', 'InPatient', '2024-08-29 02:43:01.2507', 'demo test', '<ul><li>Antibiotics</li><li>Antihistamines</li><li>Chronic Pain Medicines</li><li>Diethylstilbestrol.</li></ul>');
+(8, 'Reggie Madrijanon', '24', '0812674', '2MODN', 'Manolo Fortich', 'InPatient', '2024-08-31 14:02:59.2055', 'Fever', '<p>fdsf</p>'),
+(9, 'Arnel  Puagang', '24', 'BX946', '3V61C', 'tankulan', 'InPatient', '2024-09-10 03:07:12.8923', 'demo test', '<p>ahhh</p>'),
+(10, 'Arnel  Puagang', '24', 'BX946', '4L0WR', 'tankulan', 'InPatient', '2024-09-10 03:08:36.4505', 'demo test', '<p>add</p>');
 
 -- --------------------------------------------------------
 
@@ -276,14 +339,29 @@ CREATE TABLE `his_surgery` (
   `s_pat_status` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `his_surgery`
+-- Table structure for table `his_vendor`
 --
 
-INSERT INTO `his_surgery` (`s_id`, `s_number`, `s_doc`, `s_pat_number`, `s_pat_name`, `s_pat_ailment`, `s_pat_date`, `s_pat_status`) VALUES
-(2, '8KQWD', 'Martin Mbithi', 'RAV6C', 'John Doe', 'Malaria', '2020-01-13 08:50:10.649889', 'Successful'),
-(3, '7K18R', 'Bryan Arreola', '3Z14K', 'Cynthia Connolly', 'Demo Test', '2022-10-18 17:26:44.053571', 'Successful'),
-(4, 'ECF62', 'Bryan Arreola', '4TLG0', 'Christine Moore', 'Demo Test', '2022-10-22 11:03:33.765255', 'Successful');
+CREATE TABLE `his_vendor` (
+  `v_id` int(20) NOT NULL,
+  `v_number` varchar(200) DEFAULT NULL,
+  `v_name` varchar(200) DEFAULT NULL,
+  `v_adr` varchar(200) DEFAULT NULL,
+  `v_mobile` varchar(200) DEFAULT NULL,
+  `v_email` varchar(200) DEFAULT NULL,
+  `v_phone` varchar(200) DEFAULT NULL,
+  `v_desc` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `his_vendor`
+--
+
+INSERT INTO `his_vendor` (`v_id`, `v_number`, `v_name`, `v_adr`, `v_mobile`, `v_email`, `v_phone`, `v_desc`) VALUES
+(1, '6ISKC', 'Cosmos Pharmaceutical Limited', 'P.O. Box 41433, GPO 00100 Nairobi, Kenya', '', 'info@cosmospharmaceuticallimited.com', '+254(20)550700-9', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>');
 
 -- --------------------------------------------------------
 
@@ -314,9 +392,135 @@ INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytem
 (7, 'ASW85', 'G2ECJ', '123', 'ok', 'ok', 'ok', '2024-08-29 01:59:38.605176'),
 (8, 'A0HGJ', 'BX946', '36.1', '69', '15', '120', '2024-08-29 02:24:13.147421');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_xrays`
+--
+
+CREATE TABLE `his_xrays` (
+  `xray_id` int(11) NOT NULL,
+  `xray_pat_name` varchar(255) DEFAULT NULL,
+  `xray_pat_number` varchar(100) DEFAULT NULL,
+  `xray_pat_adr` varchar(255) DEFAULT NULL,
+  `xray_pat_age` int(11) DEFAULT NULL,
+  `xray_number` varchar(100) DEFAULT NULL,
+  `xray_description` text DEFAULT NULL,
+  `xray_image_path` varchar(255) DEFAULT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `his_xrays`
+--
+
+INSERT INTO `his_xrays` (`xray_id`, `xray_pat_name`, `xray_pat_number`, `xray_pat_adr`, `xray_pat_age`, `xray_number`, `xray_description`, `xray_image_path`, `uploaded_at`) VALUES
+(6, 'James Kenneth Manait', 'SQ0DO', 'Damilag', 23, NULL, 'okays', 'C:/xampp/htdocs/uploads/xrays/xray.PNG', '2024-09-30 13:03:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `status` varchar(20) DEFAULT 'Unread',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient`
+--
+
+CREATE TABLE `patient` (
+  `patient_id` int(11) NOT NULL,
+  `pemail` varchar(255) NOT NULL,
+  `pname` varchar(255) NOT NULL,
+  `ppassword` varchar(255) NOT NULL,
+  `paddress` varchar(255) DEFAULT NULL,
+  `pnic` varchar(15) DEFAULT NULL,
+  `pdob` date DEFAULT NULL,
+  `ptel` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient`
+--
+
+INSERT INTO `patient` (`patient_id`, `pemail`, `pname`, `ppassword`, `paddress`, `pnic`, `pdob`, `ptel`) VALUES
+(1, 'jkmanait@gmail.com', 'james kenneth', 'james@123', 'Damilag', '', '2001-05-29', '09090909090'),
+(2, 'arnel@gmail.com', 'ar nel', 'arnel@123', 'manolo', '', '2001-10-10', '09000000000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schedule`
+--
+
+CREATE TABLE `schedule` (
+  `scheduleid` int(11) NOT NULL,
+  `docid` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `scheduledate` date DEFAULT NULL,
+  `scheduletime` time DEFAULT NULL,
+  `nop` int(4) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+-- Error reading data for table uhc.schedule: #1194 - Table 'schedule' is marked as crashed and should be repaired
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `services`
+--
+
+CREATE TABLE `services` (
+  `id` int(11) NOT NULL,
+  `service_name` varchar(255) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `webuser`
+--
+
+CREATE TABLE `webuser` (
+  `email` varchar(255) NOT NULL,
+  `usertype` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `webuser`
+--
+
+INSERT INTO `webuser` (`email`, `usertype`) VALUES
+('arnel@gmail.com', 'p'),
+('jkmanait@gmail.com', 'p'),
+('sample@gmail.com', 'p');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_id` (`patient_id`);
+
+--
+-- Indexes for table `doctor`
+--
+ALTER TABLE `doctor`
+  ADD PRIMARY KEY (`docid`),
+  ADD KEY `specialties` (`specialties`);
 
 --
 -- Indexes for table `his_admin`
@@ -347,6 +551,12 @@ ALTER TABLE `his_laboratory`
 --
 ALTER TABLE `his_medical_records`
   ADD PRIMARY KEY (`mdr_id`);
+
+--
+-- Indexes for table `his_nurse_note`
+--
+ALTER TABLE `his_nurse_note`
+  ADD PRIMARY KEY (`nur_id`);
 
 --
 -- Indexes for table `his_patients`
@@ -391,8 +601,57 @@ ALTER TABLE `his_vitals`
   ADD PRIMARY KEY (`vit_id`);
 
 --
+-- Indexes for table `his_xrays`
+--
+ALTER TABLE `his_xrays`
+  ADD PRIMARY KEY (`xray_id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `patient`
+--
+ALTER TABLE `patient`
+  ADD PRIMARY KEY (`patient_id`);
+
+--
+-- Indexes for table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD PRIMARY KEY (`scheduleid`),
+  ADD KEY `docid` (`docid`);
+
+--
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `webuser`
+--
+ALTER TABLE `webuser`
+  ADD PRIMARY KEY (`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `doctor`
+--
+ALTER TABLE `doctor`
+  MODIFY `docid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `his_admin`
@@ -416,19 +675,25 @@ ALTER TABLE `his_equipments`
 -- AUTO_INCREMENT for table `his_laboratory`
 --
 ALTER TABLE `his_laboratory`
-  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `his_medical_records`
 --
 ALTER TABLE `his_medical_records`
-  MODIFY `mdr_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `mdr_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `his_nurse_note`
+--
+ALTER TABLE `his_nurse_note`
+  MODIFY `nur_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `his_patient_transfers`
@@ -452,7 +717,7 @@ ALTER TABLE `his_pharmaceuticals_categories`
 -- AUTO_INCREMENT for table `his_prescriptions`
 --
 ALTER TABLE `his_prescriptions`
-  MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `his_surgery`
@@ -465,6 +730,46 @@ ALTER TABLE `his_surgery`
 --
 ALTER TABLE `his_vitals`
   MODIFY `vit_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `his_xrays`
+--
+ALTER TABLE `his_xrays`
+  MODIFY `xray_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `patient`
+--
+ALTER TABLE `patient`
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `schedule`
+--
+ALTER TABLE `schedule`
+  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
