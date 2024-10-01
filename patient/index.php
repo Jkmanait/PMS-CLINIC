@@ -274,24 +274,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Fetch Appointment Data and Services -->
     <?php
-// Fetch appointment data for the graph
-$appointmentsData = [];
-if ($mysqli) {
-    $result = "SELECT appointment_date, COUNT(*) as total FROM appointments GROUP BY appointment_date";
-    $stmt = $mysqli->prepare($result);
-    if ($stmt) {
-        $stmt->execute();
-        $stmt->bind_result($appointment_date, $total);
-
-        while ($stmt->fetch()) {
-            $appointmentsData[] = ['date' => $appointment_date, 'total' => $total];
+        // Ensure the session is started only if not already active
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
-        $stmt->close();
-    } else {
-        echo "Error in SQL query: " . $mysqli->error;
-    }
-}
-?>
+
+        // Assuming the patient ID is stored in the session when the user logs in
+        $patient_id = $_SESSION['patient_id'] ?? null;
+
+        $appointmentsData = [];
+        if ($mysqli && $patient_id) {
+            // Fetch only the logged-in user's appointments
+            $result = "SELECT appointment_date, COUNT(*) as total FROM appointments WHERE patient_id = ? GROUP BY appointment_date";
+            $stmt = $mysqli->prepare($result);
+            if ($stmt) {
+                // Bind the patient ID to the query
+                $stmt->bind_param('i', $patient_id);
+                $stmt->execute();
+                $stmt->bind_result($appointment_date, $total);
+
+                // Fetch the results into an array
+                while ($stmt->fetch()) {
+                    $appointmentsData[] = ['date' => $appointment_date, 'total' => $total];
+                }
+                $stmt->close();
+            } else {
+                echo "Error in SQL query: " . $mysqli->error;
+            }
+        } else {
+            echo "Error: No patient ID found or database connection error.";
+        }
+    ?>
+
+
 
 <!-- Appointment Graph Section -->
 <div class="row mt-5">
