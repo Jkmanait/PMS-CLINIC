@@ -69,14 +69,17 @@
 
     <!-- LOGO -->
     <div class="logo-box" style="display: flex; align-items: center; white-space: nowrap;">
-    <a href="his_admin_dashboard.php" class="logo text-center" style="display: flex; align-items: center;">
+    <a href="index.php" class="logo text-center" style="display: flex; align-items: center;">
         <span class="logo-lg">
             <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
         </span>
         <span class="logo-sm">
-                    <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
-                </span>
-        <h1 style="font-size: 20px; color: white; margin-left: 15px; white-space: nowrap;">Mission-Buenaventure Care Family Hospital</h1>
+            <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
+        </span>
+        <div>
+            <h1 style="font-size: 20px; color: white; margin-left: 15px; white-space: nowrap;">Mission-Buenaventure Care Family Hospital</h1>
+            <h1 style="font-size: 15px; color: white; margin-left: 15px; white-space: nowrap;">Damilag, Manolo Fortich, Bukidnon</h1>
+        </div>
     </a>
 </div>
 
