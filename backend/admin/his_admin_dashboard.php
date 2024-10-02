@@ -134,32 +134,7 @@
         </div>
     </div>
 
-    <!-- Corporation Assets -->
-    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
-        <div class="widget-rounded-circle card-box ">
-            <div class="row">
-                <div class="col-6">
-                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                        <i class="mdi mdi-flask font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="text-right">
-                        <?php
-                            // Summing up number of assets
-                            $result = "SELECT count(*) FROM his_equipments";
-                            $stmt = $mysqli->prepare($result);
-                            $stmt->execute();
-                            $stmt->bind_result($assets);
-                            $stmt->fetch();
-                            $stmt->close();
-                        ?>
-                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $assets; ?></span></h3>
-                        <p class="mb-1 text-truncate" style="color: black;">Corporation Assets</p> <!-- Text color black -->
-                    </div>
-                </div>
-            </div>
-        </div>
+    
 
 <!-- Fetch Appointment Data and Services -->
     <?php
@@ -249,33 +224,7 @@ if ($mysqli) {
 
     </div>
 
-    <!-- Pharmaceuticals -->
-    <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
-        <div class="widget-rounded-circle card-box">
-            <div class="row">
-                <div class="col-6">
-                    <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                        <i class="mdi mdi-pill font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="text-right">
-                        <?php
-                            // Summing up number of pharmaceuticals
-                            $result = "SELECT count(*) FROM his_pharmaceuticals";
-                            $stmt = $mysqli->prepare($result);
-                            $stmt->execute();
-                            $stmt->bind_result($phar);
-                            $stmt->fetch();
-                            $stmt->close();
-                        ?>
-                        <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $phar; ?></span></h3>
-                        <p class="mb-1 text-truncate" style="color: black;">Pharmaceuticals</p> <!-- Text color black -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
+    
 </div>
 
 

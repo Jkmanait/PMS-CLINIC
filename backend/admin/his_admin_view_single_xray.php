@@ -98,7 +98,7 @@
                                 <div class="tab-content pt-0">
                                     <div class="tab-pane active show" id="product-1-item">
                                         <!-- Display the image -->
-                                        <img src="../../xray/<?php echo $row->xray_image_path; ?>" alt="X-Ray" class="img-fluid mx-auto d-block rounded">
+                                        <img src="<?php echo str_replace('C:/xampp/htdocs', '', htmlspecialchars($row->xray_image_path)); ?>" alt="X-Ray" class="img-fluid mx-auto d-block rounded">                                    
                                     </div>
                                 </div>
                             </div>
