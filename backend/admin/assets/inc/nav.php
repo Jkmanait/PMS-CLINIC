@@ -69,7 +69,7 @@
 
     <!-- LOGO -->
     <div class="logo-box" style="display: flex; align-items: center; white-space: nowrap;">
-    <a href="index.php" class="logo text-center" style="display: flex; align-items: center;">
+    <a href="his_admin_dashboard.php" class="logo text-center" style="display: flex; align-items: center;">
         <span class="logo-lg">
             <img src="assets/images/logo.png.png" style="height: 100px; width: 100px; margin-top: -7px;" alt="Logo">
         </span>

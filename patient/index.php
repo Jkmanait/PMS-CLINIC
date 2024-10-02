@@ -312,7 +312,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="row mt-5">
     <div class="col-12 d-flex justify-content-center">
         <div class="card-box" style="background-color: #f0f0f0;"> <!-- Gray background for the graph container -->
-            <h4 class="header-title mb-3">Appointments Over Time</h4>
+            <h4 class="header-title mb-3">Your Appointments</h4>
             <canvas id="appointmentGraph" style="height: 300px; width: 100%; background-color: #f0f0f0;"></canvas> <!-- Gray background for the canvas -->
         </div>
     </div>

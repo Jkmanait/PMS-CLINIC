@@ -45,38 +45,6 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
-                        <i class="mdi mdi-pill"></i>
-                        <span> Pharmacy </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_add_pharm_cat.php" style="font-size: 16px; color: black;">Add Pharm Category</a></li>
-                        <li><a href="his_admin_view_pharm_cat.php" style="font-size: 16px; color: black;">View Pharm Category</a></li>
-                        <li><a href="his_admin_manage_pharm_cat.php" style="font-size: 16px; color: black;">Manage Pharm Category</a></li>
-                        <hr>
-                        <li><a href="his_admin_add_pharmaceuticals.php" style="font-size: 16px; color: black;">Add Pharmaceuticals</a></li>
-                        <li><a href="his_admin_view_pharmaceuticals.php" style="font-size: 16px; color: black;">View Pharmaceuticals</a></li>
-                        <li><a href="his_admin_manage_pharmaceuticals.php" style="font-size: 16px; color: black;">Manage Pharmaceuticals</a></li>
-                        <hr>
-                        <li><a href="his_admin_add_presc.php" style="font-size: 16px; color: black;">Add Prescriptions</a></li>
-                        <li><a href="his_admin_view_presc.php" style="font-size: 16px; color: black;">View Prescriptions</a></li>
-                        <li><a href="his_admin_manage_presc.php" style="font-size: 16px; color: black;">Manage Prescriptions</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
-                        <i class="fas fa-funnel-dollar"></i>
-                        <span> Inventory </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_pharm_inventory.php" style="font-size: 16px; color: black;">Pharmaceuticals</a></li>
-                        <li><a href="his_admin_equipments_inventory.php" style="font-size: 16px; color: black;">Assets</a></li>
-                    </ul>
-                </li>
 
                 <li>
                     <a href="javascript: void(0);" style="font-size: 18px; color: black;">
@@ -145,23 +113,7 @@
                         <li><a href="his_admin_nurse_note_report.php" style="font-size: 16px; color: black;">Nurse's Notes Reports</a></li>
                        
                     </ul>
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" style="font-size: 18px; color: black;">
-                        <i class="mdi mdi-scissors-cutting"></i>
-                        <span> Surgical / Theatre </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_add_equipment.php" style="font-size: 16px; color: black;">Add Equipment</a></li>
-                        <li><a href="his_admin_manage_equipment.php" style="font-size: 16px; color: black;">Manage Equipments</a></li>
-                        <li><a href="his_admin_add_theatre_patient.php" style="font-size: 16px; color: black;">Add Patient</a></li>
-                        <li><a href="his_admin_manage_theatre_patient.php" style="font-size: 16px; color: black;">Manage Patients</a></li>
-                        <li><a href="his_admin_surgery_records.php" style="font-size: 16px; color: black;">Surgery Records</a></li>
-                    </ul>
-                </li>
-
+                </li>                
 
             </ul>
 
