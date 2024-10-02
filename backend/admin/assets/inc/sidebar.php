@@ -55,7 +55,7 @@
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="his_admin_inpatient_records.php" style="font-size: 16px; color: black;">InPatient Records</a></li>
                         <li><a href="his_admin_outpatient_records.php" style="font-size: 16px; color: black;">OutPatient Records</a></li>
-                        <li><a href="his_admin_pharmaceutical_records.php" style="font-size: 16px; color: black;">Pharmaceutical Records</a></li>
+                        <!-- <li><a href="his_admin_pharmaceutical_records.php" style="font-size: 16px; color: black;">Pharmaceutical Records</a></li> -->
                         <li><a href="his_admin_medical_records.php" style="font-size: 16px; color: black;">Medical Records</a></li>
                     </ul>
                 </li>
@@ -96,8 +96,8 @@
                         <li><a href="his_admin_patient_lab_vitals.php" style="font-size: 16px; color: black;">Patient Vitals</a></li>
                         <li><a href="his_admin_lab_report.php" style="font-size: 16px; color: black;">Lab Reports</a></li>
                         <hr>
-                        <li><a href="his_admin_add_lab_equipment.php" style="font-size: 16px; color: black;">Add Lab Equipment</a></li>
-                        <li><a href="his_admin_manage_lab_equipment.php" style="font-size: 16px; color: black;">Manage Lab Equipments</a></li>
+                        <!-- <li><a href="his_admin_add_lab_equipment.php" style="font-size: 16px; color: black;">Add Lab Equipment</a></li>
+                        <li><a href="his_admin_manage_lab_equipment.php" style="font-size: 16px; color: black;">Manage Lab Equipments</a></li> -->
                     </ul>
                 </li>
 
