@@ -109,45 +109,41 @@
                                         <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th data-toggle="true">Name</th>
-                                                <th data-hide="phone">Number</th>
-                                                <th data-hide="phone">Address</th>
-                                                <th data-hide="phone">Phone</th>
-                                                <th data-hide="phone">Age</th>
-                                                <th data-hide="phone">Category</th>
-                                                <th data-hide="phone">Action</th>
+                                                    <th>#</th>
+                                                    <th data-toggle="true">Name</th>
+                                                    <th data-hide="phone">MRN number</th>
+                                                    <th data-hide="phone">Address</th>
+                                                    <th data-hide="phone">Mobile Number</th>
+                                                    <th data-hide="phone">Age</th>
+                                                    <th data-hide="phone">Category</th>
+                                                    <th data-hide="phone">Action</th>
                                             </tr>
                                             </thead>
                                             <?php
                                             /*
-                                                *get details of allpatients
-                                                *
-                                            */
-                                                $ret="SELECT * FROM  his_patients ORDER BY RAND() "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
+                                                * Get details of all patients ordered by pat_id
+                                                */
+                                            $ret = "SELECT * FROM his_patients ORDER BY pat_id ASC"; // Order by pat_id in ascending order
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute();
+                                            $res = $stmt->get_result();
+                                            while ($row = $res->fetch_object()) {
                                             ?>
 
                                                 <tbody>
                                                 <tr>
-                                                    <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->pat_fname;?> <?php echo $row->pat_lname;?></td>
-                                                    <td><?php echo $row->pat_number;?></td>
-                                                    <td><?php echo $row->pat_addr;?></td>
-                                                    <td><?php echo $row->pat_phone;?></td>
-                                                    <td><?php echo $row->pat_age;?> Years</td>
-                                                    <td><?php echo $row->pat_type;?></td>
+                                                <td><?php echo $row->pat_id; ?></td>
+                                                        <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
+                                                        <td><?php echo $row->pat_number; ?></td>
+                                                        <td><?php echo $row->pat_addr; ?></td>
+                                                        <td><?php echo $row->pat_phone; ?></td>
+                                                        <td><?php echo $row->pat_age; ?> Years</td>
+                                                        <td><?php echo $row->pat_type; ?></td>                                                
                                                     
                                                     <td><a href="his_admin_add_single_patient_medical_record.php?pat_number=<?php echo $row->pat_number;?>" class="badge badge-success"><i class=" fas fa-file-signature"></i> Add Medical Record</a></td>
                                                 </tr>
                                                 </tbody>
-                                            <?php  $cnt = $cnt +1 ; }?>
+                                            <?php } ?>
                                             <tfoot>
                                             <tr class="active">
                                                 <td colspan="8">

@@ -27,10 +27,8 @@
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="his_admin_register_patient.php" style="font-size: 16px; color: black;">Register Patient</a></li>
                         <li><a href="his_admin_view_patients.php" style="font-size: 16px; color: black;">View Patients</a></li>
-                        <li><a href="his_admin_manage_patient.php" style="font-size: 16px; color: black;">Manage Patients</a></li>
-                        <hr>
-                        <li><a href="his_admin_discharge_patient.php" style="font-size: 16px; color: black;">Discharge Patients</a></li>
-                        <li><a href="his_admin_patient_transfer.php" style="font-size: 16px; color: black;">Patient Transfers</a></li>
+                        <li><a href="his_admin_manage_patient.php" style="font-size: 16px; color: black;">Manage Patients</a></li>                                            
+                        
                     </ul>
                 </li>
 
@@ -53,7 +51,7 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_inpatient_records.php" style="font-size: 16px; color: black;">InPatient Records</a></li>
+                        <!-- <li><a href="his_admin_inpatient_records.php" style="font-size: 16px; color: black;">InPatient Records</a></li> -->
                         <li><a href="his_admin_outpatient_records.php" style="font-size: 16px; color: black;">OutPatient Records</a></li>
                         <!-- <li><a href="his_admin_pharmaceutical_records.php" style="font-size: 16px; color: black;">Pharmaceutical Records</a></li> -->
                         <li><a href="his_admin_medical_records.php" style="font-size: 16px; color: black;">Medical Records</a></li>
@@ -95,7 +93,7 @@
                         <li><a href="his_admin_patient_lab_result.php" style="font-size: 16px; color: black;">Patient Lab Results</a></li>
                         <li><a href="his_admin_patient_lab_vitals.php" style="font-size: 16px; color: black;">Patient Vitals</a></li>
                         <li><a href="his_admin_lab_report.php" style="font-size: 16px; color: black;">Lab Reports</a></li>
-                        <hr>
+                        
                         <!-- <li><a href="his_admin_add_lab_equipment.php" style="font-size: 16px; color: black;">Add Lab Equipment</a></li>
                         <li><a href="his_admin_manage_lab_equipment.php" style="font-size: 16px; color: black;">Manage Lab Equipments</a></li> -->
                     </ul>

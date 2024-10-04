@@ -127,13 +127,14 @@
                                         <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th data-toggle="true">Patient Name</th>
-                                                <th data-hide="phone">Patient Number</th>
-                                                <th data-hide="phone">Address</th>
-                                                <th data-hide="phone">Ailment</th>
-                                                <th data-hide="phone">Age</th>
-                                                <th data-hide="phone">Action</th>
+                                                    <th>#</th>
+                                                    <th data-toggle="true">Name</th>
+                                                    <th data-hide="phone">MRN number</th>
+                                                    <th data-hide="phone">Address</th>
+                                                    <th data-hide="phone">Mobile Number</th>
+                                                    <th data-hide="phone">Age</th>
+                                                    <th data-hide="phone">Category</th>
+                                                    <th data-hide="phone">Action</th>
                                             </tr>
                                             </thead>
                                             <?php

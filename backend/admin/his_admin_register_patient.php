@@ -124,10 +124,11 @@
                                         </div>
 
                                         <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label for="inputCity" class="col-form-label">Mobile Number</label>
-                                                <input required="required" type="text" name="pat_phone" class="form-control" id="inputCity">
-                                            </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputCity" class="col-form-label">Mobile Number</label>
+                                            <input required="required" type="text" name="pat_phone" class="form-control" id="inputCity" maxlength="11" pattern="09\d{9}" title="Mobile number must start with 09 and be 11 digits long">
+                                        </div>
+
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity" class="col-form-label">Patient Ailment</label>
                                                 <input required="required" type="text" name="pat_ailment" class="form-control" id="inputCity">
@@ -135,18 +136,36 @@
                                             <div class="form-group col-md-4">
                                                 <label for="inputState" class="col-form-label">Patient's Type</label>
                                                 <select id="inputState" required="required" name="pat_type" class="form-control">
-                                                    <option>Choose</option>
-                                                    <option>InPatient</option>
+                                                    <!-- <option>Choose</option>
+                                                    <option>InPatient</option> -->
                                                     <option>OutPatient</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-2" style="display:none">
-                                                <?php 
-                                                    $length = 7;    
-                                                    $patient_number =  substr(str_shuffle('0123456789'),1,$length);
-                                                ?>
-                                                <label for="inputZip" class="col-form-label">Patient Number</label>
-                                                <input type="text" name="pat_number" value="<?php echo $patient_number;?>" class="form-control" id="inputZip">
+                                            <?php
+                                            function generateUniquePatientNumber($mysqli) {
+                                                $length = 7;
+                                                do {
+                                                    $pat_number = substr(str_shuffle('0123456789'), 1, $length);
+
+                                                    // Check if the patient number already exists in the database
+                                                    $stmt = $mysqli->prepare("SELECT pat_number FROM his_patients WHERE pat_number = ?");
+                                                    $stmt->bind_param('s', $pat_number);
+                                                    $stmt->execute();
+                                                    $stmt->store_result();
+                                                    $exists = $stmt->num_rows > 0;
+
+                                                } while ($exists);  // Keep generating a new number until it's unique
+
+                                                return $pat_number;
+                                            }
+
+                                            // Call the function to get a unique patient number
+                                            $pat_number = generateUniquePatientNumber($mysqli);
+                                            ?>
+
+                                                <label for="inputZip" class="col-form-label">MRN Number</label>
+                                                <input type="text" name="pat_number" value="<?php echo $pat_number;?>" class="form-control" id="inputZip">
                                             </div>
                                         </div>
 
