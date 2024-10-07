@@ -107,18 +107,19 @@
                                     
                                     <div class="table-responsive">
                                         <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
-                                            <thead>
-                                                <tr>
-                                                    <td>#</td>
-                                                    <td data-toggle="true">Name</td>
-                                                    <td data-hide="phone">MRN number</td>
-                                                    <td data-hide="phone">Address</td>
-                                                    <td data-hide="phone">Mobile Number</td>
-                                                    <td data-hide="phone">Age</td>
-                                                    <td data-hide="phone">Category</td>
-                                                    <td data-hide="phone">Action</td>
-                                                </tr>
-                                            </thead>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th data-toggle="true">Name</th>
+                                                <th data-hide="phone">MRN number</th>
+                                                <th data-hide="phone">Address</th>
+                                                <th data-hide="phone">Mobile Number</th>
+                                                <th data-hide="phone">Age</th>
+                                                <th data-hide="phone">Category</th>
+                                                <th data-hide="phone">Action</th>
+                                            </tr>
+                                        </thead>
+
                                             <?php
                                             /*
                                                 * Get details of all patients ordered by pat_id
