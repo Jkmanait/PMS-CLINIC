@@ -113,7 +113,7 @@
                                                         <option value="">Show all</option>
                                                         <option value="Discharged">Discharged</option>
                                                         <option value="OutPatients">OutPatients</option>
-                                                        <option value="InPatients">InPatients</option>
+                                                        <!-- <option value="InPatients">InPatients</option> -->
                                                     </select>
                                                 </div>
                                                 <div class="form-group">

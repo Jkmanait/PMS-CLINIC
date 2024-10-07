@@ -12,7 +12,7 @@ if (isset($_GET['delete_soap_id'])) {
     $stmt->bind_param('i', $id);
     
     if ($stmt->execute()) {
-        $success = "SOAP Record Deleted";
+        $success = "Medical Record Deleted";
     } else {
         $err = "Try Again Later";
     }
@@ -63,11 +63,11 @@ if (isset($_GET['delete_soap_id'])) {
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">SOAP Records</a></li>
-                                        <li class="breadcrumb-item active">Manage SOAP Records</li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Medical Records</a></li>
+                                        <li class="breadcrumb-item active">Manage Medical Records</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Manage SOAP Records</h4>
+                                <h4 class="page-title">Manage Medical Records</h4>
                             </div>
                         </div>
                     </div>

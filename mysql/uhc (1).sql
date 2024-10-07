@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2024 at 01:42 AM
+-- Generation Time: Oct 07, 2024 at 08:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -181,7 +181,9 @@ CREATE TABLE `his_medical_records` (
 INSERT INTO `his_medical_records` (`mdr_id`, `mdr_number`, `mdr_pat_name`, `mdr_pat_adr`, `mdr_pat_age`, `mdr_pat_ailment`, `mdr_pat_number`, `mdr_pat_prescr`, `mdr_date_rec`) VALUES
 (15, 'HSZVE', 'Arnel  Puagang', 'tankulan', '24', 'demo test', 'BX946', '<p>sad</p>\r\n', '2024-09-10 03:09:58.4730'),
 (16, '1TCNM', 'Roniel  Barrio', 'Manolo Fortich', '23', 'Diabetes', 'AYZKI', '<p>sad</p>\r\n', '2024-09-10 05:54:49.9399'),
-(17, 'EH81C', 'James Kenneth Manait', 'Damilag', '23', 'Fever', 'SQ0DO', '<p>sample</p>\r\n', '2024-09-16 14:12:16.4188');
+(17, 'EH81C', 'James Kenneth Manait', 'Damilag', '23', 'Fever', 'SQ0DO', '<p>sample</p>\r\n', '2024-09-16 14:12:16.4188'),
+(18, 'Q94ZX', 'Arnel  Puagang', 'tankulan', '24', 'demo test', 'BX946', NULL, '2024-10-05 12:46:51.8836'),
+(19, '1NIOZ', 'Arnel  Puagang', 'tankulan', '24', 'demo test', 'BX946', NULL, '2024-10-06 13:30:19.6666');
 
 -- --------------------------------------------------------
 
@@ -236,12 +238,11 @@ CREATE TABLE `his_patients` (
 --
 
 INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
-(14, 'Arnel ', 'Puagang', '12121212', '24', 'BX946', 'tankulan', '090909090909', 'InPatient', '2024-08-29 02:15:02.544462', 'demo test', NULL),
-(15, 'Roniel ', 'Barrio', '111111', '23', 'AYZKI', 'Manolo Fortich', '090909090912', 'InPatient', '2024-08-29 02:16:49.829152', 'Diabetes', NULL),
-(16, 'James Kenneth', 'Manait', '052901', '23', 'SQ0DO', 'Damilag', '090909090000', 'OutPatient', '2024-08-29 02:17:30.892880', 'Fever', NULL),
-(17, 'Karla', 'Lagrimas', '092301', '23', 'AP2MT', 'Damilag', '090909011111', 'InPatient', '2024-08-29 02:18:26.550250', 'Fever', NULL),
-(18, 'Hencez', 'Taborno', '092201', '23', 'FB4TY', 'Manolo Fortich', '090909090111', 'InPatient', '2024-08-29 02:18:54.044562', 'Diabetes', NULL),
-(19, 'Reggie', 'Madrijanon', '090909', '24', '0812674', 'Manolo Fortich', '090909090901', 'InPatient', '2024-08-31 13:29:07.103371', 'Fever', NULL);
+(19, 'Reggie', 'Madrijanon', '090909', '24', '0812674', 'Manolo Fortich', '090909090901', 'InPatient', '2024-08-31 13:29:07.103371', 'Fever', NULL),
+(23, 'James Kenneth', 'Manait', '2001-05-29', '23', '9571628', 'Damilag, Manolo Fortcih, Bukidnon', '09111111111', 'OutPatient', '2024-10-07 05:59:35.626094', 'Fever', NULL),
+(24, 'Arnel ', 'Puagang', '1999-10-22', '25', '1253947', 'Dicklum, Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:03.951702', 'Allergies', NULL),
+(25, 'Roniel', 'Barrio', '1111-11-11', '23', '9584276', 'Lingi-on, Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:28.987461', 'Chronic pain', NULL),
+(26, 'Hencez Heart', 't', '2222-11-11', '23', '5479162', 'Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:48.225320', 'Allergies', NULL);
 
 -- --------------------------------------------------------
 
@@ -321,6 +322,35 @@ INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pr
 (8, 'Reggie Madrijanon', '24', '0812674', '2MODN', 'Manolo Fortich', 'InPatient', '2024-08-31 14:02:59.2055', 'Fever', '<p>fdsf</p>'),
 (9, 'Arnel  Puagang', '24', 'BX946', '3V61C', 'tankulan', 'InPatient', '2024-09-10 03:07:12.8923', 'demo test', '<p>ahhh</p>'),
 (10, 'Arnel  Puagang', '24', 'BX946', '4L0WR', 'tankulan', 'InPatient', '2024-09-10 03:08:36.4505', 'demo test', '<p>add</p>');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_soap_records`
+--
+
+CREATE TABLE `his_soap_records` (
+  `soap_id` int(11) NOT NULL,
+  `mdr_number` varchar(50) DEFAULT NULL,
+  `soap_pat_name` varchar(255) NOT NULL,
+  `soap_pat_adr` varchar(255) NOT NULL,
+  `soap_pat_age` varchar(10) NOT NULL,
+  `soap_pat_number` varchar(50) NOT NULL,
+  `soap_pat_ailment` varchar(255) NOT NULL,
+  `soap_subjective` text NOT NULL,
+  `soap_objective` text NOT NULL,
+  `soap_assessment` text NOT NULL,
+  `soap_plan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `his_soap_records`
+--
+
+INSERT INTO `his_soap_records` (`soap_id`, `mdr_number`, `soap_pat_name`, `soap_pat_adr`, `soap_pat_age`, `soap_pat_number`, `soap_pat_ailment`, `soap_subjective`, `soap_objective`, `soap_assessment`, `soap_plan`, `created_at`) VALUES
+(670373, '62948', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '9571628', 'Fever', 'A', 'B', 'C', 'D', '2024-10-07 06:01:26'),
+(2147483647, '62948', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '9571628', 'Fever', 'E', 'F', 'G', 'H', '2024-10-07 06:02:00');
 
 -- --------------------------------------------------------
 
@@ -470,7 +500,6 @@ CREATE TABLE `schedule` (
   `scheduletime` time DEFAULT NULL,
   `nop` int(4) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
--- Error reading data for table uhc.schedule: #1194 - Table 'schedule' is marked as crashed and should be repaired
 
 -- --------------------------------------------------------
 
@@ -589,6 +618,12 @@ ALTER TABLE `his_prescriptions`
   ADD PRIMARY KEY (`pres_id`);
 
 --
+-- Indexes for table `his_soap_records`
+--
+ALTER TABLE `his_soap_records`
+  ADD PRIMARY KEY (`soap_id`);
+
+--
 -- Indexes for table `his_surgery`
 --
 ALTER TABLE `his_surgery`
@@ -681,7 +716,7 @@ ALTER TABLE `his_laboratory`
 -- AUTO_INCREMENT for table `his_medical_records`
 --
 ALTER TABLE `his_medical_records`
-  MODIFY `mdr_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `mdr_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `his_nurse_note`
@@ -693,7 +728,7 @@ ALTER TABLE `his_nurse_note`
 -- AUTO_INCREMENT for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `his_patient_transfers`
@@ -718,6 +753,12 @@ ALTER TABLE `his_pharmaceuticals_categories`
 --
 ALTER TABLE `his_prescriptions`
   MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `his_soap_records`
+--
+ALTER TABLE `his_soap_records`
+  MODIFY `soap_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 --
 -- AUTO_INCREMENT for table `his_surgery`
