@@ -41,6 +41,9 @@
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="his_admin_appointment.php" style="font-size: 16px;">My Appointment</a></li>
                     </ul>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_manage_appointments.php" style="font-size: 16px;">Appointment Details</a></li>
+                    </ul>
                 </li>
 
 
