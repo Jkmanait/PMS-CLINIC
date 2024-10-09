@@ -2,7 +2,7 @@
 session_start();
 include('../configuration/config.php');
 
-// Check if the patient is logged in and patient_id is set
+// Check if the patient is logged in
 if (!isset($_SESSION['patient_id'])) {
     header('Location: login.php');
     exit();
@@ -24,63 +24,68 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
         exit();
     }
 
-    // SQL query to insert the appointment data
-    $query = "INSERT INTO appointments (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status)
-              VALUES (?, ?, ?, ?, ?)";
+    // Start transaction to avoid issues with race conditions
+    $mysqli->begin_transaction();
 
-    if ($stmt = $mysqli->prepare($query)) {
-        $stmt->bind_param('issss', $patient_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
-        if ($stmt->execute()) {
-            // Decrease the slot count in the appointment_slots table
-            $update_slots_query = "UPDATE appointment_slots SET slots = slots - 1 WHERE date = ? AND time = ?";
-            if ($update_stmt = $mysqli->prepare($update_slots_query)) {
-                $update_stmt->bind_param('ss', $appointment_date, $appointment_time);
-                $update_stmt->execute();
-            }
-
-            // Insert into patient_appointments table for admin tracking
-            $log_query = "INSERT INTO patient_appointments (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status)
-                          VALUES (?, ?, ?, ?, ?)";
-            if ($log_stmt = $mysqli->prepare($log_query)) {
-                $log_stmt->bind_param('issss', $patient_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
-                $log_stmt->execute();
-            }
-
-            echo json_encode(['status' => 'success']);
+    try {
+        // Insert the new appointment into `appointment` table
+        $insert_appointment_query = "INSERT INTO appointment (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status) VALUES (?, ?, ?, ?, ?)";
+        if ($stmt = $mysqli->prepare($insert_appointment_query)) {
+            $stmt->bind_param('issss', $patient_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
+            $stmt->execute();
         } else {
-            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+            throw new Exception($mysqli->error);
         }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => $mysqli->error]);
+
+        // Decrease the slot count in the `appointment_schedule` table
+        $update_slots_query = "UPDATE appointment_schedule SET slots = slots - 1 WHERE date = ? AND time = ? AND slots > 0";
+        if ($update_stmt = $mysqli->prepare($update_slots_query)) {
+            $update_stmt->bind_param('ss', $appointment_date, $appointment_time);
+            $update_stmt->execute();
+
+            // If no rows were affected, it means there were no available slots
+            if ($update_stmt->affected_rows == 0) {
+                throw new Exception("No available slots for the selected time.");
+            }
+        } else {
+            throw new Exception($mysqli->error);
+        }
+
+        // Commit transaction
+        $mysqli->commit();
+        echo json_encode(['status' => 'success']);
+    } catch (Exception $e) {
+        // Rollback the transaction on error
+        $mysqli->rollback();
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
     exit();
 }
 
-// Fetch available appointment slots (AM/PM)
-$query_slots = "SELECT date, time, slots FROM appointment_slots WHERE slots > 0";
+// Fetch available slots and exceptions from the appointment_schedule table
+$query_slots = "SELECT id, date, time, slots, exception_reason FROM appointment_schedule WHERE slots > 0 OR exception_reason IS NOT NULL";
 $result_slots = $mysqli->query($query_slots);
 
-// Array to store appointment slots
-$appointment_slots = [];
+$events = [];
 while ($row = $result_slots->fetch_assoc()) {
-    $appointment_slots[] = [
-        'date' => $row['date'],
-        'time' => $row['time'],
-        'slots' => $row['slots']
-    ];
-}
-
-// Fetch holiday exceptions
-$query_holidays = "SELECT date, reason FROM calendar_exceptions";
-$result_holidays = $mysqli->query($query_holidays);
-
-// Array to store holiday exceptions
-$holidays = [];
-while ($row = $result_holidays->fetch_assoc()) {
-    $holidays[] = [
-        'date' => $row['date'],
-        'reason' => $row['reason']
-    ];
+    if ($row['slots'] > 0) {
+        // Available slots
+        $events[] = [
+            'title' => 'Available ' . $row['time'] . ': ' . $row['slots'] . ' slots',
+            'start' => $row['date'],
+            'allDay' => true,
+            'color' => 'green',
+            'id' => $row['id']  // 'id' is now selected in the query
+        ];
+    } else if (!empty($row['exception_reason'])) {
+        // Calendar exceptions (holidays, etc.)
+        $events[] = [
+            'title' => $row['exception_reason'],
+            'start' => $row['date'],
+            'allDay' => true,
+            'color' => 'red'
+        ];
+    }
 }
 ?>
 
@@ -103,110 +108,81 @@ while ($row = $result_holidays->fetch_assoc()) {
         }
 
         #calendar {
-            width: 1300px; /* Increase width of the calendar */
-            height: 700px; /* Set height to make it taller */
+            width: 1300px;
+            height: 700px;
             margin: auto;
-        }
-
-        .fc-header-toolbar {
-            font-size: 16px;
-        }
-
-        .fc-daygrid-day-number {
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-        <!-- Begin page -->
-        <div id="wrapper">
+    <!-- Begin page -->
+    <div id="wrapper">
 
-            <!-- Topbar Start -->
-            <?php include('assets/inc/nav.php');?>
-            <!-- end Topbar -->
+        <!-- Topbar Start -->
+        <?php include('assets/inc/nav.php'); ?>
+        <!-- end Topbar -->
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-
-            <div class="content-page">
-                 <!-- Start Content-->
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-19">
-                            <div class="page-title-box">
-                                <br>
-                                <br>
-                                <h3>Book an Appointment</h3>
-                                <div class="calendar-container">
-                                    <div id="calendar"></div>
-                                </div>
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <br>
+                            <br>
+                            <h3>Book an Appointment</h3>
+                            <div class="calendar-container">
+                                <div id="calendar"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                events: [
-                    <?php foreach ($appointment_slots as $slot) : ?>
-                    {
-                        title: 'Available (<?php echo $slot['time'] === 'AM' ? 'AM' : 'PM'; ?>): <?php echo $slot['slots']; ?> slots',
-                        start: '<?php echo $slot['date'] . 'T' . ($slot['time'] == 'AM' ? '09:00' : '13:00'); ?>',
-                        allDay: true,
-                        color: 'green',
-                        id: '<?php echo $slot['date'] . "-" . $slot['time']; ?>' // Unique event ID
-                    },
-                    <?php endforeach; ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    selectable: true,
+                    events: <?php echo json_encode($events); ?>,
+                    eventClick: function(info) {
+                        // Prompt the user for the reason for the appointment
+                        let reason = prompt("Please enter the reason for your appointment:");
+                        let time = info.event.title.includes('AM') ? 'AM' : 'PM'; // Determine time based on event title
 
-                    <?php foreach ($holidays as $holiday) : ?>
-                    {
-                        title: '<?php echo $holiday['reason']; ?>',
-                        start: '<?php echo $holiday['date']; ?>',
-                        allDay: true,
-                        color: 'red'
-                    },
-                    <?php endforeach; ?>
-                ],
-                eventClick: function(info) {
-                    // Prompt the user for the reason for the appointment
-                    let reason = prompt("Please enter the reason for your appointment:");
-
-                    if (reason) {
-                        // Send AJAX request to book the appointment
-                        $.ajax({
-                            url: 'book_appointment.php',
-                            type: 'POST',
-                            data: {
-                                ajax: 'book_appointment',
-                                date: info.event.startStr.split('T')[0],
-                                time: info.event.title.includes('AM') ? 'AM' : 'PM',
-                                reason: reason
-                            },
-                            success: function(response) {
-                                var res = JSON.parse(response);
-                                if (res.status === 'success') {
-                                    alert('Appointment booked successfully!');
-                                    // Reduce the available slots by 1
-                                    info.event.setProp('title', info.event.title.replace(/(\d+)/, function(match) {
-                                        return parseInt(match) - 1;
-                                    }));
-                                } else {
-                                    alert('Error: ' + res.message);
+                        if (reason) {
+                            // Send AJAX request to book the appointment
+                            $.ajax({
+                                url: 'appointment.php',
+                                type: 'POST',
+                                data: {
+                                    ajax: 'book_appointment',
+                                    date: info.event.startStr.split('T')[0], // Extract date from event start
+                                    time: time, // Use determined time
+                                    reason: reason
+                                },
+                                success: function(response) {
+                                    var res = JSON.parse(response);
+                                    if (res.status === 'success') {
+                                        alert('Appointment booked successfully!');
+                                        // Reduce the available slots by 1
+                                        info.event.setProp('title', info.event.title.replace(/(\d+)/, function(match) {
+                                            return parseInt(match) - 1;
+                                        }));
+                                    } else {
+                                        alert('Error: ' + res.message);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
-                }
+                });
+                calendar.render();
             });
-            calendar.render();
-        });
-    </script>
+        </script>
+
+    </div>
 </body>
 </html>

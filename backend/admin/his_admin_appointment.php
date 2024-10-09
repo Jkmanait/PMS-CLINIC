@@ -11,14 +11,14 @@ if (isset($_POST['add_slots'])) {
     // Insert AM slots
     if ($am_slots > 0) {
         $am_time = 'AM';
-        $query_am = "INSERT INTO appointment_slots (date, time, slots) VALUES ('$date', '$am_time', '$am_slots')";
+        $query_am = "INSERT INTO appointment_schedule (date, time, slots) VALUES ('$date', '$am_time', '$am_slots')";
         $mysqli->query($query_am);
     }
 
     // Insert PM slots
     if ($pm_slots > 0) {
         $pm_time = 'PM';
-        $query_pm = "INSERT INTO appointment_slots (date, time, slots) VALUES ('$date', '$pm_time', '$pm_slots')";
+        $query_pm = "INSERT INTO appointment_schedule (date, time, slots) VALUES ('$date', '$pm_time', '$pm_slots')";
         $mysqli->query($query_pm);
     }
 }
@@ -28,13 +28,14 @@ if (isset($_POST['add_exception'])) {
     $holiday_date = $_POST['holiday_date'];
     $holiday_reason = $_POST['holiday_reason'];
 
-    // Insert holiday into calendar_exceptions table
-    $query_exception = "INSERT INTO calendar_exceptions (date, reason) VALUES ('$holiday_date', '$holiday_reason')";
+    // Insert holiday into appointment_schedule table (slots = 0, time = '')
+    $query_exception = "INSERT INTO appointment_schedule (date, time, slots, exception_reason) 
+                        VALUES ('$holiday_date', '', 0, '$holiday_reason')";
     $mysqli->query($query_exception);
 }
 
 // Fetch available appointment slots
-$query_slots = "SELECT * FROM appointment_slots";
+$query_slots = "SELECT * FROM appointment_schedule WHERE slots > 0";
 $result_slots = $mysqli->query($query_slots);
 
 // Array to store appointment slots
@@ -50,7 +51,7 @@ while ($row = $result_slots->fetch_assoc()) {
 }
 
 // Fetch calendar exceptions (e.g., holidays or closed days)
-$query_exceptions = "SELECT * FROM calendar_exceptions";
+$query_exceptions = "SELECT * FROM appointment_schedule WHERE slots = 0";
 $result_exceptions = $mysqli->query($query_exceptions);
 
 // Array to store exceptions (e.g., holidays)
@@ -58,7 +59,7 @@ $calendar_exceptions = [];
 while ($row = $result_exceptions->fetch_assoc()) {
     $calendar_exceptions[] = [
         'id' => $row['id'],
-        'title' => $row['reason'] ? $row['reason'] : "Exception",
+        'title' => $row['exception_reason'] ? $row['exception_reason'] : "Exception",
         'start' => $row['date'],
         'allDay' => true,
         'backgroundColor' => '#dc3545', // red for exceptions/holidays
@@ -115,18 +116,11 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
 </style>
 
 <body>
-
     <div id="wrapper">
-
-        <!-- Topbar Start -->
+        <!-- Topbar and Sidebar includes -->
         <?php include('assets/inc/nav.php'); ?>
-        <!-- end Topbar -->
+        <?php include('assets/inc/sidebar.php'); ?>
 
-        <!-- Left Sidebar Start -->
-        <?php include("assets/inc/sidebar.php"); ?>
-        <!-- Left Sidebar End -->
-
-        <!-- Start Page Content here -->
         <div class="content-page">
             <div class="content">
                 <div class="container-fluid">
@@ -156,7 +150,8 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
                         <!-- Combined Form for Admin to Add Slots and Holiday Exceptions -->
                         <div class="form-container">
                             <form method="POST" action="">
-                                <!-- Existing Fields for Adding Slots -->
+                                <!-- Section for Adding Slots -->
+                                <h4 class="mt-4">Add Appointment Slots</h4>
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <input type="date" id="date" name="date" class="form-control" required>
@@ -169,22 +164,28 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
                                     <label for="pm_slots">PM Slots</label>
                                     <input type="number" id="pm_slots" name="pm_slots" class="form-control" required>
                                 </div>
-                                
+
                                 <!-- Submit Button for Adding Slots -->
                                 <button type="submit" name="add_slots" class="btn btn-success">Add Slots</button>
 
-                                <!-- Holiday Date and Reason Fields at the Bottom -->
+                                <!-- Spacer -->
+                                <hr class="my-4"> <!-- Add horizontal line for separation -->
+
+                                <!-- Section for Adding Holiday Exceptions -->
+                                
                                 <div class="form-group mt-4"> <!-- Add some margin-top for spacing -->
                                     <label for="holiday_date">Holiday Date</label>
-                                    <input type="date" id="holiday_date" name="holiday_date" class="form-control" required>
+                                    <input type="date" id="holiday_date" name="holiday_date" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="holiday_reason">Holiday Reason</label>
-                                    <input type="text" id="holiday_reason" name="holiday_reason" class="form-control" placeholder="e.g., Christmas" required>
+                                    <input type="text" id="holiday_reason" name="holiday_reason" class="form-control" placeholder="e.g., Christmas">
                                 </div>
                                 
                                 <!-- Submit Button for Adding Holiday -->
                                 <button type="submit" name="add_exception" class="btn btn-danger">Add Holiday</button>
+                            </form>
+                        </div>
                             </form>
                         </div>
                     </div>
