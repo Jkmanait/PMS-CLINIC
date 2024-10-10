@@ -2,10 +2,10 @@
     <ul class="list-unstyled topnav-menu float-right mb-0">
 
     <!-- Notification Bell -->
-    <li class="dropdown notification-list">
+    <!-- <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
                 <i class="fe-bell" style="font-size: 25px; margin-right: 25px;"></i>
-                <span class="badge badge-danger rounded-circle noti-icon-badge">3</span> <!-- Notification count -->
+                <span class="badge badge-danger rounded-circle noti-icon-badge">3</span> 
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
                 <div class="dropdown-item noti-title">
@@ -16,10 +16,10 @@
                             </a>
                         </span>Notifications
                     </h6>
-                </div>
+                </div> -->
 
-                <div class="slimscroll noti-scroll">
-                    <!-- Example Notification Items -->
+                <!-- <div class="slimscroll noti-scroll">
+                    
                     <a href="#" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
                             <i class="fe-calendar"></i>
@@ -34,13 +34,13 @@
                         <p class="notify-details">Test Results Available<span class="text-muted">2 hours ago</span></p>
                     </a>
 
-                    <a href="#" class="dropdown-item notify-item">
+                     <a href="#" class="dropdown-item notify-item">
                         <div class="notify-icon bg-danger">
                             <i class="fe-alert-circle"></i>
                         </div>
                         <p class="notify-details">X-ray Report Ready<span class="text-muted">5 hours ago</span></p>
-                    </a>
-                </div>
+                    </a> 
+                </div> -->
 
         <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
@@ -58,11 +58,11 @@
                     <span>My Appointment</span>
                 </a>
 
-                <div class="dropdown-divider"></div>
+                <!-- <div class="dropdown-divider"></div>
                 <a href="xray.php" class="dropdown-item" style="font-size: 18px; color: black;">
                     <i class="fe-calendar mr-1"></i>
                     <span>My X-Ray</span>
-                </a>
+                </a> -->
 
                 <div class="dropdown-divider"></div>
             </div>
@@ -117,3 +117,8 @@
     <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
     </ul>
 </div>
+
+<!-- Include Bootstrap for the modal -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

@@ -95,12 +95,12 @@ if (isset($_GET['delete_soap_id'])) {
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                                         <thead>
                                         <tr>
                                             <th>#</th>
                                             <th data-toggle="true">Patient Name</th>
-                                            <th data-hide="phone">MRN Number</th>
+                                            <th data-hide="phone">MRN</th>
                                             <th data-hide="phone">Address</th>
                                             <th data-hide="phone">Ailment</th>
                                             <th data-hide="phone">Age</th>
@@ -134,20 +134,55 @@ if (isset($_GET['delete_soap_id'])) {
                                                     <a href="his_admin_upate_single_medical_record.php?soap_id=<?php echo $row->soap_id; ?>" class="badge badge-warning">
                                                         <i class="fas fa-eye-dropper"></i> Add
                                                     </a>
-                                                    <a href="javascript:void(0);" class="badge badge-danger" onclick="confirmDelete('<?php echo $row->soap_id; ?>')">
+                                                    <a href="javascript:void(0);" class="badge badge-danger delete-record" data-soap-id="<?php echo $row->soap_id; ?>" data-toggle="modal" data-target="#confirmDeleteModal">
                                                         <i class="fas fa-trash-alt"></i> Delete
                                                     </a>
                                                 </td>
 
+                                                <!-- Modal Structure -->
+                                                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to delete this record?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- JavaScript to Handle Deletion -->
                                                 <script>
-                                                function confirmDelete(soapId) {
-                                                    const confirmDelete = confirm("Are you sure you want to delete this record?");
-                                                    if (confirmDelete) {
-                                                        // Redirect to the delete URL
-                                                        window.location.href = "his_admin_manage_medical_record.php?delete_soap_id=" + soapId;
-                                                    }
-                                                }
+                                                    let soapIdToDelete;
+
+                                                    // Set the soap ID when the delete link is clicked
+                                                    document.querySelectorAll('.delete-record').forEach(link => {
+                                                        link.addEventListener('click', function() {
+                                                            soapIdToDelete = this.getAttribute('data-soap-id');
+                                                        });
+                                                    });
+
+                                                    // Handle the delete confirmation
+                                                    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+                                                        if (soapIdToDelete) {
+                                                            window.location.href = "his_admin_manage_medical_record.php?delete_soap_id=" + soapIdToDelete;
+                                                        }
+                                                    });
                                                 </script>
+
+                                                <!-- Include Bootstrap for the modal -->
+                                                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+                                                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+                                                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
                                             </tr>
                                         <?php 

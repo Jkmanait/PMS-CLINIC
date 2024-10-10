@@ -372,14 +372,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     });
 </script>
-
-
-
-
-                            
-
-                        
-
                 <!-- Footer Start -->
                 <?php include('assets/inc/footer.php');?>
                 <!-- end Footer -->
@@ -400,6 +392,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Bootstrap JS and dependencies (Ensure these are included in your project) -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
         <!-- Dashboar 1 init js-->
         <script src="assets/js/pages/dashboard-1.init.js"></script>

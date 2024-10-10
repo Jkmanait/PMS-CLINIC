@@ -119,7 +119,7 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
     <div id="wrapper">
         <!-- Topbar and Sidebar includes -->
         <?php include('assets/inc/nav.php'); ?>
-        <?php include('assets/inc/sidebar.php'); ?>
+        <?php include("assets/inc/sidebar.php"); ?>
 
         <div class="content-page">
             <div class="content">
@@ -151,7 +151,6 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
                         <div class="form-container">
                             <form method="POST" action="">
                                 <!-- Section for Adding Slots -->
-                                <h4 class="mt-4">Add Appointment Slots</h4>
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <input type="date" id="date" name="date" class="form-control" required>
@@ -225,5 +224,24 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
         });
     </script>
 
-</body>
+<!-- END wrapper -->
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Vendor js -->
+        <script src="assets/js/vendor.min.js"></script>
+
+        <!-- Footable js -->
+        <script src="assets/libs/footable/footable.all.min.js"></script>
+
+        <!-- Init js -->
+        <script src="assets/js/pages/foo-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="assets/js/app.min.js"></script>
+        
+    </body>
+
 </html>

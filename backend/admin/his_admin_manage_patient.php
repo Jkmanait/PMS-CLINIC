@@ -124,7 +124,7 @@
                                     </div>
                                     
                                     <div class="table-responsive">
-                                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                        <table class="table table-bordered toggle-circle mb-0">
                                             <thead>
                                             <tr>
                                                     <th>#</th>

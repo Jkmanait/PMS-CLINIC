@@ -16,6 +16,7 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
     $appointment_date = $_POST['date'];
     $appointment_time = $_POST['time'];
     $appointment_reason = $_POST['reason'];
+    $patient_name = $_POST['patient_name']; // Get patient name from POST data
     $appointment_status = 'Pending'; // Default status
 
     // Prevent booking past dates
@@ -28,10 +29,10 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
     $mysqli->begin_transaction();
 
     try {
-        // Insert the new appointment into `appointment` table
-        $insert_appointment_query = "INSERT INTO appointment (patient_id, appointment_date, appointment_time, appointment_reason, appointment_status) VALUES (?, ?, ?, ?, ?)";
+        // Insert the new appointment into `appointments` table, including the patient's name
+        $insert_appointment_query = "INSERT INTO appointments (patient_id, patient_name, appointment_date, appointment_time, appointment_reason, appointment_status) VALUES (?, ?, ?, ?, ?, ?)";
         if ($stmt = $mysqli->prepare($insert_appointment_query)) {
-            $stmt->bind_param('issss', $patient_id, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
+            $stmt->bind_param('isssss', $patient_id, $patient_name, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
             $stmt->execute();
         } else {
             throw new Exception($mysqli->error);
@@ -61,6 +62,7 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
     }
     exit();
 }
+
 
 // Fetch available slots and exceptions from the appointment_schedule table
 $query_slots = "SELECT id, date, time, slots, exception_reason FROM appointment_schedule WHERE slots > 0 OR exception_reason IS NOT NULL";
@@ -116,12 +118,16 @@ while ($row = $result_slots->fetch_assoc()) {
 </head>
 <body>
 
-    <!-- Begin page -->
-    <div id="wrapper">
+        <!-- Begin page -->
+        <div id="wrapper">
 
-        <!-- Topbar Start -->
-        <?php include('assets/inc/nav.php'); ?>
-        <!-- end Topbar -->
+            <!-- Topbar Start -->
+            <?php include('assets/inc/nav.php');?>
+            <!-- end Topbar -->
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
 
         <div class="content-page">
             <div class="container-fluid">
@@ -140,49 +146,124 @@ while ($row = $result_slots->fetch_assoc()) {
             </div>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    selectable: true,
-                    events: <?php echo json_encode($events); ?>,
-                    eventClick: function(info) {
-                        // Prompt the user for the reason for the appointment
-                        let reason = prompt("Please enter the reason for your appointment:");
-                        let time = info.event.title.includes('AM') ? 'AM' : 'PM'; // Determine time based on event title
+        <!-- Include Bootstrap for the modal -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-                        if (reason) {
-                            // Send AJAX request to book the appointment
-                            $.ajax({
-                                url: 'appointment.php',
-                                type: 'POST',
-                                data: {
-                                    ajax: 'book_appointment',
-                                    date: info.event.startStr.split('T')[0], // Extract date from event start
-                                    time: time, // Use determined time
-                                    reason: reason
-                                },
-                                success: function(response) {
-                                    var res = JSON.parse(response);
-                                    if (res.status === 'success') {
-                                        alert('Appointment booked successfully!');
-                                        // Reduce the available slots by 1
-                                        info.event.setProp('title', info.event.title.replace(/(\d+)/, function(match) {
-                                            return parseInt(match) - 1;
-                                        }));
-                                    } else {
-                                        alert('Error: ' + res.message);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-                calendar.render();
-            });
-        </script>
+<!-- Modal for appointment input -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel">Appointment Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <div class="form-group">
+                        <label for="patient_name">Patient Name:</label>
+                        <input type="text" class="form-control" id="patient_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Reason for Appointment:</label>
+                        <input type="text" class="form-control" id="reason" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitAppointment">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            events: <?php echo json_encode($events); ?>,
+            eventClick: function(info) {
+                let time = info.event.title.includes('AM') ? 'AM' : 'PM'; // Determine time based on event title
+
+                // Open the modal when an event is clicked
+                $('#appointmentModal').modal('show');
+
+                // Handle form submission inside the modal
+                $('#submitAppointment').off('click').on('click', function() {
+    let patientName = $('#patient_name').val(); // Get patient name from input
+    let reason = $('#reason').val(); // Get reason from input
+
+    if (patientName && reason) {
+        // Send AJAX request to book the appointment
+        $.ajax({
+            url: 'appointment.php', // Your PHP file that handles booking
+            type: 'POST',
+            data: {
+                ajax: 'book_appointment',
+                date: info.event.startStr.split('T')[0], // Extract date from event start
+                time: info.event.title.includes('AM') ? 'AM' : 'PM', // Determine time based on event title
+                patient_name: patientName, // Include patient name
+                reason: reason // Include reason
+            },
+            success: function(response) {
+                var res = JSON.parse(response);
+                if (res.status === 'success') {
+                    alert('Appointment booked successfully!');
+                    // Update UI to reflect the reduced slots
+                    info.event.setProp('title', info.event.title.replace(/(\d+)/, function(match) {
+                        return parseInt(match) - 1;
+                    }));
+                    $('#appointmentModal').modal('hide'); // Close the modal
+                } else {
+                    alert('Error: ' + res.message);
+                }
+            }
+        });
+    } else {
+        alert('Please provide both patient name and reason for the appointment.');
+    }
+});
+
+            }
+        });
+        calendar.render();
+    });
+</script>
 
     </div>
+
+<!-- Footer Start -->
+<?php include('assets/inc/footer.php');?>
+                <!-- end Footer -->
+
+           
+        <!-- Vendor js -->
+        <script src="assets/js/vendor.min.js"></script>
+
+        <!-- Plugins js-->
+        <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="assets/libs/jquery-knob/jquery.knob.min.js"></script>
+        <script src="assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.time.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.tooltip.min.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.selection.js"></script>
+        <script src="assets/libs/flot-charts/jquery.flot.crosshair.js"></script>
+        <!-- Bootstrap JS and dependencies (Ensure these are included in your project) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+        <!-- Dashboar 1 init js-->
+        <script src="assets/js/pages/dashboard-1.init.js"></script>
+
+        <!-- App js-->
+        <script src="assets/js/app.min.js"></script>
+
 </body>
 </html>

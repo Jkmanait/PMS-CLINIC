@@ -11,6 +11,32 @@ $aid = $_SESSION['ad_id'];
 <?php include('assets/inc/head.php'); ?>
 
 <style>
+    /* Custom font sizes */
+        h4 {
+            font-size: 18px;
+        }
+        h5 {
+            font-size: 16px;
+        }
+        h6 {
+            font-size: 14px;
+        }
+        p.text-muted {
+            font-size: 13px;
+        }
+        .card-box {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .img-thumbnail {
+            width: 150px;
+        }
+        .avatar-lg {
+            height: 150px;
+        }
+
     /* Make text bigger and color black */
     body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
         font-size: 18px; /* Adjust size as needed */
@@ -111,35 +137,36 @@ $aid = $_SESSION['ad_id'];
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-box">
-                                                <div class="row">
+                                                <!-- <img src="assets/images/users/patient.png" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image"> -->
+                                                <div class="row text-left mt-3">
                                                     <div class="col-xl-7">
                                                         <div class="pl-xl-3 mt-3 mt-xl-0">
-                                                            <h2 class="mb-3">Name: <?php echo $record->soap_pat_name; ?></h2>
+                                                            <h6 class="mb-3">Name: <?php echo $record->soap_pat_name; ?></h6>
                                                             <hr>
-                                                            <h3 class="text-danger">Age: <?php echo $record->soap_pat_age; ?> Years</h3>
+                                                            <h6 class="text-danger">Age: <?php echo $record->soap_pat_age; ?> Years</h6>
                                                             <hr>
-                                                            <h3 class="text-danger">Patient Number: <?php echo $record->soap_pat_number; ?></h3>
+                                                            <h6 class="text-danger">Patient Number: <?php echo $record->soap_pat_number; ?></h6>
                                                             <hr>
-                                                            <h3 class="text-danger">Patient Ailment: <?php echo $record->soap_pat_ailment; ?></h3>
+                                                            <h6 class="text-danger">Patient Ailment: <?php echo $record->soap_pat_ailment; ?></h6>
                                                             <hr>
-                                                            <h3 class="text-danger">Address: <?php echo $record->soap_pat_adr; ?></h3>
+                                                            <h6 class="text-danger">Address: <?php echo $record->soap_pat_adr; ?></h6>
                                                             <hr>
-                                                            <h3 class="text-danger">Date Recorded: <?php echo date("d/m/Y - h:i:s", strtotime($createdAt)); ?></h3>
+                                                            <h6 class="text-danger">Date Recorded: <?php echo date("d/m/Y - h:i:s", strtotime($createdAt)); ?></h6>
                                                             <hr>
                                                         </div>
                                                     </div> <!-- end col -->
 
                                                     <div class="col-xl-5">
                                                         <div class="pl-xl-3 mt-3 mt-xl-0">
-                                                            <h2 class="align-centre">Medical Records</h2>
+                                                            <h4 class="align-centre">Medical Records</h4>
                                                             <hr>
-                                                            <h4>Subjective:</h4>
+                                                            <h5>Subjective:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->soap_subjective); ?></p>
-                                                            <h4>Objective:</h4>
+                                                            <h5>Objective:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->soap_objective); ?></p>
-                                                            <h4>Assessment:</h4>
+                                                            <h5>Assessment:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->soap_assessment); ?></p>
-                                                            <h4>Plan:</h4>
+                                                            <h5>Plan:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->soap_plan); ?></p>
                                                             <hr>
                                                         </div>

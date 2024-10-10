@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 08:05 AM
+-- Generation Time: Oct 10, 2024 at 05:53 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointments` (
   `id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
+  `patient_name` varchar(255) NOT NULL,
   `appointment_date` date NOT NULL,
   `appointment_time` time NOT NULL,
   `appointment_reason` varchar(255) DEFAULT NULL,
@@ -41,10 +42,35 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `patient_id`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
-(1, 1, '2024-10-04', '10:10:00', 'fever', 'Pending', '2024-10-01 23:09:13'),
-(2, 1, '2024-10-05', '10:10:00', 'fever', 'Pending', '2024-10-01 23:40:01'),
-(3, 2, '2024-10-05', '10:10:00', 'fever', 'Pending', '2024-10-01 23:40:36');
+INSERT INTO `appointments` (`id`, `patient_id`, `patient_name`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
+(0, 1, 'arnel', '2024-10-10', '00:00:00', 'fever', 'Pending', '2024-10-10 12:53:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointment_schedule`
+--
+
+CREATE TABLE `appointment_schedule` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `time` varchar(2) NOT NULL,
+  `slots` int(11) NOT NULL DEFAULT 1,
+  `exception_reason` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointment_schedule`
+--
+
+INSERT INTO `appointment_schedule` (`id`, `date`, `time`, `slots`, `exception_reason`) VALUES
+(17, '2024-10-10', 'AM', 7, NULL),
+(18, '2024-10-10', 'PM', 14, NULL),
+(19, '2024-10-11', '', 0, 'dayoff'),
+(0, '2024-10-12', 'AM', 10, NULL),
+(0, '2024-10-12', 'PM', 10, NULL),
+(0, '2024-10-13', 'AM', 10, NULL),
+(0, '2024-10-13', 'PM', 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -238,11 +264,7 @@ CREATE TABLE `his_patients` (
 --
 
 INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
-(19, 'Reggie', 'Madrijanon', '090909', '24', '0812674', 'Manolo Fortich', '090909090901', 'InPatient', '2024-08-31 13:29:07.103371', 'Fever', NULL),
-(23, 'James Kenneth', 'Manait', '2001-05-29', '23', '9571628', 'Damilag, Manolo Fortcih, Bukidnon', '09111111111', 'OutPatient', '2024-10-07 05:59:35.626094', 'Fever', NULL),
-(24, 'Arnel ', 'Puagang', '1999-10-22', '25', '1253947', 'Dicklum, Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:03.951702', 'Allergies', NULL),
-(25, 'Roniel', 'Barrio', '1111-11-11', '23', '9584276', 'Lingi-on, Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:28.987461', 'Chronic pain', NULL),
-(26, 'Hencez Heart', 't', '2222-11-11', '23', '5479162', 'Manolo Fortich, Bukidnon', '09333333333', 'OutPatient', '2024-10-07 06:00:48.225320', 'Allergies', NULL);
+(28, 'James Kenneth', 'Manait', '2024-05-29', '23', '8957601', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'OutPatient', '2024-10-10 15:48:19.198853', 'fever', NULL);
 
 -- --------------------------------------------------------
 
@@ -349,8 +371,9 @@ CREATE TABLE `his_soap_records` (
 --
 
 INSERT INTO `his_soap_records` (`soap_id`, `mdr_number`, `soap_pat_name`, `soap_pat_adr`, `soap_pat_age`, `soap_pat_number`, `soap_pat_ailment`, `soap_subjective`, `soap_objective`, `soap_assessment`, `soap_plan`, `created_at`) VALUES
-(670373, '62948', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '9571628', 'Fever', 'A', 'B', 'C', 'D', '2024-10-07 06:01:26'),
-(2147483647, '62948', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '9571628', 'Fever', 'E', 'F', 'G', 'H', '2024-10-07 06:02:00');
+(0, '58291', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8957601', 'fever', 'sssssssssssssssssssssssssssssssss', 'sssssssssssssssssssssssssssssssssssssss', 'sssssssssssssssssssssssssssssssssssssssssssssssss', 'ssssssssssssssssssssssssssssssssssssssssssssssss', '2024-10-10 15:51:09'),
+(6707, '58291', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8957601', 'fever', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2024-10-10 15:51:22'),
+(6707, '58291', 'James Kenneth Manait', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8957601', 'fever', 'wwwwwwwwwwwwwwwwwwwww', 'wwwwwwwwwwwwwwwwwwwwwwwww', 'wwwwwwwwwwwwwwwwwwwwwwwww', 'wwwwwwwwwwwwwwwwwwwwwwwww', '2024-10-10 15:52:02');
 
 -- --------------------------------------------------------
 
@@ -425,31 +448,6 @@ INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytem
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_xrays`
---
-
-CREATE TABLE `his_xrays` (
-  `xray_id` int(11) NOT NULL,
-  `xray_pat_name` varchar(255) DEFAULT NULL,
-  `xray_pat_number` varchar(100) DEFAULT NULL,
-  `xray_pat_adr` varchar(255) DEFAULT NULL,
-  `xray_pat_age` int(11) DEFAULT NULL,
-  `xray_number` varchar(100) DEFAULT NULL,
-  `xray_description` text DEFAULT NULL,
-  `xray_image_path` varchar(255) DEFAULT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `his_xrays`
---
-
-INSERT INTO `his_xrays` (`xray_id`, `xray_pat_name`, `xray_pat_number`, `xray_pat_adr`, `xray_pat_age`, `xray_number`, `xray_description`, `xray_image_path`, `uploaded_at`) VALUES
-(6, 'James Kenneth Manait', 'SQ0DO', 'Damilag', 23, NULL, 'okays', 'C:/xampp/htdocs/uploads/xrays/xray.PNG', '2024-09-30 13:03:22');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `notifications`
 --
 
@@ -483,7 +481,7 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`patient_id`, `pemail`, `pname`, `ppassword`, `paddress`, `pnic`, `pdob`, `ptel`) VALUES
-(1, 'jkmanait@gmail.com', 'james kenneth', 'james@123', 'Damilag', '', '2001-05-29', '09090909090'),
+(1, 'jkmanait@gmail.com', 'james kenneth manait', 'james@123', 'Damilag', '', '2001-05-29', '09090909090'),
 (2, 'arnel@gmail.com', 'ar nel', 'arnel@123', 'manolo', '', '2001-10-10', '09000000000');
 
 -- --------------------------------------------------------
@@ -536,13 +534,6 @@ INSERT INTO `webuser` (`email`, `usertype`) VALUES
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `appointments`
---
-ALTER TABLE `appointments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `patient_id` (`patient_id`);
 
 --
 -- Indexes for table `doctor`
@@ -618,12 +609,6 @@ ALTER TABLE `his_prescriptions`
   ADD PRIMARY KEY (`pres_id`);
 
 --
--- Indexes for table `his_soap_records`
---
-ALTER TABLE `his_soap_records`
-  ADD PRIMARY KEY (`soap_id`);
-
---
 -- Indexes for table `his_surgery`
 --
 ALTER TABLE `his_surgery`
@@ -634,12 +619,6 @@ ALTER TABLE `his_surgery`
 --
 ALTER TABLE `his_vitals`
   ADD PRIMARY KEY (`vit_id`);
-
---
--- Indexes for table `his_xrays`
---
-ALTER TABLE `his_xrays`
-  ADD PRIMARY KEY (`xray_id`);
 
 --
 -- Indexes for table `notifications`
@@ -675,12 +654,6 @@ ALTER TABLE `webuser`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `appointments`
---
-ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `doctor`
@@ -728,7 +701,7 @@ ALTER TABLE `his_nurse_note`
 -- AUTO_INCREMENT for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `his_patient_transfers`
@@ -755,12 +728,6 @@ ALTER TABLE `his_prescriptions`
   MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `his_soap_records`
---
-ALTER TABLE `his_soap_records`
-  MODIFY `soap_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
-
---
 -- AUTO_INCREMENT for table `his_surgery`
 --
 ALTER TABLE `his_surgery`
@@ -771,12 +738,6 @@ ALTER TABLE `his_surgery`
 --
 ALTER TABLE `his_vitals`
   MODIFY `vit_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `his_xrays`
---
-ALTER TABLE `his_xrays`
-  MODIFY `xray_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -801,16 +762,6 @@ ALTER TABLE `schedule`
 --
 ALTER TABLE `services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `appointments`
---
-ALTER TABLE `appointments`
-  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

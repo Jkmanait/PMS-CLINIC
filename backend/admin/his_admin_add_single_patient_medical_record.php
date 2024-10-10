@@ -23,7 +23,7 @@
         
         if ($result->num_rows > 0) {
             // Record already exists
-            $err = "SOAP record for this patient already exists!";
+            $err = "Medical record for this patient already exists!";
         } else {
             // Proceed to insert the new SOAP record
             $query = "INSERT INTO his_soap_records (mdr_number, soap_pat_name, soap_pat_age, soap_pat_adr, soap_pat_number, soap_pat_ailment, soap_subjective, soap_objective, soap_assessment, soap_plan) 
@@ -33,7 +33,7 @@
             
             // Success or error message
             if ($stmt->execute()) {
-                $success = "SOAP Record Added Successfully";
+                $success = "Medical Record Added Successfully";
             } else {
                 $err = "Please Try Again Later";
             }

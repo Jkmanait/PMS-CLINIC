@@ -39,7 +39,7 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="his_admin_appointment.php" style="font-size: 16px;">My Appointment</a></li>
+                        <li><a href="his_admin_appointment.php" style="font-size: 16px;">Calendar Appointment</a></li>
                     </ul>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="his_admin_manage_appointments.php" style="font-size: 16px;">Appointment Details</a></li>
@@ -85,7 +85,7 @@
                     </ul>
                 </li> -->
 
-                <li>
+                <!-- <li>
                     <a href="javascript: void(0);" style="font-size: 18px; color: black;">
                         <i class="mdi mdi-flask"></i>
                         <span> Laboratory </span>
@@ -96,10 +96,10 @@
                         <li><a href="his_admin_patient_lab_result.php" style="font-size: 16px; color: black;">Patient Lab Results</a></li>
                         <li><a href="his_admin_patient_lab_vitals.php" style="font-size: 16px; color: black;">Patient Vitals</a></li>
                         <li><a href="his_admin_lab_report.php" style="font-size: 16px; color: black;">Lab Reports</a></li>
-                        
+                         -->
                         <!-- <li><a href="his_admin_add_lab_equipment.php" style="font-size: 16px; color: black;">Add Lab Equipment</a></li>
                         <li><a href="his_admin_manage_lab_equipment.php" style="font-size: 16px; color: black;">Manage Lab Equipments</a></li> -->
-                    </ul>
+                    <!-- </ul>
                 </li>
 
                 <li>
@@ -116,7 +116,7 @@
                     </ul>
                 </li>                
 
-            </ul>
+            </ul> -->
 
         </div>
         <!-- End Sidebar -->

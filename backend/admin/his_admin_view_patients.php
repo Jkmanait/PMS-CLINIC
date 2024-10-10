@@ -106,12 +106,12 @@
                                     </div>
                                     
                                     <div class="table-responsive">
-                                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                    <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th data-toggle="true">Name</th>
-                                                <th data-hide="phone">MRN number</th>
+                                                <th data-hide="phone">MRN</th>
                                                 <th data-hide="phone">Address</th>
                                                 <th data-hide="phone">Mobile Number</th>
                                                 <th data-hide="phone">Age</th>
