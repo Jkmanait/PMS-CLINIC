@@ -1,38 +1,33 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-	session_start();
-	include('../../configuration/config.php');
-		if(isset($_POST['add_patient']))
-		{
-			$pat_fname=$_POST['pat_fname'];
-			$pat_lname=$_POST['pat_lname'];
-			$pat_number=$_POST['pat_number'];
-            $pat_phone=$_POST['pat_phone'];
-            $pat_type=$_POST['pat_type'];
-            $pat_addr=$_POST['pat_addr'];
-            $pat_age = $_POST['pat_age'];
-            $pat_dob = $_POST['pat_dob'];
-            $pat_ailment = $_POST['pat_ailment'];
-            //sql to insert captured values
-			$query="insert into his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr) values(?,?,?,?,?,?,?,?,?)";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('sssssssss', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_type, $pat_addr);
-			$stmt->execute();
-			/*
-			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
-			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
-			*/ 
-			//declare a varible which will be passed to alert function
-			if($stmt)
-			{
-				$success = "Patient Details Added";
-			}
-			else {
-				$err = "Please Try Again Or Try Later";
-			}
-			
-			
-		}
+    session_start();
+    include('../../configuration/config.php');
+    if(isset($_POST['add_patient'])) {
+        $pat_fname = $_POST['pat_fname'];
+        $pat_lname = $_POST['pat_lname'];
+        $pat_number = $_POST['pat_number'];
+        $pat_phone = $_POST['pat_phone'];
+        $pat_type = $_POST['pat_type'];
+        $pat_addr = $_POST['pat_addr'];
+        $pat_age = $_POST['pat_age'];
+        $pat_dob = $_POST['pat_dob'];
+        $pat_ailment = $_POST['pat_ailment'];
+        $pat_parent_name = $_POST['pat_parent_name']; // New field for parent or guardian name
+        
+        // SQL to insert captured values, including the new column pat_parent_name
+        $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_parent_name) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ssssssssss', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_type, $pat_addr, $pat_parent_name);
+        $stmt->execute();
+        
+        // Declare a variable which will be passed to alert function
+        if($stmt) {
+            $success = "Patient Details Added";
+        } else {
+            $err = "Please Try Again Or Try Later";
+        }
+    }
 ?>
 <!--End Server Side-->
 <!--End Patient Registration-->
@@ -118,16 +113,24 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="inputAddress" class="col-form-label">Address</label>
-                                            <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
+                                        <!-- Parent Name Field -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="pat_parent_name" class="col-form-label">Parent/Guardian Name</label>
+                                                <input type="text" name="pat_parent_name" class="form-control" id="pat_parent_name" placeholder="Parent/Guardian Name">
+                                            </div>                                        
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAddress" class="col-form-label">Address</label>
+                                                <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
+                                            </div>
                                         </div>
 
                                         <div class="form-row">
-                                        <div class="form-group col-md-4">
-                                            <label for="inputCity" class="col-form-label">Mobile Number</label>
-                                            <input required="required" type="text" name="pat_phone" class="form-control" id="inputCity" maxlength="11" pattern="09\d{9}" title="Mobile number must start with 09 and be 11 digits long">
-                                        </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="inputCity" class="col-form-label">Mobile Number</label>
+                                                <input required="required" type="text" name="pat_phone" class="form-control" id="inputCity" maxlength="11" pattern="09\d{9}" title="Mobile number must start with 09 and be 11 digits long">
+                                            </div>
 
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity" class="col-form-label">Patient Ailment</label>
@@ -136,8 +139,6 @@
                                             <div class="form-group col-md-4">
                                                 <label for="inputState" class="col-form-label">Patient's Type</label>
                                                 <select id="inputState" required="required" name="pat_type" class="form-control">
-                                                    <!-- <option>Choose</option>
-                                                    <option>InPatient</option> -->
                                                     <option>OutPatient</option>
                                                 </select>
                                             </div>

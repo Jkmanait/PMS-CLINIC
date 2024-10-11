@@ -100,17 +100,17 @@ if (isset($_POST['add_soap_record'])) {
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">Patient Age</label>
-                                                <input type="text" name="soap_pat_age" value="<?php echo isset($row->soap_pat_age) ? $row->soap_pat_age : ''; ?>" class="form-control" required="required">
+                                                <input type="text" required="required" readonly name="soap_pat_age" value="<?php echo isset($row->soap_pat_age) ? $row->soap_pat_age : ''; ?>" class="form-control" required="required">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">Patient Address</label>
-                                                <input type="text" name="soap_pat_adr" value="<?php echo isset($row->soap_pat_adr) ? $row->soap_pat_adr : ''; ?>" class="form-control" required="required">
+                                                <input type="text" required="required" readonly name="soap_pat_adr" value="<?php echo isset($row->soap_pat_adr) ? $row->soap_pat_adr : ''; ?>" class="form-control" required="required">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">Patient Number</label>
-                                                <input type="text" name="soap_pat_number" value="<?php echo isset($row->soap_pat_number) ? $row->soap_pat_number : ''; ?>" class="form-control" required="required">
+                                                <input type="text" required="required" readonly name="soap_pat_number" value="<?php echo isset($row->soap_pat_number) ? $row->soap_pat_number : ''; ?>" class="form-control" required="required">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">Patient Ailment</label>
@@ -118,7 +118,7 @@ if (isset($_POST['add_soap_record'])) {
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">MDR Number</label>
-                                                <input type="text" name="mdr_number" value="<?php echo isset($row->mdr_number) ? $row->mdr_number : ''; ?>" class="form-control" required="required">
+                                                <input type="text" required="required" readonly name="mdr_number" value="<?php echo isset($row->mdr_number) ? $row->mdr_number : ''; ?>" class="form-control" required="required">
                                             </div>
                                         </div>
 
