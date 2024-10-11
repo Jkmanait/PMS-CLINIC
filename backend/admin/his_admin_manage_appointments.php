@@ -90,9 +90,9 @@ if (isset($_GET['disapprove_appointment_id'])) {
                     </div>
 
                     <!-- Appointments Table -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
-                            <div class="card-box">
+                            <div class="card-box"> -->
                                 <div class="table-responsive">
                                     <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
@@ -134,9 +134,9 @@ if (isset($_GET['disapprove_appointment_id'])) {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            <!-- </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <?php include('assets/inc/footer.php'); ?>
