@@ -95,7 +95,7 @@
                                                         <option value="">Show all</option>
                                                         <option value="Discharged">Discharged</option>
                                                         <option value="OutPatients">OutPatients</option>
-                                                        <option value="InPatients">InPatients</option>
+                                                        <!-- <option value="InPatients">InPatients</option> -->
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -106,10 +106,10 @@
                                     </div>
                                     
                                     <div class="table-responsive">
-                                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                    <table class="table table-bordered toggle-circle mb-0">
                                             <thead>
                                             <tr>
-                                                    <th>#</th>
+                                                    
                                                     <th data-toggle="true">Name</th>
                                                     <th data-hide="phone">Patient number</th>
                                                     <th data-hide="phone">Address</th>
@@ -132,7 +132,7 @@
 
                                                 <tbody>
                                                 <tr>
-                                                <td><?php echo $row->pat_id; ?></td>
+                                                
                                                         <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
                                                         <td><?php echo $row->pat_number; ?></td>
                                                         <td><?php echo $row->pat_addr; ?></td>

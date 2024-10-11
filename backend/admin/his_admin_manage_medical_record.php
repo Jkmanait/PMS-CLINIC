@@ -84,7 +84,7 @@ if (isset($_GET['delete_soap_id'])) {
                                                     <option value="">Show all</option>
                                                     <option value="Discharged">Discharged</option>
                                                     <option value="OutPatients">OutPatients</option>
-                                                    <option value="InPatients">InPatients</option>
+                                                    <!-- <option value="InPatients">InPatients</option> -->
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -95,10 +95,10 @@ if (isset($_GET['delete_soap_id'])) {
                                 </div>
 
                                 <div class="table-responsive">
-                                <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                         <tr>
-                                            <th>#</th>
+                                            
                                             <th data-toggle="true">Patient Name</th>
                                             <th data-hide="phone">MRN</th>
                                             <th data-hide="phone">Address</th>
@@ -121,7 +121,7 @@ if (isset($_GET['delete_soap_id'])) {
                                         while ($row = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $cnt; ?></td>
+                                                
                                                 <td><?php echo $row->soap_pat_name; ?></td>
                                                 <td><?php echo $row->mdr_number; ?></td>
                                                 <td><?php echo $row->soap_pat_adr; ?></td>
