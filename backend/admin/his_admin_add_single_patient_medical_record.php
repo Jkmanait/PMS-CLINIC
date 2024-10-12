@@ -260,6 +260,14 @@ if (isset($_POST['add_soap_record'])) {
     <!-- Footer -->
     <?php include('assets/inc/footer.php'); ?>
     <!-- End Footer -->
+     <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+<!-- Vendor js -->
+<script src="assets/js/vendor.min.js"></script>
+
+<!-- App js -->
+<script src="assets/js/app.min.js"></script>
 </body>
 
 </html>

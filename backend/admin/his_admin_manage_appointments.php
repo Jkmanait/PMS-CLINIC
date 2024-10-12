@@ -3,9 +3,10 @@ session_start();
 include('../../configuration/config.php');
 
 // Fetch all appointments including the patient's guardian name and address from the patients table
-$query = "SELECT a.id, a.patient_id, a.patient_name, p.paddress, a.appointment_date, a.appointment_time, a.appointment_reason, a.appointment_status, p.pname AS guardian_name
-          FROM appointments a
-          JOIN patient p ON a.patient_id = p.patient_id";
+$ret = "SELECT a.id, a.patient_id, a.patient_name, p.paddress, a.appointment_date, a.appointment_time, a.appointment_reason, p.pname AS guardian_name 
+        FROM appointments a 
+        JOIN patient p ON a.patient_id = p.patient_id
+        ORDER BY (a.appointment_date = CURDATE()) DESC, a.appointment_date, a.created_at DESC";
 
 // Approve appointment
 if (isset($_GET['approve_appointment_id'])) {
@@ -48,7 +49,11 @@ if (isset($_GET['disapprove_appointment_id'])) {
         color: black;
     }
     th {
-        font-size: 17px;
+        font-size: 20px; /* Increased font size for headers */
+        font-weight: bold; /* Bold headers */
+    }
+    td {
+        font-size: 18px; /* Increased font size for table data */
     }
     h4.page-title {
         font-size: 24px;
@@ -60,6 +65,9 @@ if (isset($_GET['disapprove_appointment_id'])) {
     }
     .pagination {
         font-size: 15px;
+    }
+    .search-bar {
+        margin: 20px 0; /* Add some spacing around the search bar */
     }
 </style>
 
@@ -89,61 +97,64 @@ if (isset($_GET['disapprove_appointment_id'])) {
                         </div>
                     </div>
 
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <input type="text" id="search" placeholder="Search appointments..." class="form-control">
+                    </div>
+
                     <!-- Appointments Table -->
-                    <!-- <div class="row">
-                        <div class="col-12">
-                            <div class="card-box"> -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered toggle-circle mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Patient Guardian</th>
-                                                <th>Patient Name</th>
-                                                <th>Address</th>
-                                                <th>Appointment Date</th>
-                                                <th>Appointment Time</th>
-                                                <th>Reason</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            // Fetch and display appointments with guardian name and address
-                                            $ret = "SELECT a.id, a.patient_id, a.patient_name, p.paddress, a.appointment_date, a.appointment_time, a.appointment_reason, p.pname AS guardian_name 
-                                                    FROM appointments a 
-                                                    JOIN patient p ON a.patient_id = p.patient_id
-                                                    ORDER BY a.created_at DESC";
-                                            $stmt = $mysqli->prepare($ret);
-                                            $stmt->execute();
-                                            $res = $stmt->get_result();
-                                            $cnt = 1;
-                                            while ($row = $res->fetch_object()) {
-                                                // Extract only AM/PM from the time
-                                                $appointment_am_pm = date("A", strtotime($row->appointment_time));
-                                            ?>
-                                                <tr>
-                                                    <td><?php echo $cnt; ?></td>
-                                                    <td><?php echo $row->guardian_name; // Display patient guardian name ?></td>
-                                                    <td><?php echo $row->patient_name; // Display patient name and address ?></td>
-                                                    <td><?php echo $row->paddress; // Display patient name and address ?></td>
-                                                    <td><?php echo $row->appointment_date; ?></td>
-                                                    <td><?php echo $row->appointment_time . " " . $appointment_am_pm; // Display appointment time with AM/PM ?></td>
-                                                    <td><?php echo $row->appointment_reason; ?></td>
-                                                </tr>
-                                            <?php $cnt++; } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            <!-- </div>
-                        </div>
-                    </div> -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered toggle-circle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Patient Guardian</th>
+                                    <th>Patient Name</th>
+                                    <th>Address</th>
+                                    <th>Appointment Date</th>
+                                    <th>Appointment Time</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $stmt = $mysqli->prepare($ret);
+                                $stmt->execute();
+                                $res = $stmt->get_result();
+                                $cnt = 1;
+                                $last_date = '';
+
+                                while ($row = $res->fetch_object()) {
+                                    $appointment_am_pm = date("A", strtotime($row->appointment_time));
+
+                                    // Check if the date has changed
+                                    if ($last_date != $row->appointment_date) {
+                                        echo '<tr><td colspan="7" style="font-weight: bold;">' . htmlspecialchars($row->appointment_date) . '</td></tr>';
+                                        $last_date = $row->appointment_date;
+                                    }
+                                ?>
+                                    <tr>
+                                        <td><?php echo $cnt; ?></td>
+                                        <td><?php echo htmlspecialchars($row->guardian_name); ?></td>
+                                        <td><?php echo htmlspecialchars($row->patient_name); ?></td>
+                                        <td><?php echo htmlspecialchars($row->paddress); ?></td>
+                                        <td><?php echo htmlspecialchars($row->appointment_date); ?></td>
+                                        <td><?php echo htmlspecialchars($row->appointment_time . " " . $appointment_am_pm); ?></td>
+                                        <td><?php echo htmlspecialchars($row->appointment_reason); ?></td>
+                                    </tr>
+                                <?php 
+                                    $cnt++; 
+                                } 
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <?php include('assets/inc/footer.php'); ?>
             </div>
         </div>
 <!-- END wrapper -->
-
 
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>

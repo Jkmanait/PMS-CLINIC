@@ -38,8 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!--Head Code-->
     <?php include("assets/inc/head.php");?>
     <style>
+    /* General Styles */
+    body {
+        background-color: #ffeef8; /* Light pink background */
+        color: black; /* Default text color */
+    }
+
     /* Make text bigger and color black */
-    body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
+    label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
         font-size: 18px; /* Adjust size as needed */
         color: black;    /* Text color */
     }
@@ -65,6 +71,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     .pagination {
         font-size: 18px;
     }
+
+    /* Card Box Background Color */
+    .card-box {
+        
+        border: 1px solid gray; /* Slightly darker pink border */
+    }
+
+    /* Avatar Circle Background */
+    .avatar-lg {
+        background-color: #ff99cc; /* Lighter pink for avatar background */
+        border: 2px solid #c7007f; /* Darker pink border for avatar */
+    }
+
+    /* Graph Background */
+    .card-box-graph {
+        background-color: #f0f0f0; /* Gray background for the graph container */
+    }
+
+    /* Text in the graph */
+    .text-dark {
+        color: black; /* Ensure text color is black */
+    }
+
+    .btn-custom {
+    background-color: #C71585; /* Dark pink background */
+    border-color: #C71585; /* Dark pink border */
+    color: white; /* White text color */
+}
+
+.btn-custom:hover {
+    background-color: #B0126A; /* Slightly darker on hover */
+    border-color: #B0126A; /* Slightly darker border on hover */
+}
 
 </style>
 
@@ -134,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p class="mb-1 text-truncate text-dark">List of Doctor</p>
                     
                     <!-- View Button -->
-                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Doctors</button>
+                    <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Doctors</button>
                 </div>
             </div>
         </div>
@@ -181,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">Close</button>
             </div>
         </div>
     </div>
@@ -220,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p class="mb-1 text-truncate text-dark">Services Offered</p>
                     
                     <!-- View Button -->
-                    <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#serviceModal">View Services</button>
+                    <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Services</button>
                 </div>
             </div>
         </div>
@@ -266,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">Close</button>
             </div>
         </div>
     </div>
@@ -308,70 +347,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-<!-- Appointment Graph Section -->
-<div class="row mt-5">
-    <div class="col-12 d-flex justify-content-center">
-        <div class="card-box" style="background-color: #f0f0f0;"> <!-- Gray background for the graph container -->
+<div class="col-md-10 col-xl-8 mb-9 custom-left-margin">
+    <div class="widget-rounded-circle">
+        <div class="card-box card-box-graph">
             <h4 class="header-title mb-3">Your Appointments</h4>
-            <canvas id="appointmentGraph" style="height: 300px; width: 100%; background-color: #f0f0f0;"></canvas> <!-- Gray background for the canvas -->
+            <canvas id="appointmentGraph" style="height: 400px; background-color: #f0f0f0;"></canvas>
         </div>
     </div>
 </div>
 
+
 <!-- Footer and Other Content -->
 
-<!-- Chart.js Script for Graph -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Data for the appointments graph
-    var appointmentData = <?php echo json_encode($appointmentsData); ?>;
-    var labels = appointmentData.map(function(item) {
-        return item.date;
-    });
-    var data = appointmentData.map(function(item) {
-        return item.total;
-    });
+                        <!-- Chart.js Script for Graph -->
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            // Data for the appointments graph
+                            var appointmentData = <?php echo json_encode($appointmentsData); ?>;
+                            var labels = appointmentData.map(function(item) {
+                                return item.date;
+                            });
+                            var data = appointmentData.map(function(item) {
+                                return item.total;
+                            });
 
-    // Create the graph
-    var ctx = document.getElementById('appointmentGraph').getContext('2d');
-    var appointmentChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Number of Appointments',
-                data: data,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                pointBackgroundColor: 'black', // Black color for points (circles on the graph)
-                pointBorderColor: 'black'      // Black color for point borders
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: 'black' // Black color for Y-axis labels
-                    }
-                },
-                x: {
-                    ticks: {
-                        color: 'black' // Black color for X-axis labels
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: 'black' // Black color for legend text
-                    }
-                }
-            }
-        }
-    });
-</script>
+                            // Create the graph
+                            var ctx = document.getElementById('appointmentGraph').getContext('2d');
+                            var appointmentChart = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Number of Appointments',
+                                        data: data,
+                                        backgroundColor: 'rgba(255, 105, 180, 0.2)', // Light pink background for the graph
+                                        borderColor: 'rgba(255, 20, 147, 1)', // Darker pink for the line
+                                        borderWidth: 1,
+                                        pointBackgroundColor: 'black', // Black color for points (circles on the graph)
+                                        pointBorderColor: 'black'      // Black color for point borders
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                color: 'black' // Black color for Y-axis labels
+                                            }
+                                        },
+                                        x: {
+                                            ticks: {
+                                                color: 'black' // Black color for X-axis labels
+                                            }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            labels: {
+                                                color: 'black' // Black color for legend text
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
                 <!-- Footer Start -->
                 <?php include('assets/inc/footer.php');?>
                 <!-- end Footer -->

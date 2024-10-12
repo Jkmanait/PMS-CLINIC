@@ -1,7 +1,6 @@
-<div class="navbar-custom" style="height: 100px; padding: 15px; background-color: dark-green;">
+<div class="navbar-custom" style="height: 100px; padding: 15px; background-color: #C71585;"> <!-- Dark Pink Color -->
     <ul class="list-unstyled topnav-menu float-right mb-0">
-
-    <!-- Notification Bell -->
+        <!-- Notification Bell -->
     <!-- <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
                 <i class="fe-bell" style="font-size: 25px; margin-right: 25px;"></i>
@@ -42,7 +41,7 @@
                     </a> 
                 </div> -->
 
-        <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
+                <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
                 <i class="fe-menu" style="margin-right: 20px;"></i>
             </a>

@@ -311,17 +311,18 @@ $aid = $_SESSION['ad_id'];
 
                                     <?php
                                     // Navigation links for previous and next
-                                echo '<div class="navigation" style="margin-left: 470px; margin-top: -20px;">';
-                                if ($current_page > 1) {
-                                    echo '<a href="?page=' . ($current_page - 1) . '" class="btn btn-secondary">← Previous</a>';
-                                }
-                                if ($current_page < $total_pages) {
-                                    echo '<a href="?page=' . ($current_page + 1) . '" class="btn btn-secondary">Next →</a>';
-                                }
-                                echo '</div>';
-                                } else {
-                                    echo '<p>No appointments found.</p>';
-                                }
+echo '<div class="navigation" style="display: flex; justify-content: center; margin-left: 470px; margin-top: -20px;">';
+if ($current_page > 1) {
+    echo '<a href="?page=' . ($current_page - 1) . '" style="color: #C71585; margin-right: 60px; font-size: 24px; font-weight: bold;">←</a>'; // Dark pink color
+}
+if ($current_page < $total_pages) {
+    echo '<a href="?page=' . ($current_page + 1) . '" style="color: #C71585; font-size: 24px; font-weight: bold;">→</a>'; // Dark pink color
+}
+echo '</div>';
+} else {
+    echo '<p>No appointments found.</p>';
+}
+
                                 ?>
                             </div>
                         </div>
