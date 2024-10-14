@@ -100,17 +100,19 @@ if (isset($_GET['delete_soap_id'])) {
                                         <tr>
                                             
                                             <th data-toggle="true">Patient Name</th>
+                                            <th data-hide="phone">Age</th>
+                                            <th data-hide="phone">Patient Sex</th>
                                             <th data-hide="phone">MRN</th>
                                             <th data-hide="phone">Address</th>
-                                            <th data-hide="phone">Ailment</th>
-                                            <th data-hide="phone">Age</th>
+                                            
+                                        
                                             <th data-hide="phone">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
                                         // Get details of all SOAP records
-                                        $ret = "SELECT soap_pat_name, mdr_number, soap_pat_adr, soap_pat_ailment, soap_pat_age, soap_id 
+                                        $ret = "SELECT soap_pat_name, soap_pat_sex, mdr_number, soap_pat_adr, soap_pat_age, soap_id 
                                                 FROM his_soap_records 
                                                 GROUP BY mdr_number 
                                                 ORDER BY created_at DESC";
@@ -123,10 +125,12 @@ if (isset($_GET['delete_soap_id'])) {
                                             <tr>
                                                 
                                                 <td><?php echo $row->soap_pat_name; ?></td>
+                                                <td><?php echo $row->soap_pat_age;?> Year's Old</td>
+                                                <td><?php echo $row->soap_pat_sex;?></td>
                                                 <td><?php echo $row->mdr_number; ?></td>
                                                 <td><?php echo $row->soap_pat_adr; ?></td>
-                                                <td><?php echo $row->soap_pat_ailment; ?></td>
-                                                <td><?php echo $row->soap_pat_age; ?> Years</td>
+                                                
+                                                
                                                 <td>
                                                     <a href="his_admin_view_single_medical_record.php?soap_id=<?php echo $row->soap_id; ?>" class="badge badge-success">
                                                         <i class="fas fa-eye"></i> View

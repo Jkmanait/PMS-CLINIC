@@ -38,6 +38,18 @@
         font-size: 20px; /* Larger font for headers */
     }
 
+    /* Increase font size for table headers */
+    th {
+        font-size: 20px;
+        background-color: #d3d3d3; /* Light gray background */
+        color: black; /* Black text */
+    }
+
+    /* Style for female patients */
+    .female {
+        background-color: #ffcccb; /* Light pink background */
+    }
+
     /* Larger font size for page titles */
     h4.page-title {
         font-size: 24px;
@@ -123,12 +135,12 @@
                                     <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                         <tr>
-                                            <th data-toggle="true">Name</th>
-                                            <th data-hide="phone">Parent/Guardian Name</th>
-                                            <th data-hide="phone">Address</th>
-                                            <th data-hide="phone">Mobile Number</th>
+                                            <th data-toggle="true">Patient Name</th>
                                             <th data-hide="phone">Age</th>
-                                            <th data-hide="phone">Category</th>
+                                            <th data-hide="phone">Patient Sex</th>
+                                            <th data-hide="phone">Address</th>
+                                            <th data-hide="phone">Guardian Name</th>
+                                            <th data-hide="phone">Mobile Number</th>
                                             <th data-hide="phone">Action</th>
                                         </tr>
                                         </thead>
@@ -145,12 +157,13 @@
 
                                             <tbody>
                                             <tr>
-                                                <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
-                                                <td><?php echo $row->pat_parent_name; ?></td>
-                                                <td><?php echo $row->pat_addr; ?></td>
-                                                <td><?php echo $row->pat_phone; ?></td>
-                                                <td><?php echo $row->pat_age; ?> Years</td>
-                                                <td><?php echo $row->pat_type; ?></td>
+                                            <tr class="<?php echo ($row->pat_sex == 'Female') ? 'female' : ''; ?>">
+                                                    <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
+                                                    <td><?php echo $row->pat_age; ?> Year's Old</td>
+                                                    <td><?php echo $row->pat_sex; ?></td>
+                                                    <td><?php echo $row->pat_addr; ?></td>
+                                                    <td><?php echo $row->pat_parent_name; ?></td>
+                                                    <td><?php echo $row->pat_phone; ?></td>
                                                 <td>
                                                     <a href="his_admin_manage_patient.php?delete=<?php echo $row->pat_id;?>" class="badge badge-danger"><i class="mdi mdi-trash-can-outline"></i> Delete</a>
                                                     

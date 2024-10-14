@@ -31,6 +31,13 @@ $aid = $_SESSION['ad_id'];
     /* Increase font size for table headers */
     th {
         font-size: 20px;
+        background-color: #d3d3d3; /* Light gray background */
+        color: black; /* Black text */
+    }
+
+    /* Style for female patients */
+    .female {
+        background-color: #ffcccb; /* Light pink background */
     }
 
     /* Larger font size for page titles */
@@ -119,13 +126,12 @@ $aid = $_SESSION['ad_id'];
                                     <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                             <tr>
-                                                
                                                 <th data-toggle="true">Patient Name</th>
-                                                <th data-hide="phone">Guardian Name</th>
-                                                <th data-hide="phone">Address</th>
-                                                <th data-hide="phone">Mobile Number</th>
                                                 <th data-hide="phone">Age</th>
-                                                <th data-hide="phone">Category</th>
+                                                <th data-hide="phone">Patient Sex</th>
+                                                <th data-hide="phone">Address</th>
+                                                <th data-hide="phone">Guardian Name</th>
+                                                <th data-hide="phone">Mobile Number</th>
                                                 <th data-hide="phone">Action</th>
                                             </tr>
                                         </thead>
@@ -141,14 +147,13 @@ $aid = $_SESSION['ad_id'];
                                         while ($row = $res->fetch_object()) {
                                         ?>
                                             <tbody>
-                                                <tr>
-                                                    
+                                                <tr class="<?php echo ($row->pat_sex == 'Female') ? 'female' : ''; ?>">
                                                     <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
-                                                    <td><?php echo $row->pat_parent_name; ?></td>
+                                                    <td><?php echo $row->pat_age; ?> Year's Old</td>
+                                                    <td><?php echo $row->pat_sex; ?></td>
                                                     <td><?php echo $row->pat_addr; ?></td>
+                                                    <td><?php echo $row->pat_parent_name; ?></td>
                                                     <td><?php echo $row->pat_phone; ?></td>
-                                                    <td><?php echo $row->pat_age; ?> Years</td>
-                                                    <td><?php echo $row->pat_type; ?></td>
                                                     <td>
                                                         <a href="his_admin_view_single_patient.php?pat_id=<?php echo $row->pat_id; ?>&pat_number=<?php echo $row->pat_number; ?>" class="badge badge-success">
                                                             <i class="mdi mdi-eye"></i> View

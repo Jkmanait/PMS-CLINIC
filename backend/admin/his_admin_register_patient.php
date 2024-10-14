@@ -7,7 +7,7 @@
         $pat_lname = $_POST['pat_lname'];
         $pat_number = $_POST['pat_number'];
         $pat_phone = $_POST['pat_phone'];
-        $pat_type = $_POST['pat_type'];
+        $pat_sex = $_POST['pat_sex'];
         $pat_addr = $_POST['pat_addr'];
         $pat_age = $_POST['pat_age'];
         $pat_dob = $_POST['pat_dob'];
@@ -15,10 +15,10 @@
         $pat_parent_name = $_POST['pat_parent_name']; // New field for parent or guardian name
         
         // SQL to insert captured values, including the new column pat_parent_name
-        $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_parent_name) 
+        $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_sex, pat_addr, pat_parent_name) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ssssssssss', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_type, $pat_addr, $pat_parent_name);
+        $rc = $stmt->bind_param('ssssssssss', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_sex, $pat_addr, $pat_parent_name);
         $stmt->execute();
         
         // Declare a variable which will be passed to alert function
@@ -108,7 +108,7 @@
                                                 <input type="date" required="required" name="pat_dob" class="form-control" id="inputEmail4" placeholder="DD/MM/YYYY">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputPassword4" class="col-form-label">Age</label>
+                                                <label for="inputPassword4" class="col-form-label">Patient Age</label>
                                                 <input required="required" type="text" name="pat_age" class="form-control" id="inputPassword4" placeholder="Patient's Age">
                                             </div>
                                         </div>
@@ -137,9 +137,10 @@
                                                 <input required="required" type="text" name="pat_ailment" class="form-control" id="inputCity">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="inputState" class="col-form-label">Patient's Type</label>
-                                                <select id="inputState" required="required" name="pat_type" class="form-control">
-                                                    <option>OutPatient</option>
+                                                <label for="inputState" class="col-form-label">Patient Sex</label>
+                                                <select id="inputState" required="required" name="pat_sex" class="form-control">
+                                                    <option>Male</option>
+                                                    <option>Female</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-2" style="display:none">
@@ -165,7 +166,7 @@
                                             $pat_number = generateUniquePatientNumber($mysqli);
                                             ?>
 
-                                                <label for="inputZip" class="col-form-label">MRN Number</label>
+                                                <label for="inputZip" class="col-form-label">Patient Number</label>
                                                 <input type="text" name="pat_number" value="<?php echo $pat_number;?>" class="form-control" id="inputZip">
                                             </div>
                                         </div>

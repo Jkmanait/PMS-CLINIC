@@ -6,7 +6,7 @@ include('../../configuration/config.php');
 $ret = "SELECT a.id, a.patient_id, a.patient_name, p.paddress, a.appointment_date, a.appointment_time, a.appointment_reason, p.pname AS guardian_name 
         FROM appointments a 
         JOIN patient p ON a.patient_id = p.patient_id
-        ORDER BY (a.appointment_date = CURDATE()) DESC, a.appointment_date, a.created_at DESC";
+        ORDER BY a.appointment_date DESC, a.appointment_time DESC"; // Changed order to newest first
 
 // Approve appointment
 if (isset($_GET['approve_appointment_id'])) {
@@ -44,6 +44,12 @@ if (isset($_GET['disapprove_appointment_id'])) {
 <?php include('assets/inc/head.php'); ?>
 
 <style>
+    th {
+        font-size: 20px;
+        background-color: #d3d3d3; /* Light gray background */
+        color: black; /* Black text */
+    }
+    
     body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
         font-size: 15px;
         color: black;
@@ -121,29 +127,33 @@ if (isset($_GET['disapprove_appointment_id'])) {
                                 $stmt = $mysqli->prepare($ret);
                                 $stmt->execute();
                                 $res = $stmt->get_result();
-                                $cnt = 1;
                                 $last_date = '';
+                                $date_count = 1; // Initialize a count for each date
 
                                 while ($row = $res->fetch_object()) {
                                     $appointment_am_pm = date("A", strtotime($row->appointment_time));
 
+                                    // Format the appointment date
+                                    $formatted_date = (new DateTime($row->appointment_date))->format('F j, Y');
+
                                     // Check if the date has changed
                                     if ($last_date != $row->appointment_date) {
-                                        echo '<tr><td colspan="7" style="font-weight: bold;">' . htmlspecialchars($row->appointment_date) . '</td></tr>';
+                                        echo '<tr><td colspan="7" style="font-weight: bold;">' . htmlspecialchars($formatted_date) . '</td></tr>';
                                         $last_date = $row->appointment_date;
+                                        $date_count = 1; // Reset count for the new date
                                     }
                                 ?>
                                     <tr>
-                                        <td><?php echo $cnt; ?></td>
+                                        <td><?php echo $date_count; ?></td>
                                         <td><?php echo htmlspecialchars($row->guardian_name); ?></td>
                                         <td><?php echo htmlspecialchars($row->patient_name); ?></td>
                                         <td><?php echo htmlspecialchars($row->paddress); ?></td>
-                                        <td><?php echo htmlspecialchars($row->appointment_date); ?></td>
+                                        <td><?php echo htmlspecialchars($formatted_date); ?></td> <!-- Use the formatted date here -->
                                         <td><?php echo htmlspecialchars($row->appointment_time . " " . $appointment_am_pm); ?></td>
                                         <td><?php echo htmlspecialchars($row->appointment_reason); ?></td>
                                     </tr>
                                 <?php 
-                                    $cnt++; 
+                                    $date_count++; // Increment count for the current date
                                 } 
                                 ?>
                             </tbody>

@@ -16,13 +16,15 @@ if (isset($_GET['soap_id'])) {
     if ($res->num_rows > 0) {
         $row = $res->fetch_object();
     } else {
-        echo "No SOAP record found for this Medical Record Number.";
+        echo "No Medical record found for this Medical Record Number.";
     }
 }
 
 // Handle form submission (POST)
 if (isset($_POST['add_soap_record'])) {
     $soap_pat_name = $_POST['soap_pat_name'];
+    $soap_pat_sex = $_POST['soap_pat_sex'];
+    $soap_pat_parent_name = $_POST['soap_pat_parent_name'];
     $soap_pat_adr = $_POST['soap_pat_adr'];
     $soap_pat_age = $_POST['soap_pat_age'];
     $soap_pat_number = $_POST['soap_pat_number'];
@@ -33,18 +35,15 @@ if (isset($_POST['add_soap_record'])) {
     $soap_assessment = $_POST['soap_assessment'];
     $soap_plan = $_POST['soap_plan'];
 
-    // Generate a new soap_id or get it from the request as necessary
-    $new_soap_id = uniqid(); // Generating a unique soap_id, can also be a new increment if preferred
-
-    // SQL to insert captured values, including the soap_id
-    $query = "INSERT INTO his_soap_records (soap_id, mdr_number, soap_pat_name, soap_pat_adr, soap_pat_age, soap_pat_number, soap_pat_ailment, soap_subjective, soap_objective, soap_assessment, soap_plan) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // SQL to insert captured values
+    $query = "INSERT INTO his_soap_records (mdr_number, soap_pat_name, soap_pat_sex, soap_pat_parent_name, soap_pat_adr, soap_pat_age, soap_pat_number, soap_pat_ailment, soap_subjective, soap_objective, soap_assessment, soap_plan) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('sssssssssss', $new_soap_id, $mdr_number, $soap_pat_name, $soap_pat_adr, $soap_pat_age, $soap_pat_number, $soap_pat_ailment, $soap_subjective, $soap_objective, $soap_assessment, $soap_plan);
+    $stmt->bind_param('ssssssssssss', $mdr_number, $soap_pat_name, $soap_pat_sex, $soap_pat_parent_name, $soap_pat_adr, $soap_pat_age, $soap_pat_number, $soap_pat_ailment, $soap_subjective, $soap_objective, $soap_assessment, $soap_plan);
     $stmt->execute();
 
     if ($stmt) {
-        $success = "SOAP Record Added Successfully";
+        $success = "Medical Record Added Successfully";
     } else {
         $err = "Please Try Again Or Try Later";
     }
@@ -91,7 +90,7 @@ if (isset($_POST['add_soap_record'])) {
 
                                     <!-- Add SOAP Record Form -->
                                     <form method="post">
-                                        <input type="hidden" name="soap_id" value="<?php echo $soap_id; ?>"> <!-- Ensure soap_id is passed -->
+                                        <input type="hidden" name="soap_id" value="<?php echo isset($row->soap_id) ? $row->soap_id : ''; ?>"> <!-- Ensure soap_id is passed -->
 
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
@@ -103,8 +102,8 @@ if (isset($_POST['add_soap_record'])) {
                                                 <input type="text" required="required" readonly name="soap_pat_age" value="<?php echo isset($row->soap_pat_age) ? $row->soap_pat_age : ''; ?>" class="form-control" required="required">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label class="col-form-label">Patient Address</label>
-                                                <input type="text" required="required" readonly name="soap_pat_adr" value="<?php echo isset($row->soap_pat_adr) ? $row->soap_pat_adr : ''; ?>" class="form-control" required="required">
+                                                <label class="col-form-label">Patient Sex</label>
+                                                <input type="text" required="required" readonly name="soap_pat_sex" value="<?php echo isset($row->soap_pat_sex) ? $row->soap_pat_sex : ''; ?>" class="form-control" required="required">
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -119,6 +118,16 @@ if (isset($_POST['add_soap_record'])) {
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">MDR Number</label>
                                                 <input type="text" required="required" readonly name="mdr_number" value="<?php echo isset($row->mdr_number) ? $row->mdr_number : ''; ?>" class="form-control" required="required">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="col-form-label">Address</label>
+                                                <input type="text" required="required" readonly name="soap_pat_adr" name="soap_pat_adr" value="<?php echo isset($row->soap_pat_adr) ? $row->soap_pat_adr : ''; ?>" class="form-control" required>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="col-form-label">Patient Parent Name</label>
+                                                <input type="text" required="required" readonly name="soap_pat_parent_name" name="soap_pat_parent_name" value="<?php echo isset($row->soap_pat_parent_name) ? $row->soap_pat_parent_name : ''; ?>" class="form-control" required>
                                             </div>
                                         </div>
 

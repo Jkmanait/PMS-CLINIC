@@ -143,13 +143,15 @@ $aid = $_SESSION['ad_id'];
                                                         <div class="pl-xl-3 mt-3 mt-xl-0">
                                                             <h6 class="mb-3">Patient Name: <?php echo $record->soap_pat_name; ?></h6>
                                                             <hr>
-                                                            <h6 class="text-danger">Parent/Guardian Name: <?php echo $record->soap_pat_parent_name; ?></h6>
+                                                            <h6 class="text-danger">Patient Sex: <?php echo $record->soap_pat_sex; ?></h6>
                                                             <hr>
                                                             <h6 class="text-danger">Age: <?php echo $record->soap_pat_age; ?> Years</h6>
                                                             <hr>
                                                             <h6 class="text-danger">MRN: <?php echo $record->mdr_number; ?></h6>
                                                             <hr>
                                                             <h6 class="text-danger">Patient Ailment: <?php echo $record->soap_pat_ailment; ?></h6>
+                                                            <hr>
+                                                            <h6 class="text-danger">Parent/Guardian Name: <?php echo $record->soap_pat_parent_name; ?></h6>
                                                             <hr>
                                                             <h6 class="text-danger">Address: <?php echo $record->soap_pat_adr; ?></h6>
                                                             <hr>

@@ -6,6 +6,7 @@ if (isset($_POST['add_soap_record'])) {
     $mdr_number = $_POST['mdr_number']; // Medical Record Number
     $soap_pat_name = $_POST['soap_pat_name'];
     $soap_pat_parent_name = $_POST['soap_pat_parent_name']; // Added
+    $soap_pat_sex = $_POST['soap_pat_sex']; //added
     $soap_pat_age = $_POST['soap_pat_age'];
     $soap_pat_adr = $_POST['soap_pat_adr'];
     $soap_pat_number = $_POST['soap_pat_number'];
@@ -27,10 +28,10 @@ if (isset($_POST['add_soap_record'])) {
         $err = "Medical record for this patient already exists!";
     } else {
         // Proceed to insert the new SOAP record
-        $query = "INSERT INTO his_soap_records (mdr_number, soap_pat_name, soap_pat_parent_name, soap_pat_age, soap_pat_adr, soap_pat_number, soap_pat_ailment, soap_subjective, soap_objective, soap_assessment, soap_plan) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO his_soap_records (mdr_number, soap_pat_name, soap_pat_parent_name, soap_pat_sex, soap_pat_age, soap_pat_adr, soap_pat_number, soap_pat_ailment, soap_subjective, soap_objective, soap_assessment, soap_plan) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('sssssssssss', $mdr_number, $soap_pat_name, $soap_pat_parent_name, $soap_pat_age, $soap_pat_adr, $soap_pat_number, $soap_pat_ailment, $soap_subjective, $soap_objective, $soap_assessment, $soap_plan);
+        $stmt->bind_param('ssssssssssss', $mdr_number, $soap_pat_name, $soap_pat_parent_name, $soap_pat_sex, $soap_pat_age, $soap_pat_adr, $soap_pat_number, $soap_pat_ailment, $soap_subjective, $soap_objective, $soap_assessment, $soap_plan);
 
         // Success or error message
         if ($stmt->execute()) {
@@ -160,25 +161,31 @@ if (isset($_POST['add_soap_record'])) {
                                                     <input required="required" type="text" readonly name="soap_pat_age" value="<?php echo $row->pat_age; ?>" class="form-control" id="inputAge" placeholder="Patient's Age">
                                                 </div>
 
+                                                <!-- Patient Sex -->
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputAddress" class="col-form-label">Patient Sex</label>
+                                                    <input required="required" type="text" readonly name="soap_pat_sex" value="<?php echo $row->pat_sex; ?>" class="form-control" id="inputAddress" placeholder="Patient Sex">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
                                                 <!-- Patient Address -->
                                                 <div class="form-group col-md-4">
                                                     <label for="inputAddress" class="col-form-label">Patient Address</label>
                                                     <input required="required" type="text" readonly name="soap_pat_adr" value="<?php echo $row->pat_addr; ?>" class="form-control" id="inputAddress" placeholder="Patient's Address">
                                                 </div>
-                                            </div>
 
-                                            <div class="form-row">
                                                 <!-- Parent/Guardian Name -->
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="inputParentName" class="col-form-label">Parent/Guardian Name</label>
                                                     <input type="text" required="required" readonly name="soap_pat_parent_name" value="<?php echo $row->pat_parent_name; ?>" class="form-control" id="inputParentName" placeholder="Parent/Guardian Name">
                                                 </div>
 
                                                 <!-- Patient Ailment -->
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputAilment" class="col-form-label">Patient Ailment</label>
-                                                    <input required="required" type="text" readonly name="soap_pat_ailment" value="<?php echo $row->pat_ailment; ?>" class="form-control" id="inputAilment" placeholder="Patient Ailment">
-                                                </div>
+                                                <div class="form-group col-md-4">
+                                                <label class="col-form-label">Patient Ailment</label>
+                                                <input type="text" name="soap_pat_ailment" value="<?php echo $row->pat_ailment; ?>" class="form-control" required="required">
+                                            </div>
                                             </div>
 
                                             <!-- Patient Number (Hidden) -->
