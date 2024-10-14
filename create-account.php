@@ -22,9 +22,6 @@
         .input-text {
             flex: 1;
         }
-        .input-text.first-name {
-            margin-right: 20px;
-        }
         .checkmark {
             display: none;
             color: green;
@@ -43,6 +40,28 @@
         .wrongmark.invalid {
             display: inline;
         }
+        .agreement {
+            margin: 20px 0;
+        }
+        #terms {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1000;
+            padding: 20px;
+            overflow: auto;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -55,27 +74,27 @@ $date = date('Y-m-d');
 $_SESSION["date"] = $date;
 include("configuration/config.php");
 
-if($_POST){
-    $result= $mysqli->query("SELECT * FROM webuser");
-    $fname=$_SESSION['personal']['fname'];
-    $lname=$_SESSION['personal']['lname'];
-    $name=$fname." ".$lname;
-    $address=$_SESSION['personal']['address'];
+if ($_POST) {
+    $result = $mysqli->query("SELECT * FROM webuser");
+    $fname = $_SESSION['personal']['fname'];
+    $lname = $_SESSION['personal']['lname'];
+    $name = $fname . " " . $lname;
+    $address = $_SESSION['personal']['address'];
     
-    $dob=$_SESSION['personal']['dob'];
-    $email=$_POST['newemail'];
-    $tele=$_POST['tele'];
-    $newpassword=$_POST['newpassword'];
-    $cpassword=$_POST['cpassword'];
+    $dob = $_SESSION['personal']['dob'];
+    $email = $_POST['newemail'];
+    $tele = $_POST['tele'];
+    $newpassword = $_POST['newpassword'];
+    $cpassword = $_POST['cpassword'];
     
-    if ($newpassword==$cpassword){
-        $sqlmain= "SELECT * FROM webuser WHERE email=?;";
+    if ($newpassword == $cpassword && isset($_POST['agreement'])) {
+        $sqlmain = "SELECT * FROM webuser WHERE email=?;";
         $stmt = $mysqli->prepare($sqlmain);
-        $stmt->bind_param("s",$email);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        if($result->num_rows==1){
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
+        if ($result->num_rows == 1) {
+            $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         } else {
             $mysqli->query("INSERT INTO patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) VALUES('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
             $mysqli->query("INSERT INTO webuser VALUES('$email','p')");
@@ -83,13 +102,13 @@ if($_POST){
             $_SESSION["usertype"] = "p";
             $_SESSION["username"] = $fname;
             header('Location: login.php');
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
+            $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
         }
     } else {
-        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Confirmation Error! Reconform Password</label>';
+        $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Confirmation Error or Agreement not accepted!</label>';
     }
 } else {
-    $error='<label for="promter" class="form-label"></label>';
+    $error = '<label for="promter" class="form-label"></label>';
 }
 ?>
 
@@ -104,7 +123,7 @@ if($_POST){
             </tr>
             <form action="" method="POST">
             <tr>
-            <td class="label-td" colspan="2">
+                <td class="label-td" colspan="2">
                     <label for="newemail" class="form-label">Email: </label>
                 </td>
             </tr>
@@ -158,7 +177,13 @@ if($_POST){
             </tr>
             <tr>
                 <td colspan="2">
-                    <span id="error-message" style="color: red;"></span>
+                    <span id="error-message" style="color: red;"><?php echo $error; ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="agreement">
+                    <input type="checkbox" name="agreement" id="agreement" required>
+                    <label for="agreement">I have read and agree to the <a href="javascript:void(0);" onclick="showModal()" style="text-decoration: underline;">User Agreement</a>.</label>
                 </td>
             </tr>
             <tr>
@@ -180,109 +205,138 @@ if($_POST){
             </form>
         </table>
     </div>
-</center>
 
-<script>
-    function checkPasswordStrength() {
-        const password = document.getElementById('newpassword').value;
-        const strengthIndicator = document.getElementById('password-strength');
-        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
-        const numberPattern = /[0-9]/;
-        const letterPattern = /[a-zA-Z]/;
-        const minLength = 8;
+    <!-- User Agreement Modal -->
+<div id="terms" style="display: none;">
+    <div class="modal-content" style="max-width: 800px; margin: auto; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); padding: 40px;">
+        <h2 style="text-align: center; color: #333;">User Agreement</h2>
+        <p style="color: #555;">By creating an account, you agree to the following terms and conditions:</p>
+        <ul style="margin: 10px 0 20px 20px; color: #555; list-style-type: disc; padding-left: 20px;">
+            <li><strong>Eligibility:</strong> You must be at least 18 years old or have parental consent.</li>
+            <br>
+            <li><strong>Account Security:</strong> You are responsible for maintaining your account's confidentiality.</li>
+            <br>
+            <li><strong>Personal Information:</strong> You agree to provide accurate information.</li>
+            <br>
+            <li><strong>Use of Services:</strong> Use the services for lawful purposes only.</li>
+            <br>
+            <li><strong>Appointment Policies:</strong> Follow our appointment policies.</li>
+            <br>
+            <li><strong>Medical Records Access:</strong> Use your medical records responsibly.</li>
+            <br>
+            <li><strong>Limitation of Liability:</strong> Dr. Bolong Pedia Clinic is not liable for indirect damages.</li>
+            <br>
+            <li><strong>Modification of Agreement:</strong> We may modify terms and notify you.</li>
+            <br>
+            <li><strong>Governing Law:</strong> This agreement is governed by the Philippines law.</li>
+        </ul>
+        <div style="text-align: center;">
+            <button onclick="document.getElementById('terms').style.display='none'" style="background-color: #007BFF; color: white; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+</div>
 
-        let strength = 'Weak';
-        let color = 'red';
-
-        if (password.length >= minLength && 
-            letterPattern.test(password) && 
-            numberPattern.test(password) &&
-            specialCharPattern.test(password)) {
-            strength = 'Strong';
-            color = 'green';
-        } else if (password.length >= minLength && 
-                   (letterPattern.test(password) || numberPattern.test(password)) && 
-                   (specialCharPattern.test(password) || numberPattern.test(password))) {
-            strength = 'Moderate';
-            color = 'orange';
+    <script>
+        function showModal() {
+            document.getElementById('terms').style.display = 'block';
         }
 
-        strengthIndicator.textContent = `Password Strength: ${strength}`;
-        strengthIndicator.style.color = color;
-    }
+        function checkPasswordStrength() {
+            const password = document.getElementById('newpassword').value;
+            const strengthIndicator = document.getElementById('password-strength');
+            const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+            const numberPattern = /[0-9]/;
+            const letterPattern = /[a-zA-Z]/;
+            const minLength = 8;
 
-    function validateEmail() {
-        const email = document.getElementById('newemail').value;
-        const checkmark = document.getElementById('newemail-check');
-        const wrongmark = document.getElementById('newemail-wrong');
-        
-        // Check if the email ends with '@gmail.com'
-        const isValid = email.endsWith('@gmail.com');
+            let strength = 'Weak';
+            let color = 'red';
 
-        if (isValid) {
-            checkmark.classList.add('valid');
-            wrongmark.classList.remove('invalid');
-        } else {
-            checkmark.classList.remove('valid');
-            wrongmark.classList.add('invalid');
-        }
-    }
+            if (password.length >= minLength && 
+                letterPattern.test(password) && 
+                numberPattern.test(password) &&
+                specialCharPattern.test(password)) {
+                strength = 'Strong';
+                color = 'green';
+            } else if (password.length >= minLength && 
+                       (letterPattern.test(password) || numberPattern.test(password)) && 
+                       (specialCharPattern.test(password) || numberPattern.test(password))) {
+                strength = 'Moderate';
+                color = 'orange';
+            }
 
-    function validateTele() {
-        const tele = document.getElementById('tele').value;
-        const checkmark = document.getElementById('tele-check');
-        const wrongmark = document.getElementById('tele-wrong');
-        
-        // Check if the input matches exactly 11 digits
-        const isValid = tele.length === 11 && tele.match(/^09[0-9]{9}$/);
-
-        if (isValid) {
-            checkmark.classList.add('valid');
-            wrongmark.classList.remove('invalid');
-        } else {
-            checkmark.classList.remove('valid');
-            wrongmark.classList.add('invalid');
-        }
-    }
-
-    function validateConfirmPassword() {
-        const password = document.getElementById('newpassword').value;
-        const confirmPassword = document.getElementById('cpassword').value;
-        const checkmark = document.getElementById('cpassword-check');
-        const wrongmark = document.getElementById('cpassword-wrong');
-        
-        if (password === confirmPassword) {
-            checkmark.classList.add('valid');
-            wrongmark.classList.remove('invalid');
-        } else {
-            checkmark.classList.remove('valid');
-            wrongmark.classList.add('invalid');
-        }
-    }
-
-    function validateForm() {
-        const password = document.getElementById('newpassword').value;
-        const confirmPassword = document.getElementById('cpassword').value;
-        const errorMessage = document.getElementById('error-message');
-
-        // Regular expression for special characters
-        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
-
-        if (!specialCharPattern.test(password)) {
-            errorMessage.textContent = 'Password must contain at least one special character.';
-            return false; // Prevent form submission
+            strengthIndicator.textContent = `Password Strength: ${strength}`;
+            strengthIndicator.style.color = color;
         }
 
-        if (password !== confirmPassword) {
-            errorMessage.textContent = 'Passwords do not match.';
-            return false; // Prevent form submission
+        function validateEmail() {
+            const email = document.getElementById('newemail').value;
+            const checkmark = document.getElementById('newemail-check');
+            const wrongmark = document.getElementById('newemail-wrong');
+            
+            const isValid = email.endsWith('@gmail.com');
+
+            if (isValid) {
+                checkmark.classList.add('valid');
+                wrongmark.classList.remove('invalid');
+            } else {
+                checkmark.classList.remove('valid');
+                wrongmark.classList.add('invalid');
+            }
         }
 
-        // Clear error message if validation passes
-        errorMessage.textContent = '';
-        return true; // Allow form submission
-    }
-</script>
+        function validateTele() {
+            const tele = document.getElementById('tele').value;
+            const checkmark = document.getElementById('tele-check');
+            const wrongmark = document.getElementById('tele-wrong');
+            
+            const isValid = tele.length === 11 && tele.match(/^09[0-9]{9}$/);
+
+            if (isValid) {
+                checkmark.classList.add('valid');
+                wrongmark.classList.remove('invalid');
+            } else {
+                checkmark.classList.remove('valid');
+                wrongmark.classList.add('invalid');
+            }
+        }
+
+        function validateConfirmPassword() {
+            const password = document.getElementById('newpassword').value;
+            const confirmPassword = document.getElementById('cpassword').value;
+            const checkmark = document.getElementById('cpassword-check');
+            const wrongmark = document.getElementById('cpassword-wrong');
+            
+            if (password === confirmPassword) {
+                checkmark.classList.add('valid');
+                wrongmark.classList.remove('invalid');
+            } else {
+                checkmark.classList.remove('valid');
+                wrongmark.classList.add('invalid');
+            }
+        }
+
+        function validateForm() {
+            const password = document.getElementById('newpassword').value;
+            const confirmPassword = document.getElementById('cpassword').value;
+            const errorMessage = document.getElementById('error-message');
+
+            const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+
+            if (!specialCharPattern.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one special character.';
+                return false; // Prevent form submission
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match.';
+                return false; // Prevent form submission
+            }
+
+            errorMessage.textContent = '';
+            return true; // Allow form submission
+        }
+    </script>
 
 </body>
 </html>

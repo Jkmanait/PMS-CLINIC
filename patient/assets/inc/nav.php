@@ -1,7 +1,7 @@
 <div class="navbar-custom" style="height: 100px; padding: 15px; background-color: #FFB6C1;"> <!-- Light Pink Color -->
     <ul class="list-unstyled topnav-menu float-right mb-0">
         <li class="dropdown d-none d-lg-block ml-auto" style="position: relative;">
-            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
+            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: black;">
                 <i class="fe-menu" style="margin-right: 20px;"></i>
             </a>
             <div class="dropdown-menu" style="margin-left: -90px; position: relative;">
@@ -19,7 +19,7 @@
         </li>
 
         <li class="dropdown notification-list">
-            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: white;">
+            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: black;">
                 <i class="fe-user" style="margin-right: 25px;"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown">
