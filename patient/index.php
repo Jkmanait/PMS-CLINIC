@@ -38,74 +38,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!--Head Code-->
     <?php include("assets/inc/head.php");?>
     <style>
-    /* General Styles */
-    body {
-        background-color: #ffeef8; /* Light pink background */
-        color: black; /* Default text color */
-    }
+/* General Styles */
+body {
+    background-color: #ffeef8; 
+    color: black; 
+}
 
-    /* Make text bigger and color black */
-    label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
-        font-size: 18px; /* Adjust size as needed */
-        color: black;    /* Text color */
-    }
+/* Make text bigger and color black */
+label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
+    font-size: 18px; 
+    color: black;    
+}
 
-    /* Increase font size for table headers */
-    th {
-        font-size: 20px; /* Larger font for headers */
-    }
+/* Increase font size for table headers */
+th {
+    font-size: 20px; 
+}
 
-    /* Larger font size for page titles */
-    h4.page-title {
-        font-size: 24px;
-        color: black;
-    }
+/* Larger font size for page titles */
+h4.page-title {
+    font-size: 24px;
+    color: black;
+}
 
-    /* Search input and buttons */
-    input[type="text"], button {
-        font-size: 18px;
-        color: black;
-    }
+/* Search input and buttons */
+input[type="text"], button {
+    font-size: 18px;
+    color: black;
+}
 
-    /* Pagination */
-    .pagination {
-        font-size: 18px;
-    }
+/* Pagination */
+.pagination {
+    font-size: 18px;
+}
 
-    /* Card Box Background Color */
-    .card-box {
-        
-        border: 1px solid gray; /* Slightly darker pink border */
-    }
+/* Card Box Background Color */
+.card-box {
+    border: 1px solid gray; 
+}
 
-    /* Avatar Circle Background */
-    .avatar-lg {
-        background-color: #ff99cc; /* Lighter pink for avatar background */
-        border: 2px solid #c7007f; /* Darker pink border for avatar */
-    }
+/* Avatar Circle Background */
+.avatar-lg {
+    background-color: #ff99cc; 
+    border: 2px solid #ff66b2; 
+}
 
-    /* Graph Background */
-    .card-box-graph {
-        background-color: #f0f0f0; /* Gray background for the graph container */
-    }
+/* Graph Background */
+.card-box-graph {
+    background-color: #f0f0f0; 
+}
 
-    /* Text in the graph */
-    .text-dark {
-        color: black; /* Ensure text color is black */
-    }
+/* Text in the graph */
+.text-dark {
+    color: black; 
+}
 
-    .btn-custom {
-    background-color: #C71585; /* Dark pink background */
-    border-color: #C71585; /* Dark pink border */
-    color: white; /* White text color */
+.btn-custom {
+    background-color: #ff66b2; 
+    border-color: #ff66b2; 
+    color: white; 
 }
 
 .btn-custom:hover {
-    background-color: #B0126A; /* Slightly darker on hover */
-    border-color: #B0126A; /* Slightly darker border on hover */
+    background-color: #ff4d94; 
+    border-color: #ff4d94; 
 }
-
 </style>
+
 
     <body>
 

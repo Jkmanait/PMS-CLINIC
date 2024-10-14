@@ -16,22 +16,26 @@
             color: #C71585 !important; /* Dark pink color */
             font-size: 20px; /* Increased font size */
         }
+        .metismenu li {
+            font-size: 20px; /* Increased font size for li */
+        }
         .metismenu li a {
             color: black; /* Default link color */
             text-decoration: none;
             display: flex;
             align-items: center;
-            font-size: 18px; /* Default font size */
+            font-size: 20px; /* Increased font size */
             transition: color 0.3s; /* Smooth transition for color change */
         }
         .metismenu li a:hover {
-            color: #C71585 !important; /* Dark pink color */
+            color: #C71585 !important; /* Dark pink color on hover */
         }
         .metismenu li a span {
-            font-size: 20px; /* Increased font size for span */
+            font-size: 22px; /* Increased font size for span */
+            color: black; /* Span color set to black */
         }
         .menu-title {
-            font-size: 20px;
+            font-size: 22px; /* Increased font size for menu title */
             color: black;
             display: flex;
             justify-content: space-between;

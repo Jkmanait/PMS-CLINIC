@@ -49,17 +49,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
 <head>
     <?php include("assets/inc/head.php"); ?>
     <title>Access Medical Records</title>
-    <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            background-color: #ffeef8; /* Light pink background */
+            color: black; /* Default text color */
+        }
+
+        .page-title-box h3 {
+            color: #ff66b2; /* Light pink for headings */
+        }
+
+        .form-control {
+            border: 1px solid #ff66b2; /* Light pink border for input fields */
+        }
+
+        .btn-primary {
+            background-color: #ff66b2; /* Light pink button background */
+            border-color: #ff66b2; /* Light pink border for buttons */
+        }
+
+        .btn-primary:hover {
+            background-color: #ff4d94; /* Slightly darker pink on hover */
+            border-color: #ff4d94; /* Slightly darker pink border on hover */
+        }
+
+        .modal-header {
+            background-color: #ff99cc; /* Lighter pink for modal header */
+            color: black; /* Dark text for contrast */
+        }
+
+        .card-box {
+            border: 1px solid #ff66b2; /* Light pink border for card boxes */
+        }
+
+        h6.text-danger {
+            color: #d5006d; /* Slightly darker pink for important text */
+        }
+
+        .text-muted {
+            color: #555; /* Darker text for muted information */
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Begin page -->
     <div id="wrapper">
 
-        <!-- Topbar Start -->
         <?php include('assets/inc/nav.php'); ?>
-        <!-- end Topbar -->
 
         <div class="content-page">
             <div class="container-fluid">
@@ -68,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                         <div class="page-title-box">
                             <h3>Access Your Medical Records</h3>
 
-                            <!-- Form for entering MDR Number and Patient Number -->
                             <form method="POST" class="mb-4">
                                 <div class="form-group col-md-4">
                                     <label for="mdr_number">MRN:</label>
@@ -81,7 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                                 <button type="submit" name="fetch_records" class="btn btn-primary">View Records</button>
                             </form>
 
-                            <!-- Modal for displaying medical records -->
                             <div class="modal fade" id="recordsModal" tabindex="-1" aria-labelledby="recordsModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" style="max-width: 1500px;"> 
                                     <div class="modal-content">
@@ -119,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                                                                             <h6 class="text-danger">Date Recorded: <?php echo date("d/m/Y - h:i:s", strtotime($record['created_at'])); ?></h6>
                                                                             <hr>
                                                                         </div>
-                                                                    </div> <!-- end col -->
+                                                                    </div>
 
                                                                     <div class="col-xl-5">
                                                                         <div class="pl-xl-3 mt-3 mt-xl-0">
@@ -135,11 +171,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                                                                             <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($record['soap_plan'])); ?></p>
                                                                             <hr>
                                                                         </div>
-                                                                    </div> <!-- end col -->
-                                                                </div> <!-- end row -->
-                                                            </div> <!-- end card -->
-                                                        </div> <!-- end col -->
-                                                    </div> <!-- end row -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
@@ -156,22 +192,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
             </div>
         </div>
 
-        <!-- Footer Start -->
         <?php include('assets/inc/footer.php'); ?>
-        <!-- end Footer -->
 
     </div>
 
-    <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
-    <!-- App js -->
     <script src="assets/js/app.min.js"></script>
-
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Check if the modal should be shown based on PHP variable
         <?php if ($showModal): ?>
             var myModal = new bootstrap.Modal(document.getElementById('recordsModal'));
             myModal.show();
