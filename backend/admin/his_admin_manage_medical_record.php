@@ -30,6 +30,19 @@ if (isset($_GET['delete_soap_id'])) {
         font-size: 18px;
         color: black;
     }
+
+    /* Increase font size for table headers */
+    th {
+        font-size: 20px;
+        background-color: #d3d3d3; /* Light gray background */
+        color: black; /* Black text */
+    }
+
+    /* Style for female patients */
+    .female {
+        background-color: #ffcccb; /* Light pink background */
+    }
+
     th {
         font-size: 20px;
     }
@@ -123,7 +136,7 @@ if (isset($_GET['delete_soap_id'])) {
                                         while ($row = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                
+                                                <tr class="<?php echo ($row->soap_pat_sex == 'Female') ? 'female' : ''; ?>">
                                                 <td><?php echo $row->soap_pat_name; ?></td>
                                                 <td><?php echo $row->soap_pat_age;?> Year's Old</td>
                                                 <td><?php echo $row->soap_pat_sex;?></td>
