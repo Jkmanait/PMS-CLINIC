@@ -149,6 +149,8 @@ $aid = $_SESSION['ad_id'];
                                                             <hr>
                                                             <h6 class="text-danger">MRN: <?php echo $record->mdr_number; ?></h6>
                                                             <hr>
+                                                            <h6 class="text-danger">KPID: <?php echo $record->soap_pat_number; ?></h6>
+                                                            <hr>
                                                             <h6 class="text-danger">Patient Ailment: <?php echo $record->soap_pat_ailment; ?></h6>
                                                             <hr>
                                                             <h6 class="text-danger">Parent/Guardian Name: <?php echo $record->soap_pat_parent_name; ?></h6>

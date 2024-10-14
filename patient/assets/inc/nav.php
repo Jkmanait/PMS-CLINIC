@@ -46,7 +46,7 @@
                 <i class="fe-menu" style="margin-right: 20px;"></i>
             </a>
             <div class="dropdown-menu" style="margin-left: -90px; position: relative;">
-                <a href="#" class="dropdown-item" style="font-size: 18px; color: black;">
+                <a href="medical_records.php" class="dropdown-item" style="font-size: 18px; color: black;">
                     <i class="fe-list mr-1"></i>
                     <span>My Medical Record</span>
                 </a>
