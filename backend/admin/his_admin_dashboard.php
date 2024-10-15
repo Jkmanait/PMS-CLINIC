@@ -118,9 +118,6 @@ $aid = $_SESSION['ad_id'];
                     // Get today's date
                     $today = date('Y-m-d');
 
-                    // Uncomment this line to test with a hardcoded date
-                    $today = '2024-10-12'; // Hardcoded for testing
-
                     // Summing up number of appointments for today
                     $result = "SELECT COUNT(*) FROM appointments WHERE appointment_date = ?";
                     $stmt = $mysqli->prepare($result);
@@ -138,7 +135,7 @@ $aid = $_SESSION['ad_id'];
                     $stmt->close();
                     ?>
                     <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $appointment_count; ?></span></h3>
-                    <p class="mb-1 text-truncate" style="color: black;">Number of Appointments for today</p> <!-- Text color black -->
+                    <p class="mb-1 text-truncate" style="color: black;">Number of Appointments for Today</p> <!-- Text color black -->
                 </div>
             </div>
         </div>
@@ -146,34 +143,33 @@ $aid = $_SESSION['ad_id'];
 </div>
 
 
-                        <!-- out Patients -->
-                        <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
-                            <div class="widget-rounded-circle card-box">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                                            <i class="mdi mdi-hospital font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
+                        <!-- Out Patients -->
+                            <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
+                                                <i class="mdi mdi-hospital font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="text-right">
-                                            <?php
-                                            // Summing up number of inpatients using mdr_number
-                                            $result = "SELECT count(DISTINCT mdr_number) FROM his_soap_records";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->execute();
-                                            $stmt->bind_result($inpatient);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                            ?>
-                                            <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $inpatient; ?></span></h3>
-                                            <p class="mb-1 text-truncate" style="color: black;">Out Patients</p> <!-- Text color black -->
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <?php
+                                                // Counting number of outpatients for today
+                                                $result = "SELECT COUNT(DISTINCT mdr_number) FROM his_soap_records WHERE DATE(created_at) = CURDATE()";
+                                                $stmt = $mysqli->prepare($result);
+                                                $stmt->execute();
+                                                $stmt->bind_result($outpatient);
+                                                $stmt->fetch();
+                                                $stmt->close();
+                                                ?>
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $outpatient; ?></span></h3>
+                                                <p class="mb-1 text-truncate" style="color: black;">Number of Out Patients for today</p> <!-- Text color black -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
 
                         <!-- Fetch Appointment Data for the graph -->
                         <?php

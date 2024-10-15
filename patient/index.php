@@ -179,59 +179,66 @@ input[type="text"], button {
     </div>
 </div>
 
-<!-- Services Modal -->
-<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+<!-- Appointment History Modal -->
+<div class="modal fade" id="appointmentHistoryModal" tabindex="-1" aria-labelledby="appointmentHistoryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="serviceModalLabel">List of Services</h5>
+                <h5 class="modal-title" id="appointmentHistoryModalLabel">Your Appointment History</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Service Name</th>
-                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Patient Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Fetch and display the list of services
-                        $result = "SELECT service_name, description FROM services"; // Adjust query for services
-                        $stmt = $mysqli->prepare($result);
-                        if ($stmt) {
-                            $stmt->execute();
-                            $stmt->bind_result($service_name, $description); // Bind the results
+                        // Fetch patient's appointment history
+                        $patient_id = $_SESSION['patient_id']; // Ensure patient is logged in
+                        $query_history = "SELECT appointment_date, appointment_time, appointment_reason, patient_name FROM appointments WHERE patient_id = ? ORDER BY appointment_date DESC, appointment_time DESC";
+                        $stmt = $mysqli->prepare($query_history);
+                        $stmt->bind_param('i', $patient_id);
+                        $stmt->execute();
+                        $result_history = $stmt->get_result();
 
-                            while ($stmt->fetch()) {
+                        if ($result_history->num_rows > 0) {
+                            while ($row = $result_history->fetch_assoc()) {
+                                // Extract AM/PM from appointment_time
+                                $time_format = date('g:i A', strtotime($row['appointment_time']));
                                 echo '<tr>';
-                                echo '<td>' . htmlspecialchars($service_name) . '</td>'; // Display service name
-                                echo '<td>' . htmlspecialchars($description) . '</td>'; // Display service description
+                                echo '<td>' . htmlspecialchars($row['appointment_date']) . '</td>';
+                                echo '<td>' . htmlspecialchars($time_format) . '</td>'; // Only AM/PM format
+                                echo '<td>' . htmlspecialchars($row['appointment_reason']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['patient_name']) . '</td>'; // Patient name
                                 echo '</tr>';
                             }
-                            $stmt->close();
                         } else {
-                            echo "Error in SQL query: " . $mysqli->error;
+                            echo '<tr><td colspan="4" class="text-center">No appointments found.</td></tr>';
                         }
                         ?>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">Close</button>
+                <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Services Overview -->
+<!-- Appointment Overview -->
 <div class="col-md-8 col-xl-5 mb-6 mr-xl-2">
     <div class="widget-rounded-circle card-box">
         <div class="row">
             <div class="col-6">
                 <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                    <i class="fas fa-stethoscope fa-2x avatar-title" style="color: black;"></i> 
+                    <i class="fas fa-calendar-alt fa-2x avatar-title" style="color: black;"></i> 
                 </div>
             </div>
             <div class="col-6">
@@ -239,12 +246,13 @@ input[type="text"], button {
                     <?php
                         // Ensure the database connection is established
                         if ($mysqli) {
-                            // Summing up the number of services
-                            $result = "SELECT count(*) FROM services";
+                            // Count the number of appointments
+                            $result = "SELECT count(*) FROM appointments WHERE patient_id = ?";
                             $stmt = $mysqli->prepare($result);
+                            $stmt->bind_param('i', $patient_id);
                             if ($stmt) {
                                 $stmt->execute();
-                                $stmt->bind_result($service_count);
+                                $stmt->bind_result($appointment_count);
                                 $stmt->fetch();
                                 $stmt->close();
                             } else {
@@ -254,11 +262,11 @@ input[type="text"], button {
                             echo "Database connection error";
                         }
                     ?>
-                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $service_count; ?></span></h3>
-                    <p class="mb-1 text-truncate text-dark">Services Offered</p>
+                    <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $appointment_count; ?></span></h3>
+                    <p class="mb-1 text-truncate text-dark">Appointments</p>
                     
                     <!-- View Button -->
-                    <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#doctorModal">View Services</button>
+                    <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#appointmentHistoryModal">View Appointment History</button>
                 </div>
             </div>
         </div>

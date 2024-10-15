@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                                             <?php endif; ?>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
