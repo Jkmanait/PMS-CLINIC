@@ -31,7 +31,7 @@
                     <span>My Account</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="../login.php" class="dropdown-item notify-item" style="font-size: 18px; color: black;">
+                <a href="../index.php" class="dropdown-item notify-item" style="font-size: 18px; color: black;">
                     <i class="fe-log-out"></i>
                     <span>Logout</span>
                 </a>

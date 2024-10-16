@@ -10,28 +10,28 @@
     <title>Create Account</title>
     <style>
         body {
-            background-color: #ffe4e1; /* Light pink background */
+            background-color: #ffe4e1; 
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Full viewport height */
-            margin: 0; /* Remove default margin */
+            height: 100vh; 
+            margin: 0; 
         }
         .container {
-            background-color: #ffebee; /* Light pink container */
+            background-color: #ffebee; 
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 60%;
-            max-width: 600px; /* Limit max width for smaller screens */
+            max-width: 600px; 
             animation: transitionIn-X 0.5s;
         }
         .header-text, .sub-text, .form-label {
-            color: #d81b60; /* Darker pink */
+            color: #d81b60; 
             text-align: center;
         }
         .input-text {
-            border: 1px solid #d81b60; /* Pink border for inputs */
+            border: 1px solid #d81b60; 
             border-radius: 5px;
             padding: 10px;
             width: 100%;
@@ -39,7 +39,7 @@
             margin-bottom: 10px;
         }
         .login-btn {
-            background-color: #d81b60; /* Button color */
+            background-color: #d81b60; 
             color: white;
             border: none;
             border-radius: 5px;
@@ -49,7 +49,7 @@
             margin: 5px 0;
         }
         .login-btn:hover {
-            background-color: #c2185b; /* Darker shade on hover */
+            background-color: #c2185b; 
         }
         .input-container {
             display: flex;

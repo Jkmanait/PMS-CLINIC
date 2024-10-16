@@ -210,41 +210,45 @@ while ($row = $result_slots->fetch_assoc()) {
         </div>
 
        <!-- Modal for receipt -->
-            <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="receiptModalLabel">Receipt</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Clinic name centered at the top -->
-                            <h4 class="text-center">Dr. Bolong Pedia Clinic</h4>
-                            <br>
-                            <h4 class="text-center" style="font-size: 20px;">Priority No. Slip</h4>
-                            <!-- Appointment number box -->
-                            <p class="text-center">
-                                <span id="appointmentCount" style="font-size: 45px; font-weight: bold; border: 2px solid #000; padding: 10px 20px; display: inline-block; border-radius: 10px; background-color: #D80073; color: white;"></span>
-                            </p>
-                            <!-- Patient name with label -->
-                            <p class="text" style="font-size: 20px;" id="patientName">Name of Patient: 
-                                <span id="patientNameValue" style="font-weight: bold;"></span>
-                            </p>
-                            <!-- Serial code -->
-                            <p class="text" style="font-size: 18px;" id="serialCode">Serial Code: 
-                                <span id="serialCodeValue" style="font-weight: bold;"></span>
-                            </p>
-                            <br>
-                            <p class="text-center" style="font-weight: bold;">Please take a picture or have a screenshot.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
+<div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="receiptModalLabel">Receipt</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <!-- Clinic name centered at the top -->
+                <h4 class="text-center">Dr. Bolong Pedia Clinic</h4>
+                <br>
+                <h4 class="text-center" style="font-size: 20px;">Priority No. Slip</h4>
+                <!-- Appointment number box -->
+                <p class="text-center">
+                    <span id="appointmentCount" style="font-size: 45px; font-weight: bold; border: 2px solid #000; padding: 10px 20px; display: inline-block; border-radius: 10px; background-color: #D80073; color: white;"></span>
+                </p>
+                <!-- Patient name with label -->
+                <p class="text" style="font-size: 20px;" id="patientName">Name of Patient: 
+                    <span id="patientNameValue" style="font-weight: bold;"></span>
+                </p>
+                <!-- Serial code -->
+                <p class="text" style="font-size: 18px;" id="serialCode">Serial Code: 
+                    <span id="serialCodeValue" style="font-weight: bold;"></span>
+                </p>
+                <!-- Appointment time with label -->
+                <!-- <p class="text" style="font-size: 18px;" id="appointmentTime">Appointment Time: 
+                    <span id="appointmentTimeValue" style="font-weight: bold;"></span>
+                </p> -->
+                <br>
+                <p class="text-center" style="font-weight: bold;">Please take a picture or have a screenshot.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>

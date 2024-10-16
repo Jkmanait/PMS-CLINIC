@@ -64,29 +64,29 @@ if (isset($_POST['admin_login'])) {
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(255, 192, 203, 0.5); /* Light pink shadow */
-            z-index: -1; /* Place behind other content */
+            background-color: rgba(255, 192, 203, 0.5); 
+            z-index: -1; 
         }
         .card {
-            background-color: #ffebee; /* Light pink background for the card */
+            background-color: #ffebee; 
             border-radius: 10px;
-            padding: 40px; /* Increased padding for a larger login area */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
-            min-height: 400px; /* Set minimum height for the login area */
+            padding: 40px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+            min-height: 400px; 
         }
         .form-control {
-            border: 1px solid #d81b60; /* Darker pink for input borders */
+            border: 1px solid #d81b60; 
             border-radius: 5px;
         }
         .btn-primary {
-            background-color: #d81b60; /* Button color */
+            background-color: #d81b60; 
             border: none;
         }
         .btn-primary:hover {
-            background-color: #c2185b; /* Darker shade on hover */
+            background-color: #c2185b; 
         }
         .text-muted {
-            color: #d81b60; /* Darker pink text */
+            color: #d81b60;
         }
     </style>
 
@@ -94,16 +94,16 @@ if (isset($_POST['admin_login'])) {
 
 <body class="authentication-bg">
 
-    <div class="background-shadow"></div> <!-- Light pink shadow background -->
+    <div class="background-shadow"></div> 
     
-    <div class="account-pages mt-5 mb-5">
+    <div class="account-pages mt-5 mb-5 ">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="row justify-content-center" style="margin: 0;padding: 0;width: 100%;">
+                <div class="col-md-8 col-lg-90 col-xl-50">
                     <div class="card">
-                        <div class="card-body p-4">
+                        <div class="card-body p-40">
                             <div class="text-center w-75 m-auto">
-                                <p class="text-muted mb-4 mt-3">Enter your email address and password to access the admin panel.</p>
+                                <p class="text-dark mb-40 mt-30">Enter your email address and password to access the admin panel.</p>
                             </div>
 
                             <form method='post'>
