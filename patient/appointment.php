@@ -16,8 +16,8 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
     $appointment_date = $_POST['date'];
     $appointment_time = $_POST['time'];
     $appointment_reason = $_POST['reason'];
-    $patient_name = $_POST['patient_name']; // Get patient name from POST data
-    $appointment_status = 'Pending'; // Default status
+    $patient_name = $_POST['patient_name'];
+    $appointment_status = 'Pending';
 
     // Prevent booking past dates
     if (strtotime($appointment_date) < strtotime(date('Y-m-d'))) {
@@ -29,22 +29,33 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
     $mysqli->begin_transaction();
 
     try {
-        // Insert the new appointment into `appointments` table, including the patient's name
-        $insert_appointment_query = "INSERT INTO appointments (patient_id, patient_name, appointment_date, appointment_time, appointment_reason, appointment_status) VALUES (?, ?, ?, ?, ?, ?)";
-        if ($stmt = $mysqli->prepare($insert_appointment_query)) {
-            $stmt->bind_param('isssss', $patient_id, $patient_name, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
-            $stmt->execute();
+        // Count existing appointments for the same date
+        $count_query = "SELECT COUNT(*) as appointment_count FROM appointments WHERE appointment_date = ?";
+        if ($count_stmt = $mysqli->prepare($count_query)) {
+            $count_stmt->bind_param('s', $appointment_date);
+            $count_stmt->execute();
+            $count_result = $count_stmt->get_result();
+            $appointment_count = $count_result->fetch_object()->appointment_count;
         } else {
             throw new Exception($mysqli->error);
         }
 
-        // Decrease the slot count in the `appointment_schedule` table
+        // Insert the new appointment into appointments table
+        $insert_appointment_query = "INSERT INTO appointments (patient_id, patient_name, appointment_date, appointment_time, appointment_reason, appointment_status) VALUES (?, ?, ?, ?, ?, ?)";
+        if ($stmt = $mysqli->prepare($insert_appointment_query)) {
+            $stmt->bind_param('isssss', $patient_id, $patient_name, $appointment_date, $appointment_time, $appointment_reason, $appointment_status);
+            $stmt->execute();
+            $appointment_id = $stmt->insert_id; // Get the ID of the inserted appointment
+        } else {
+            throw new Exception($mysqli->error);
+        }
+
+        // Decrease the slot count in the appointment_schedule table
         $update_slots_query = "UPDATE appointment_schedule SET slots = slots - 1 WHERE date = ? AND time = ? AND slots > 0";
         if ($update_stmt = $mysqli->prepare($update_slots_query)) {
             $update_stmt->bind_param('ss', $appointment_date, $appointment_time);
             $update_stmt->execute();
 
-            // If no rows were affected, it means there were no available slots
             if ($update_stmt->affected_rows == 0) {
                 throw new Exception("No available slots for the selected time.");
             }
@@ -54,15 +65,13 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'book_appointment') {
 
         // Commit transaction
         $mysqli->commit();
-        echo json_encode(['status' => 'success']);
+        echo json_encode(['status' => 'success', 'appointment_id' => $appointment_id, 'appointment_count' => $appointment_count + 1]); // Return the updated count
     } catch (Exception $e) {
-        // Rollback the transaction on error
         $mysqli->rollback();
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
     exit();
 }
-
 
 // Fetch available slots and exceptions from the appointment_schedule table
 $query_slots = "SELECT id, date, time, slots, exception_reason FROM appointment_schedule WHERE slots > 0 OR exception_reason IS NOT NULL";
@@ -71,21 +80,22 @@ $result_slots = $mysqli->query($query_slots);
 $events = [];
 while ($row = $result_slots->fetch_assoc()) {
     if ($row['slots'] > 0) {
-        // Available slots
         $events[] = [
             'title' => 'Available ' . $row['time'] . ': ' . $row['slots'] . ' slots',
             'start' => $row['date'],
             'allDay' => true,
-            'color' => 'green',
-            'id' => $row['id']  // 'id' is now selected in the query
+            'color' => 'green', // Color for available slots
+            'id' => $row['id'],
+            'slots' => $row['slots'] // Include slot count in the event data
         ];
-    } else if (!empty($row['exception_reason'])) {
-        // Calendar exceptions (holidays, etc.)
+    } else if ($row['slots'] == 0) {
         $events[] = [
-            'title' => $row['exception_reason'],
+            'title' => 'No available slot',
             'start' => $row['date'],
             'allDay' => true,
-            'color' => 'red'
+            'color' => 'red', // Color for no available slots
+            'id' => $row['id'],
+            'slots' => 0 // Mark as no available slots
         ];
     }
 }
@@ -101,6 +111,43 @@ while ($row = $result_slots->fetch_assoc()) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        body {
+            background-color: #ffeef8; /* Light pink background */
+            color: black; /* Default text color */
+        }
+
+
+        .form-control {
+            border: 1px solid #ff66b2; /* Light pink border for input fields */
+        }
+
+        .btn-light-pink {
+            background-color: #ff66b2; /* Light pink button background */
+            color: black; /* Black text color */
+            border: 1px solid #ff66b2; /* Light pink border */
+        }
+
+        .btn-light-pink:hover {
+            background-color: #ff4d94; /* Slightly darker pink on hover */
+            border-color: #ff4d94; /* Slightly darker pink border on hover */
+        }
+
+        .modal-header {
+            background-color: #ff99cc; /* Lighter pink for modal header */
+            color: black; /* Dark text for contrast */
+        }
+
+        .card-box {
+            border: 1px solid #ff66b2; /* Light pink border for card boxes */
+        }
+
+        h6.text-danger {
+            color: #d5006d; /* Slightly darker pink for important text */
+        }
+
+        .text-muted {
+            color: #555; /* Darker text for muted information */
+        }
         .calendar-container {
             display: flex;
             justify-content: center;
@@ -118,16 +165,9 @@ while ($row = $result_slots->fetch_assoc()) {
 </head>
 <body>
 
-        <!-- Begin page -->
-        <div id="wrapper">
+    <div id="wrapper">
 
-            <!-- Topbar Start -->
-            <?php include('assets/inc/nav.php');?>
-            <!-- end Topbar -->
-
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
+        <?php include('assets/inc/nav.php');?>
 
         <div class="content-page">
             <div class="container-fluid">
@@ -146,99 +186,125 @@ while ($row = $result_slots->fetch_assoc()) {
             </div>
         </div>
 
-        <!-- Include Bootstrap for the modal -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <!-- Modal for appointment input -->
+        <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="appointmentModalLabel">Appointment Booking</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="appointmentForm">
+                            <div class="form-group">
+                                <label for="patient_name">Patient Name:</label>
+                                <input type="text" class="form-control" id="patient_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reason">Reason for Appointment:</label>
+                                <input type="text" class="form-control" id="reason" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submitAppointment">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- Modal for appointment input -->
-<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <!-- Modal for receipt -->
+<div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="appointmentModalLabel">Appointment Booking</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="receiptModalLabel">Receipt</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="appointmentForm">
-                    <div class="form-group">
-                        <label for="patient_name">Patient Name:</label>
-                        <input type="text" class="form-control" id="patient_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reason">Reason for Appointment:</label>
-                        <input type="text" class="form-control" id="reason" required>
-                    </div>
-                </form>
+                <p>Appointment Number: <span id="appointmentCount" style="font-size: 45px; font-weight: bold;"></span></p> <!-- Increased font size and bold text -->
+                <p>Please take a picture or have a screenshot.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitAppointment">Book Appointment</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            events: <?php echo json_encode($events); ?>,
-            eventClick: function(info) {
-                let time = info.event.title.includes('AM') ? 'AM' : 'PM'; // Determine time based on event title
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        events: <?php echo json_encode($events); ?>,
+        eventClick: function(info) {
+            // Check if there are no available slots
+            if (info.event.extendedProps.slots == 0) {
+                alert('No available slots for this time. Please choose another time.');
+                return; // Prevent further action
+            }
 
-                // Open the modal when an event is clicked
-                $('#appointmentModal').modal('show');
+            $('#appointmentModal').modal('show');
 
-                // Handle form submission inside the modal
-                $('#submitAppointment').off('click').on('click', function() {
-    let patientName = $('#patient_name').val(); // Get patient name from input
-    let reason = $('#reason').val(); // Get reason from input
+            $('#submitAppointment').off('click').on('click', function() {
+                let patientName = $('#patient_name').val();
+                let reason = $('#reason').val();
 
-    if (patientName && reason) {
-        // Send AJAX request to book the appointment
-        $.ajax({
-            url: 'appointment.php', // Your PHP file that handles booking
-            type: 'POST',
-            data: {
-                ajax: 'book_appointment',
-                date: info.event.startStr.split('T')[0], // Extract date from event start
-                time: info.event.title.includes('AM') ? 'AM' : 'PM', // Determine time based on event title
-                patient_name: patientName, // Include patient name
-                reason: reason // Include reason
-            },
-            success: function(response) {
-                var res = JSON.parse(response);
-                if (res.status === 'success') {
-                    alert('Appointment booked successfully!');
-                    // Update UI to reflect the reduced slots
-                    info.event.setProp('title', info.event.title.replace(/(\d+)/, function(match) {
-                        return parseInt(match) - 1;
-                    }));
-                    $('#appointmentModal').modal('hide'); // Close the modal
+                if (patientName && reason) {
+                    $.ajax({
+                        url: 'appointment.php',
+                        type: 'POST',
+                        data: {
+                            ajax: 'book_appointment',
+                            date: info.event.startStr.split('T')[0],
+                            time: info.event.title.includes('AM') ? 'AM' : 'PM',
+                            patient_name: patientName,
+                            reason: reason
+                        },
+                        success: function(response) {
+                            var res = JSON.parse(response);
+                            if (res.status === 'success') {
+                                alert('Appointment booked successfully!');
+                                $('#appointmentCount').text(res.appointment_count);
+                                $('#receiptModal').modal('show');
+                                
+                                // Update UI to reflect reduced slots
+                                let remainingSlots = parseInt(info.event.extendedProps.slots) - 1;
+                                
+                                if (remainingSlots > 0) {
+                                    info.event.setProp('title', 'Available ' + info.event.title.split(' ')[1] + ': ' + remainingSlots + ' slots');
+                                    info.event.setExtendedProp('slots', remainingSlots);
+                                } else {
+                                    info.event.setProp('title', 'No available slot');
+                                    info.event.setProp('color', 'red');
+                                    info.event.setExtendedProp('slots', 0);
+                                }
+                                
+                                $('#appointmentModal').modal('hide');
+                            } else {
+                                alert('No Available Slot: ' + res.message);
+                            }
+                        }
+                    });
                 } else {
-                    alert('Error: ' + res.message);
+                    alert('Please provide both patient name and reason for the appointment.');
                 }
-            }
-        });
-    } else {
-        alert('Please provide both patient name and reason for the appointment.');
-    }
-});
-
-            }
-        });
-        calendar.render();
+            });
+        }
     });
-</script>
-
+    calendar.render();
+});
+        </script>
     </div>
 
-<!-- Footer Start -->
+    <!-- Footer Start -->
 <?php include('assets/inc/footer.php');?>
                 <!-- end Footer -->
 
@@ -264,6 +330,6 @@ while ($row = $result_slots->fetch_assoc()) {
 
         <!-- App js-->
         <script src="assets/js/app.min.js"></script>
-
+        
 </body>
 </html>

@@ -14,7 +14,7 @@
                     <span>Medical Report</span>
                 </a>
                
-                <a href="his_admin_surgery_records.php" class="dropdown-item" style="font-size: 18px; color: black;">
+                <a href="his_admin_appointment.php" class="dropdown-item" style="font-size: 18px; color: black;">
                     <i class="fe-anchor mr-1"></i>
                     <span>Appointment</span>
                 </a>

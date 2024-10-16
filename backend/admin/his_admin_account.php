@@ -1,72 +1,68 @@
 <?php
-	session_start();
-	include('../../configuration/config.php');
-		if(isset($_POST['update_profile']))
-		{
-			$ad_fname=$_POST['ad_fname'];
-			$ad_lname=$_POST['ad_lname'];
-			$ad_id=$_SESSION['ad_id'];
-            $ad_email=$_POST['ad_email'];
-           // $doc_pwd=sha1(md5($_POST['doc_pwd']));
-            $ad_dpic=$_FILES["ad_dpic"]["name"];
-		    move_uploaded_file($_FILES["ad_dpic"]["tmp_name"],"assets/images/users/".$_FILES["ad_dpic"]["name"]);
+session_start();
+include('../../configuration/config.php');
+if (isset($_POST['update_profile'])) {
+    $ad_fname = $_POST['ad_fname'];
+    $ad_lname = $_POST['ad_lname'];
+    $ad_id = $_SESSION['ad_id'];
+    $ad_email = $_POST['ad_email'];
+    $ad_dpic = $_FILES["ad_dpic"]["name"];
+    move_uploaded_file($_FILES["ad_dpic"]["tmp_name"], "assets/images/users/" . $_FILES["ad_dpic"]["name"]);
 
-            //sql to insert captured values
-			$query="UPDATE his_admin SET ad_fname=?, ad_lname=?,  ad_email=?, ad_dpic=? WHERE ad_id = ?";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('ssssi', $ad_fname, $ad_lname, $ad_email, $ad_dpic, $ad_id);
-			$stmt->execute();
-			/*
-			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
-			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
-			*/ 
-			//declare a varible which will be passed to alert function
-			if($stmt)
-			{
-				$success = "Profile Updated";
-			}
-			else {
-				$err = "Please Try Again Or Try Later";
-			}
-			
-			
-        }
-        //Change Password
-        if(isset($_POST['update_pwd']))
-		{
-            $ad_id=$_SESSION['ad_id'];
-            $ad_pwd=sha1(md5($_POST['ad_pwd']));//double encrypt 
-            
-            //sql to insert captured values
-			$query="UPDATE his_admin SET ad_pwd =? WHERE ad_id = ?";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('si', $ad_pwd, $ad_id);
-			$stmt->execute();
-			/*
-			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
-			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
-			*/ 
-			//declare a varible which will be passed to alert function
-			if($stmt)
-			{
-				$success = "Password Updated";
-			}
-			else {
-				$err = "Please Try Again Or Try Later";
-			}
-			
-			
-		}
+    // SQL to update captured values
+    $query = "UPDATE his_admin SET ad_fname=?, ad_lname=?, ad_email=?, ad_dpic=? WHERE ad_id = ?";
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('ssssi', $ad_fname, $ad_lname, $ad_email, $ad_dpic, $ad_id);
+    $stmt->execute();
+
+    if ($stmt) {
+        $success = "Profile Updated";
+    } else {
+        $err = "Please Try Again Or Try Later";
+    }
+}
+
+// Change Password
+if (isset($_POST['update_pwd'])) {
+    $ad_id = $_SESSION['ad_id'];
+    $ad_pwd = sha1(md5($_POST['ad_pwd'])); // double encrypt 
+
+    // SQL to update captured values
+    $query = "UPDATE his_admin SET ad_pwd =? WHERE ad_id = ?";
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('si', $ad_pwd, $ad_id);
+    $stmt->execute();
+
+    if ($stmt) {
+        $success = "Password Updated";
+    } else {
+        $err = "Please Try Again Or Try Later";
+    }
+}
 ?>
 <!DOCTYPE html>
-    <html lang="en">
-        <?php include('assets/inc/head.php');?>
+<html lang="en">
+<?php include('assets/inc/head.php'); ?>
 
-        <style>
-    /* Make text bigger and color black */
-    body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
-        font-size: 18px; /* Adjust size as needed */
-        color: black;    /* Text color */
+<style>
+    /* Body and text colors */
+    body {
+        background-color: #ffe6f2; /* Light pink background */
+        font-size: 18px; /* Font size adjustment */
+    }
+
+    /* Text color adjustments */
+    label,
+    th,
+    td,
+    h4,
+    h1,
+    h2,
+    h3,
+    h5,
+    h6,
+    .breadcrumb-item a {
+        color: #333; /* Darker text for contrast */
     }
 
     /* Increase font size for table headers */
@@ -77,13 +73,14 @@
     /* Larger font size for page titles */
     h4.page-title {
         font-size: 24px;
-        color: black;
+        color: #333; /* Darker text for contrast */
     }
 
     /* Search input and buttons */
-    input[type="text"], button {
+    input[type="text"],
+    button {
         font-size: 18px;
-        color: black;
+        color: #333; /* Darker text for input fields */
     }
 
     /* Pagination */
@@ -91,310 +88,200 @@
         font-size: 18px;
     }
 
+    /* Card box styles */
+    .card-box {
+        background-color: #fff; /* White background for cards */
+        border: 1px solid #f2b2d1; /* Light pink border */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Padding inside the card */
+    }
+
+    /* Button styles */
+    .btn-success {
+        background-color: #ff80b3; /* Light pink button color */
+        border-color: #ff4d94; /* Darker pink border color */
+    }
+
+    /* Button hover effect */
+    .btn-success:hover {
+        background-color: #ff4d94; /* Darker pink on hover */
+    }
+
+    /* Input fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+        border: 1px solid #ff4d94; /* Pink border for input fields */
+    }
+    .nav-link {
+    color: black; /* Default text color */
+}
+
+.nav-link.active {
+    background-color: #ff4d94; /* Dark pink background for active tab */
+    color: white; /* Text color for active tab */
+}
 </style>
 
-    <body>
-        <style>
-        /* Increase font size for the entire page */
-        body {
-            font-size: 16px; /* Adjust the size to your preference */
-        }
+<body>
 
-        /* Increase font size for specific sections */
-        .content-page {
-            font-size: 18px; /* Adjust the size to your preference */
-        }
+    <!-- Begin page -->
+    <div id="wrapper">
 
-        .page-title-box h4, .card-box h4, .form-group label {
-            font-size: 18px; /* Adjust the size to your preference */
-        }
-    </style>
+        <!-- Topbar Start -->
+        <?php include('assets/inc/nav.php'); ?>
+        <!-- end Topbar -->
 
-        <!-- Begin page -->
-        <div id="wrapper">
+        <!-- ========== Left Sidebar Start ========== -->
+        <?php include('assets/inc/sidebar.php'); ?>
+        <!-- Left Sidebar End -->
 
-            <!-- Topbar Start -->
-            <?php include('assets/inc/nav.php');?>
-            <!-- end Topbar -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <?php
+        $aid = $_SESSION['ad_id'];
+        $ret = "select * from his_admin where ad_id=?";
+        $stmt = $mysqli->prepare($ret);
+        $stmt->bind_param('i', $aid);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($row = $res->fetch_object()) {
+        ?>
+            <div class="content-page">
+                <div class="content">
 
-            <!-- ========== Left Sidebar Start ========== -->
-                <?php include('assets/inc/sidebar.php');?>
-            <!-- Left Sidebar End -->
+                    <!-- Start Content-->
+                    <div class="container-fluid">
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-            <?php
-                $aid=$_SESSION['ad_id'];
-                $ret="select * from his_admin where ad_id=?";
-                $stmt= $mysqli->prepare($ret) ;
-                $stmt->bind_param('i',$aid);
-                $stmt->execute() ;//ok
-                $res=$stmt->get_result();
-                //$cnt=1;
-                while($row=$res->fetch_object())
-                {
-            ?>
-                <div class="content-page">
-                    <div class="content">
-
-                        <!-- Start Content-->
-                        <div class="container-fluid">
-
-                            <!-- start page title -->
-                             <br>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="page-title-box">
-                                        <div class="page-title-right">
-                                            <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                                <li class="breadcrumb-item active">Profile</li>
-                                            </ol>
-                                        </div>
-                                        <h4 class="page-title"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?>'s Profile</h4>
+                        <!-- Start page title -->
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">Profile</li>
+                                        </ol>
                                     </div>
+                                    <h4 class="page-title"><?php echo $row->ad_fname; ?> <?php echo $row->ad_lname; ?>'s Profile</h4>
                                 </div>
                             </div>
-                            <!-- end page title -->
+                        </div>
+                        <!-- End page title -->
 
-                            <div class="row">
-                                <div class="col-lg-4 col-xl-4">
-                                    <div class="card-box text-center">
-                                        <img src="assets/images/users/<?php echo $row->ad_dpic;?>" class="rounded-circle avatar-lg img-thumbnail"
-                                            alt="profile-image">
+                        <div class="row">
+                            <div class="col-lg-4 col-xl-4">
+                                <div class="card-box text-center">
+                                    <img src="assets/images/users/<?php echo $row->ad_dpic; ?>" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
-                                        <h4 class="mb-0"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?></h4>
-                                        <p class="text-muted">@System_Administrator_HMIS</p>
-                                        <div class="text-left mt-3" style="font-size: 18px;">
-                <p class="text-muted mb-2" style="font-size: 18px;"><strong>Full Name :</strong> <span class="ml-2"><?php echo $row->ad_fname;?> <?php echo $row->ad_lname;?></span></p>
-                <p class="text-muted mb-2" style="font-size: 18px;"><strong>Email :</strong> <span class="ml-2"><?php echo $row->ad_email;?></span></p>
-            </div>
+                                    <h4 class="mb-0"><?php echo $row->ad_fname; ?> <?php echo $row->ad_lname; ?></h4>
+                                    <p class="text-muted">@System_Administrator_HMIS</p>
+                                    <div class="text-left mt-3" style="font-size: 18px;">
+                                        <p class="text-muted mb-2" style="font-size: 18px;"><strong>Full Name :</strong> <span class="ml-2"><?php echo $row->ad_fname; ?> <?php echo $row->ad_lname; ?></span></p>
+                                        <p class="text-muted mb-2" style="font-size: 18px;"><strong>Email :</strong> <span class="ml-2"><?php echo $row->ad_email; ?></span></p>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col-->
 
-                                    </div> <!-- end card-box -->
+                            <div class="col-lg-8 col-xl-8">
+                                <div class="card-box">
                                    
-                                </div> <!-- end col-->
 
-                                <div class="col-lg-8 col-xl-8">
-                                    <div class="card-box">
-                                        <ul class="nav nav-pills navtab-bg nav-justified">
+                                        <!-- Tab Navigation -->
+                                        <ul class="nav nav-justified">
                                             <li class="nav-item">
                                                 <a href="#aboutme" data-toggle="tab" aria-expanded="false" class="nav-link active">
                                                     Update Profile
                                                 </a>
                                             </li>
-                                            
                                             <li class="nav-item">
                                                 <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                     Change Password
                                                 </a>
                                             </li>
                                         </ul>
-                                        <div class="tab-content">
-                                            <div class="tab-pane show active" id="aboutme">
-
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="aboutme">
                                             <form method="post" enctype="multipart/form-data">
-                                                    <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle mr-1"></i> Personal Info</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="firstname">First Name</label>
-                                                                <input type="text" name="ad_fname"  class="form-control" id="firstname" placeholder="<?php echo $row->ad_fname;?>">
-                                                            </div>
+                                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle mr-1"></i> Personal Info</h5>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="firstname">First Name</label>
+                                                            <input type="text" name="ad_fname" class="form-control" id="firstname" placeholder="<?php echo $row->ad_fname; ?>">
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="lastname">Last Name</label>
-                                                                <input type="text" name="ad_lname" class="form-control" id="lastname" placeholder="<?php echo $row->ad_lname;?>">
-                                                            </div>
-                                                        </div> <!-- end col -->
-                                                    </div> <!-- end row -->
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="useremail">Email Address</label>
-                                                                <input type="email" name="ad_email" class="form-control" id="useremail" placeholder="<?php echo $row->ad_email;?>">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="useremail">Profile Picture</label>
-                                                                <input type="file" name="ad_dpic" class="form-control btn btn-success" id="useremail" placeholder="<?php echo $row->ad_email;?>">
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div> <!-- end row -->
-
-                                                    <!--
-                                                    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building mr-1"></i> Company Info</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="companyname">Company Name</label>
-                                                                <input type="text" class="form-control" id="companyname" placeholder="Enter company name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="cwebsite">Website</label>
-                                                                <input type="text" class="form-control" id="cwebsite" placeholder="Enter website url">
-                                                            </div>
-                                                        </div> 
-                                                    </div> 
-
-                                                    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-earth mr-1"></i> Social</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-fb">Facebook</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-facebook-square"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-fb" placeholder="Url">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-tw">Twitter</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-twitter"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-tw" placeholder="Username">
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-                                                    </div> 
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-insta">Instagram</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-instagram"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-insta" placeholder="Url">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-lin">Linkedin</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-lin" placeholder="Url">
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-                                                    </div> 
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-sky">Skype</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-skype"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-sky" placeholder="@username">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="social-gh">Github</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"><i class="fab fa-github"></i></span>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="social-gh" placeholder="Username">
-                                                                </div>
-                                                            </div>
-                                                        </div> 
-                                                    </div>  -->
-                                                    
-                                                    <div class="text-right">
-                                                        <button type="submit" name="update_profile" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
                                                     </div>
-                                                </form>
-
-
-                                            </div> <!-- end tab-pane -->
-                                            <!-- end about me section content -->
-
-                                           
-
-                                            <div class="tab-pane" id="settings">
-                                                <form method="post">
-                                                    <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle mr-1"></i> Personal Info</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="firstname">Old Password</label>
-                                                                <input type="password" class="form-control" id="firstname" placeholder="Enter Old Password">
-                                                            </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="lastname">Last Name</label>
+                                                            <input type="text" name="ad_lname" class="form-control" id="lastname" placeholder="<?php echo $row->ad_lname; ?>">
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="lastname">New Password</label>
-                                                                <input type="password" class="form-control" name="ad_pwd" id="lastname" placeholder="Enter New Password">
-                                                            </div>
-                                                        </div> <!-- end col -->
-                                                    </div> <!-- end row -->
-
-                                                    <div class="form-group">
-                                                        <label for="useremail">Confirm Password</label>
-                                                        <input type="password" class="form-control" id="useremail" placeholder="Confirm New Password">
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="useremail">Email Address</label>
+                                                            <input type="email" name="ad_email" class="form-control" id="useremail" placeholder="<?php echo $row->ad_email; ?>">
+                                                        </div>
                                                     </div>
-
-                                                    <div class="text-right">
-                                                        <button type="submit" name="update_pwd" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Update Password</button>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="useremail">Profile Picture</label>
+                                                            <input type="file" name="ad_dpic" class="form-control btn btn-success" id="useremail" placeholder="<?php echo $row->ad_email; ?>">
+                                                        </div>
                                                     </div>
-                                                </form>
-                                            </div>
-                                            <!-- end settings content-->
+                                                </div> <!-- end row -->
 
-                                        </div> <!-- end tab-content -->
-                                    </div> <!-- end card-box-->
+                                                <div class="text-right">
+                                                    <button type="submit" name="update_profile" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                                </div>
+                                            </form>
+                                        </div> <!-- end tab-pane -->
+                                        <div class="tab-pane" id="settings">
+                                            <form method="post">
+                                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-lock mr-1"></i> Change Password</h5>
+                                                <div class="form-group">
+                                                    <label for="pass1">New Password</label>
+                                                    <input type="password" name="ad_pwd" class="form-control" id="pass1" required placeholder="Enter New Password">
+                                                </div>
+                                                <div class="text-right">
+                                                    <button type="submit" name="update_pwd" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-lock-open"></i> Update Password</button>
+                                                </div>
+                                            </form>
+                                        </div> <!-- end tab-pane -->
+                                    </div> <!-- end tab-content -->
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div> <!-- content-page -->
+        <?php } ?>
+    </div> <!-- wrapper -->
 
-                                </div> <!-- end col -->
-                            </div>
-                            <!-- end row-->
+    <!-- Footer Start -->
+    <?php include('assets/inc/footer.php'); ?>
+    <!-- end Footer -->
 
-                        </div> <!-- container -->
+<!-- Right bar overlay -->
+<div class="rightbar-overlay"></div>
 
-                    </div> <!-- content -->
+<!-- Vendor js -->
+<script src="assets/js/vendor.min.js"></script>
 
-                    <!-- Footer Start -->
-                    <?php include("assets/inc/footer.php");?>
-                    <!-- end Footer -->
+<!-- App js -->
+<script src="assets/js/app.min.js"></script>
 
-                </div>
-            <?php }?>
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
+<!-- Loading buttons js -->
+<script src="assets/libs/ladda/spin.js"></script>
+<script src="assets/libs/ladda/ladda.js"></script>
 
+<!-- Buttons init js -->
+<script src="assets/js/pages/loading-btn.init.js"></script>
 
-        </div>
-        <!-- END wrapper -->
-
-        
-        <!-- Right bar overlay-->
-        <div class="rightbar-overlay"></div>
-
-        <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
-
-        <!-- App js -->
-        <script src="assets/js/app.min.js"></script>
-
-    </body>
-
-
+</body>
 </html>

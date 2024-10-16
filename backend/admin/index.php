@@ -1,170 +1,147 @@
 <?php
-    session_start();
-    include('../../configuration/config.php');//get configuration file
-    if(isset($_POST['admin_login']))
-    {
-        $ad_email=$_POST['ad_email'];
-        $ad_pwd=sha1(md5($_POST['ad_pwd']));//double encrypt to increase security
-        $stmt=$mysqli->prepare("SELECT ad_email ,ad_pwd , ad_id FROM his_admin WHERE ad_email=? AND ad_pwd=? ");//sql to log in user
-        $stmt->bind_param('ss',$ad_email,$ad_pwd);//bind fetched parameters
-        $stmt->execute();//execute bind
-        $stmt -> bind_result($ad_email,$ad_pwd,$ad_id);//bind result
-        $rs=$stmt->fetch();
-        $_SESSION['ad_id']=$ad_id;//Assign session to admin id
-        //$uip=$_SERVER['REMOTE_ADDR'];
-        //$ldate=date('d/m/Y h:i:s', time());
-        if($rs)
-            {//if its sucessfull
-                header("location:his_admin_dashboard.php");
-            }
+session_start();
+include('../../configuration/config.php'); // get configuration file
+if (isset($_POST['admin_login'])) {
+    $ad_email = $_POST['ad_email'];
+    $ad_pwd = sha1(md5($_POST['ad_pwd'])); // double encrypt to increase security
+    $stmt = $mysqli->prepare("SELECT ad_email, ad_pwd, ad_id FROM his_admin WHERE ad_email=? AND ad_pwd=?"); // sql to log in user
+    $stmt->bind_param('ss', $ad_email, $ad_pwd); // bind fetched parameters
+    $stmt->execute(); // execute bind
+    $stmt->bind_result($ad_email, $ad_pwd, $ad_id); // bind result
+    $rs = $stmt->fetch();
+    $_SESSION['ad_id'] = $ad_id; // Assign session to admin id
 
-        else
-            {
-            #echo "<script>alert('Access Denied Please Check Your Credentials');</script>";
-                $err = "Access Denied Please Check Your Credentials";
-            }
+    if ($rs) { // if it's successful
+        header("location:his_admin_dashboard.php");
+    } else {
+        $err = "Access Denied Please Check Your Credentials";
     }
+}
 ?>
-<!--End Login-->
+<!-- End Login -->
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
-        <meta charset="utf-8" />
-        <title>Admin - Patient Management System</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="" name="description" />
-        <meta content="" name="MartDevelopers" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <meta charset="utf-8" />
+    <title>Admin - Patient Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="" name="MartDevelopers" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- App css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
-        <!--Load Sweet Alert Javascript-->
-        
-        <script src="assets/js/swal.js"></script>
-        <!--Inject SWAL-->
-        <?php if(isset($success)) {?>
-        <!--This code for injecting an alert-->
-                <script>
-                            setTimeout(function () 
-                            { 
-                                swal("Success","<?php echo $success;?>","success");
-                            },
-                                100);
-                </script>
+    <!-- App css -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <script src="assets/js/swal.js"></script>
 
-        <?php } ?>
+    <?php if (isset($success)) { ?>
+        <script>
+            setTimeout(function() {
+                swal("Success", "<?php echo $success; ?>", "success");
+            }, 100);
+        </script>
+    <?php } ?>
 
-        <?php if(isset($err)) {?>
-        <!--This code for injecting an alert-->
-                <script>
-                            setTimeout(function () 
-                            { 
-                                swal("Failed","<?php echo $err;?>","Failed");
-                            },
-                                100);
-                </script>
-
-        <?php } ?>
+    <?php if (isset($err)) { ?>
+        <script>
+            setTimeout(function() {
+                swal("Failed", "<?php echo $err; ?>", "Failed");
+            }, 100);
+        </script>
+    <?php } ?>
+    
     <style>
-    img {
-  width: 200px;
-  height: 100px;
-}</style>
+        body {
+            background-image: url('assets/images/bg1-pattern.jpg'); /* Keep the image background */
+            background-color: #ffeef8; /* Light pink background color */
+        }
+        .background-shadow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 192, 203, 0.5); /* Light pink shadow */
+            z-index: -1; /* Place behind other content */
+        }
+        .card {
+            background-color: #ffebee; /* Light pink background for the card */
+            border-radius: 10px;
+            padding: 40px; /* Increased padding for a larger login area */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+            min-height: 400px; /* Set minimum height for the login area */
+        }
+        .form-control {
+            border: 1px solid #d81b60; /* Darker pink for input borders */
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #d81b60; /* Button color */
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #c2185b; /* Darker shade on hover */
+        }
+        .text-muted {
+            color: #d81b60; /* Darker pink text */
+        }
+    </style>
 
+</head>
 
-    </head>
+<body class="authentication-bg">
 
-    <body class="authentication-bg authentication-bg1-pattern" style="background-image: url('assets/images/bg1-pattern.jpg');">
-
-        <div class="account-pages mt-5 mb-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card bg1-pattern">
-
-                            <div class="card-body p-4">
-                                
+    <div class="background-shadow"></div> <!-- Light pink shadow background -->
+    
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card">
+                        <div class="card-body p-4">
                             <div class="text-center w-75 m-auto">
-                                
-
                                 <p class="text-muted mb-4 mt-3">Enter your email address and password to access the admin panel.</p>
                             </div>
 
+                            <form method='post'>
+                                <div class="form-group mb-3">
+                                    <label for="emailaddress">Email address</label>
+                                    <input class="form-control" name="ad_email" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                </div>
 
-                                <form method='post' >
+                                <div class="form-group mb-3">
+                                    <label for="password">Password</label>
+                                    <input class="form-control" name="ad_pwd" type="password" required="" id="password" placeholder="Enter your password">
+                                </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="emailaddress">Email address</label>
-                                        <input class="form-control" name="ad_email" type="email" id="emailaddress" required="" placeholder="Enter your email">
-                                    </div>
+                                <div class="form-group mb-0 text-center">
+                                    <button class="btn btn-primary btn-block" name="admin_login" type="submit"> Admin Log In </button>
+                                </div>
+                            </form>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card -->
 
-                                    <div class="form-group mb-3">
-                                        <label for="password">Password</label>
-                                        <input class="form-control" name="ad_pwd" type="password" required="" id="password" placeholder="Enter your password">
-                                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <p> <a href="his_admin_pwd_reset.php" class="text-white-50 ml-1">Forgot your password?</a></p>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
 
-                                    <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-primary btn-block" name="admin_login" type="submit"> Admin Log In </button>
-                                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+        </div> <!-- end container -->
+    </div> <!-- end page -->
 
-                                </form>
+    <?php include("assets/inc/footer1.php"); ?>
 
-                                
-                                 <!-- For Now Lets Disable This 
-                                This feature will be implemented on later versions
-                                <div class="text-center">
-                                    <h5 class="mt-3 text-muted">Sign in with</h5>
-                                    <ul class="social-list list-inline mt-3 mb-0">
-                                        <li class="list-inline-item">
-                                            <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github-circle"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>  -->
-                               
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
 
-                            </div> <!-- end card-body -->
-                        </div>
-                        <!-- end card -->
+    <!-- App js -->
+    <script src="assets/js/app.min.js"></script>
 
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <p> <a href="his_admin_pwd_reset.php" class="text-white-50 ml-1">Forgot your password?</a></p>
-                               <!-- <p class="text-white-50">Don't have an account? <a href="his_admin_register.php" class="text-white ml-1"><b>Sign Up</b></a></p>-->
-                            </div> <!-- end col -->
-                        </div>
-                        <!-- end row -->
-
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        <!-- end page -->
-
-
-        <?php include ("assets/inc/footer1.php");?>
-
-        <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
-
-        <!-- App js -->
-        <script src="assets/js/app.min.js"></script>
-        
-    </body>
-
+</body>
 </html>
