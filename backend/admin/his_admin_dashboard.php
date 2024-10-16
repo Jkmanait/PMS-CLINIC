@@ -94,10 +94,11 @@ $aid = $_SESSION['ad_id'];
                     <!-- Start page title -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="page-title-box">
-                                <br>
-                                <h4 class="page-title">Dashboard</h4>
-                            </div>
+                        <div class="page-title-box" style="text-align: center;">
+                            <br>
+                            <h4 class="page-title" style="font-weight: bold;">Admin's Dashboard</h4>
+                        </div>
+
                         </div>
                     </div>
                     <!-- end page title -->
@@ -109,7 +110,7 @@ $aid = $_SESSION['ad_id'];
         <div class="row">
             <div class="col-6">
                 <div class="avatar-lg rounded-circle bg-soft-primary border-dark border">
-                    <i class="fas fa-calendar-check font-22 avatar-title" style="color: black;"></i> <!-- Icon color black -->
+                    <i class="fas fa-calendar-check font-22 avatar-title" style="color: black;"></i>
                 </div>
             </div>
             <div class="col-6">
@@ -135,7 +136,7 @@ $aid = $_SESSION['ad_id'];
                     $stmt->close();
                     ?>
                     <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo $appointment_count; ?></span></h3>
-                    <p class="mb-1 text-truncate" style="color: black;">Number of Appointments for Today</p> <!-- Text color black -->
+                    <p class="mb-1 text-truncate" style="color: black;">Number of Appointments for Today</p> 
                 </div>
             </div>
         </div>

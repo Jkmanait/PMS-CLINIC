@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-sizing: border-box;
         }
         .login-btn {
-            background-color: #d81b60; /* Button color */
+            background-color: #d81b60; 
             color: white;
             border: none;
             border-radius: 5px;
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
         }
         .login-btn:hover {
-            background-color: #c2185b; /* Darker shade on hover */
+            background-color: #c2185b; 
         }
         .password-toggle {
             position: absolute;

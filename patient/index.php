@@ -128,10 +128,10 @@ input[type="text"], button {
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box">
-                                    <br>
-                                    <h4 class="page-title">Dashboard</h4>
-                                </div>
+                            <div class="page-title-box" style="text-align: center;">
+                            <br>
+                            <h4 class="page-title" style="font-weight: bold;">Patient's Dashboard</h4>
+                        </div>
                             </div>
                         </div>     
                         <!-- end page title --> 
