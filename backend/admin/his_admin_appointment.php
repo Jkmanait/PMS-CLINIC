@@ -67,7 +67,7 @@ $calendar_exceptions = [];
 while ($row = $result_exceptions->fetch_assoc()) {
     $calendar_exceptions[] = [
         'id' => $row['id'],
-        'title' => $row['exception_reason'] ? $row['exception_reason'] : "Exception",
+        'title' => $row['exception_reason'] ? $row['exception_reason'] : "No Available Slots",
         'start' => $row['date'],
         'allDay' => true,
         'backgroundColor' => '#dc3545', // red for exceptions/holidays
@@ -201,7 +201,7 @@ $events = array_merge($appointment_slots, $calendar_exceptions);
                     if(info.event.backgroundColor == '#28a745') {
                         alert('Available Slots: ' + info.event.title);
                     } else if(info.event.backgroundColor == '#dc3545') {
-                        alert('Exception: ' + info.event.title);
+                        alert('No Available Slots: ' + info.event.title);
                     }
                 }
             });
