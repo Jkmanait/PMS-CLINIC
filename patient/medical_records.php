@@ -116,11 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                                 <form method="POST" class="mb-4">
                                     <div class="form-group mb-3">
                                         <label for="mdr_number">MRN: (Medical Record Number)</label>
-                                        <input type="text" class="form-control" name="mdr_number" required>
+                                        <input type="text" class="form-control" name="mdr_number" placeholder="XXXX-XXXX-XXXX-XXXX" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="pat_number">Patient Number:</label>
-                                        <input type="text" class="form-control" name="pat_number" required>
+                                        <label for="pat_number">Patient Number: (KPID)</label>
+                                        <input type="text" class="form-control" name="pat_number" placeholder="XXXXXXXX" required>
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" name="fetch_records" class="btn btn-light-pink btn-block mt-3">View Records</button>

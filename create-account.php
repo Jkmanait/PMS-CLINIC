@@ -10,28 +10,28 @@
     <title>Create Account</title>
     <style>
         body {
-            background-color: #ffe4e1; 
+            background-color: #ffe4e1; /* Light pink background */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; 
-            margin: 0; 
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
         }
         .container {
-            background-color: #ffebee; 
+            background-color: #ffebee; /* Light pink container */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 60%;
-            max-width: 600px; 
+            max-width: 600px; /* Limit max width for smaller screens */
             animation: transitionIn-X 0.5s;
         }
         .header-text, .sub-text, .form-label {
-            color: #d81b60; 
+            color: #d81b60; /* Darker pink */
             text-align: center;
         }
         .input-text {
-            border: 1px solid #d81b60; 
+            border: 1px solid #d81b60; /* Pink border for inputs */
             border-radius: 5px;
             padding: 10px;
             width: 100%;
@@ -39,7 +39,7 @@
             margin-bottom: 10px;
         }
         .login-btn {
-            background-color: #d81b60; 
+            background-color: #d81b60; /* Button color */
             color: white;
             border: none;
             border-radius: 5px;
@@ -49,7 +49,7 @@
             margin: 5px 0;
         }
         .login-btn:hover {
-            background-color: #c2185b; 
+            background-color: #c2185b; /* Darker shade on hover */
         }
         .input-container {
             display: flex;
@@ -118,7 +118,7 @@ if ($_POST) {
         if ($result->num_rows == 1) {
             $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         } else {
-            $mysqli->query("INSERT INTO patient(pemail,pname,ppassword, paddress, ppdob, ptel) VALUES('$email','$name','$newpassword','$address','$dob','$tele');");
+            $mysqli->query("INSERT INTO patient(pemail,pname,ppassword, paddress, pdob, ptel) VALUES('$email','$name','$newpassword','$address','$pdob','$tele');");
             $mysqli->query("INSERT INTO webuser VALUES('$email','p')");
             $_SESSION["user"] = $email;
             $_SESSION["usertype"] = "p";

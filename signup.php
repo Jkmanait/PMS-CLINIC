@@ -14,63 +14,63 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; 
-            margin: 0; 
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
         }
         .container {
-            background-color: #ffebee; 
+            background-color: #ffebee; /* Light pink container */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 60%;
-            max-width: 600px; 
+            max-width: 600px; /* Limit max width for smaller screens */
         }
         .header-text {
-            color: #d81b60; 
+            color: #d81b60; /* Darker pink for header */
             text-align: center;
         }
         .sub-text {
-            color: #f06292; 
+            color: #f06292; /* Lighter pink for subtext */
             text-align: center;
         }
         .form-label {
-            color: #d81b60; 
+            color: #d81b60; /* Darker pink for labels */
             
-            display: block; 
-            margin: 10px 0; 
+            display: block; /* Make labels block elements */
+            margin: 10px 0; /* Space around labels */
         }
         .input-text {
-            border: 1px solid #d81b60; 
+            border: 1px solid #d81b60; /* Pink border for inputs */
             border-radius: 5px;
             padding: 10px;
             width: 100%;
             box-sizing: border-box;
         }
         .login-btn {
-            background-color: #d81b60; 
+            background-color: #d81b60; /* Button color */
             color: white;
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
             cursor: pointer;
-            width: 100%; 
+            width: 100%; /* Make buttons full width */
         }
         .login-btn:hover {
-            background-color: #c2185b; 
+            background-color: #c2185b; /* Darker shade on hover */
         }
         .input-container {
             display: flex;
-            justify-content: center; 
+            justify-content: center; /* Center the input containers */
             margin-bottom: 15px;
         }
         .checkmark {
-            display: none; 
-            color: green; 
+            display: none; /* Hidden by default */
+            color: green; /* Green checkmark */
             font-size: 20px;
-            margin-left: 10px; 
+            margin-left: 10px; /* Space between input and checkmark */
         }
         .checkmark.valid {
-            display: inline; 
+            display: inline; /* Show when valid */
         }
         .label-td {
             padding: 5px;
@@ -160,13 +160,12 @@ if ($_POST) {
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="login-btn btn-primary-soft btn" onclick="resetForm()">Reset</button>
+                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn">
                 </td>
                 <td>
                     <input type="submit" value="Next" class="login-btn btn-primary btn">
                 </td>
             </tr>
-
             <tr>
                 <td colspan="2">
                     <br>
@@ -196,9 +195,6 @@ if ($_POST) {
     function validateDate() {
         const dob = document.getElementById('dob').value;
         document.getElementById('dob-check').classList.toggle('valid', dob !== '');
-    }
-    function resetForm() {
-        window.location.href = 'index.php'; // Redirect to index.php
     }
 </script>
 
