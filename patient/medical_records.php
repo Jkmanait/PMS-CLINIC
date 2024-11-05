@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
             color: #d5006d; /* Slightly darker pink for important text */
         }
 
-        .text-muted {
-            color: #555; /* Darker text for muted information */
+        .text-dark {
+            color: #555; /* Darker text for dark information */
         }
     </style>
 </head>
@@ -127,80 +127,132 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                         <div class="modal fade" id="recordsModal" tabindex="-1" aria-labelledby="recordsModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 1500px;">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="position: relative;">
                 <h5 class="modal-title" id="recordsModalLabel">Your Medical Records</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Dropdown Button with Icons -->
+<div class="dropdown" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-cogs"></i> <!-- Gear icon for actions -->
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Print Option with Icon -->
+            <li>
+                <button class="dropdown-item" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </li>
+
+            <!-- Download PDF Option with Icon -->
+            <li>
+                <button class="dropdown-item" id="downloadPdfBtn">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS (required for dropdown to work) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jsPDF Library -->
+    <script>
+        document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+            // Get the modal content
+            const modalContent = document.querySelector('.modal-body').innerHTML;
+
+            // Create a jsPDF instance
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add content to the PDF
+            doc.html(modalContent, {
+                callback: function (doc) {
+                    doc.save('medical-records.pdf'); // This downloads the PDF
+                },
+                x: 10,
+                y: 10
+            });
+        });
+    </script>
+
+
+
                 <?php if ($noRecordsFound): ?>
                     <p>No Medical Record</p>
                 <?php else: ?>
-                    <ul class="list-unstyled timeline-sm" style="margin-left: 0;">
-                        
-                           
-                                <div class="row">
-                                    <div class="col-xl-7">
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Patient Name:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_name']); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Patient Sex:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_sex']); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Age:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_age']); ?> Years</span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>KPID:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_number']); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Parent/Guardian Name:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_parent_name']); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Address:</strong>
-                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_adr']); ?></span>
-                                        </p>
-                                    </div>
-                                    <?php foreach ($medical_records as $record): ?>
-                                    <li class="timeline-sm-item">
-                                    <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($record['created_at'])); ?></span>
-                                    <h5 class="mt-0 mb-1">Ailment: <?php echo htmlspecialchars($record['patient_chart_pat_ailment']); ?></h5>
-                                    <div class="col-xl-5">
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Weight:</strong>
-                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_weight'])); ?> kg</span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Length:</strong>
-                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_length'])); ?> cm</span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Temperature:</strong>
-                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_temp'])); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Diagnosis:</strong>
-                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_diagnosis'])); ?></span>
-                                        </p>
-                                        <p class="text-muted mb-2 font-13 info-text">
-                                            <strong>Prescription:</strong>
-                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_prescription'])); ?></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <ul class="list-unstyled timeline-sm" style="margin-left: 0;">                
+                        <div class="row">
+                            <div class="col-xl-7">
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Patient Name:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_name']); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Patient Sex:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_sex']); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Age:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_age']); ?> Years</span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>KPID:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_number']); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Parent/Guardian Name:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_parent_name']); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Address:</strong>
+                                    <span class="ml-6"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_adr']); ?></span>
+                                </p>
+                            </div>
+                            <?php foreach ($medical_records as $record): ?>
+                            <li class="timeline-sm-item">
+                            <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($record['created_at'])); ?></span>
+                            <h5 class="mt-0 mb-1">Ailment: <?php echo htmlspecialchars($record['patient_chart_pat_ailment']); ?></h5>
+                            <div class="col-xl-5">
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Weight:</strong>
+                                    <span class="ml-6"><?php echo nl2br(htmlspecialchars($record['patient_chart_weight'])); ?> kg</span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Length:</strong>
+                                    <span class="ml-6"><?php echo nl2br(htmlspecialchars($record['patient_chart_length'])); ?> cm</span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Temperature:</strong>
+                                    <span class="ml-6"><?php echo nl2br(htmlspecialchars($record['patient_chart_temp'])); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Diagnosis:</strong>
+                                    <span class="ml-6"><?php echo nl2br(htmlspecialchars($record['patient_chart_diagnosis'])); ?></span>
+                                </p>
+                                <p class="text-dark mb-2 font-20 info-text">
+                                    <strong>Prescription:</strong>
+                                    <span class="ml-6"><?php echo nl2br(htmlspecialchars($record['patient_chart_prescription'])); ?></span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
                 <?php endif; ?>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
-        
         </div>
     </div>
 </div>
