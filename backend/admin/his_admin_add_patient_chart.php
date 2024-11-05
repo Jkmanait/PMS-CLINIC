@@ -1,14 +1,14 @@
 <?php
-  session_start();
-  include('../../configuration/config.php');
-  include('assets/inc/checklogin.php');
-  check_login();
-  $aid = $_SESSION['ad_id'];
+session_start();
+include('../../configuration/config.php');
+include('assets/inc/checklogin.php');
+check_login();
+$aid = $_SESSION['ad_id'];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <?php include('assets/inc/head.php');?>
 
 <style>
@@ -27,11 +27,6 @@
     /* Style for female patients */
     .female {
         background-color: #ffcccb; /* Light pink background */
-    }
-
-    /* Increase font size for table headers */
-    th {
-        font-size: 20px; /* Larger font for headers */
     }
 
     /* Larger font size for page titles */
@@ -58,11 +53,11 @@
     <div id="wrapper">
 
         <!-- Topbar Start -->
-            <?php include('assets/inc/nav.php');?>
+        <?php include('assets/inc/nav.php');?>
         <!-- end Topbar -->
 
         <!-- ========== Left Sidebar Start ========== -->
-            <?php include("assets/inc/sidebar.php");?>
+        <?php include("assets/inc/sidebar.php");?>
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -75,7 +70,7 @@
                 <!-- Start Content-->
                 <br>
                 <div class="container-fluid">
-                    
+
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -90,8 +85,8 @@
                                 <h4 class="page-title">Patient Details</h4>
                             </div>
                         </div>
-                    </div>     
-                    <!-- end page title --> 
+                    </div>
+                    <!-- end page title -->
 
                     <div class="row">
                         <div class="col-12">
@@ -99,7 +94,7 @@
                                 <h4 class="header-title"></h4>
                                 <div class="mb-2">
                                     <div class="row">
-                                        <div class="col-12 text-sm-center form-inline" >
+                                        <div class="col-12 text-sm-center form-inline">
                                             <div class="form-group mr-2" style="display:none">
                                                 <select id="demo-foo-filter-status" class="custom-select custom-select-sm">
                                                     <option value="">Show all</option>
@@ -113,12 +108,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="table-responsive">
                                     <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                             <tr>
-                                            <th data-toggle="true">Patient Name</th>
+                                                <th data-toggle="true">Check</th>
+                                                <th data-toggle="true">Patient Name</th>
                                                 <th data-hide="phone">Age</th>
                                                 <th data-hide="phone">Patient Sex</th>
                                                 <th data-hide="phone">Address</th>
@@ -127,29 +123,39 @@
                                                 <th data-hide="phone">Action</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
                                         <?php
                                         /*
                                             * Get details of all patients ordered by pat_id
+                                            * Join with his_patient_chart to check for existing charts
                                             */
-                                        $ret = "SELECT * FROM his_patients ORDER BY pat_id ASC"; // Order by pat_id in ascending order
+                                        $ret = "SELECT p.*, 
+                                                        (SELECT COUNT(*) FROM his_patient_chart WHERE patient_chart_pat_number = p.pat_number) as has_chart 
+                                                FROM his_patients p 
+                                                ORDER BY p.pat_id ASC"; // Order by pat_id in ascending order
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute();
                                         $res = $stmt->get_result();
                                         while ($row = $res->fetch_object()) {
                                         ?>
-                                            <tbody>
                                             <tr class="<?php echo ($row->pat_sex == 'Female') ? 'female' : ''; ?>">
-                                                    <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
-                                                    <td><?php echo $row->pat_age; ?> Year's Old</td>
-                                                    <td><?php echo $row->pat_sex; ?></td>
-                                                    <td><?php echo $row->pat_addr; ?></td>
-                                                    <td><?php echo $row->pat_parent_name; ?></td>
-                                                    <td><?php echo $row->pat_phone; ?></td>
-                                                                                                
+                                                <td>
+                                                    <?php if ($row->has_chart > 0): ?>
+                                                        <i class="fas fa-check" style="color: green;"></i> <!-- Check mark if chart exists -->
+                                                    <?php else: ?>
+                                                        <i class="fas fa-times" style="color: red;"></i> <!-- Cross mark if no chart -->
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
+                                                <td><?php echo $row->pat_age; ?> Year's Old</td>
+                                                <td><?php echo $row->pat_sex; ?></td>
+                                                <td><?php echo $row->pat_addr; ?></td>
+                                                <td><?php echo $row->pat_parent_name; ?></td>
+                                                <td><?php echo $row->pat_phone; ?></td>
                                                 <td><a href="his_admin_add_single_patient_chart.php?pat_number=<?php echo $row->pat_number;?>" class="badge badge-success"><i class="fas fa-file-signature"></i> Add Patient Chart</a></td>
                                             </tr>
-                                            </tbody>
                                         <?php } ?>
+                                        </tbody>
                                         <tfoot>
                                         <tr class="active">
                                             <td colspan="8">
@@ -171,7 +177,7 @@
             </div> <!-- content -->
 
             <!-- Footer Start -->
-             <?php include('assets/inc/footer.php');?>
+            <?php include('assets/inc/footer.php');?>
             <!-- end Footer -->
 
         </div>
@@ -188,12 +194,6 @@
 
     <!-- Vendor js -->
     <script src="assets/js/vendor.min.js"></script>
-
-    <!-- Footable js -->
-    <script src="assets/libs/footable/footable.all.min.js"></script>
-
-    <!-- Init js -->
-    <script src="assets/js/pages/foo-tables.init.js"></script>
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>

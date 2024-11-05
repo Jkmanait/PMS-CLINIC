@@ -126,6 +126,7 @@ $aid = $_SESSION['ad_id'];
                                     <table class="table table-bordered toggle-circle mb-0">
                                         <thead>
                                             <tr>
+                                                <th data-toggle="true">Check</th>
                                                 <th data-toggle="true">Patient Name</th>
                                                 <th data-hide="phone">Age</th>
                                                 <th data-hide="phone">Patient Sex</th>
@@ -145,9 +146,19 @@ $aid = $_SESSION['ad_id'];
                                         $stmt->execute();
                                         $res = $stmt->get_result();
                                         while ($row = $res->fetch_object()) {
+                                            // Check if the patient has a chart
+                                            $chartCheck = $mysqli->prepare("SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ?");
+                                            $chartCheck->bind_param("s", $row->pat_number);
+                                            $chartCheck->execute();
+                                            $chartRes = $chartCheck->get_result();
+                                            $hasChart = $chartRes->num_rows > 0; // True if there is at least one record
+                                        
+                                            // Determine the check mark or cross mark HTML
+                                            $checkMark = $hasChart ? '<i class="fas fa-check" style="color: green;"></i>' : '<i class="fas fa-times" style="color: red;"></i>'; // Cross mark icon if no chart
                                         ?>
                                             <tbody>
                                                 <tr class="<?php echo ($row->pat_sex == 'Female') ? 'female' : ''; ?>">
+                                                    <td><?php echo $checkMark; ?></td>
                                                     <td><?php echo $row->pat_fname; ?> <?php echo $row->pat_lname; ?></td>
                                                     <td><?php echo $row->pat_age; ?> Year's Old</td>
                                                     <td><?php echo $row->pat_sex; ?></td>

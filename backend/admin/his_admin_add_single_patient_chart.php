@@ -210,38 +210,35 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
                                             </div>
 
                                             <div class="form-group col-md-4">
-    <label for="patientchartTemp" class="col-form-label">Temperature</label>
-    <textarea required="required" class="form-control" name="patient_chart_temp" id="patientchartTemp" placeholder="Enter Patient Temperature"></textarea>
-</div>
+                                                <label for="patientchartTemp" class="col-form-label">Temperature</label>
+                                                <textarea required="required" class="form-control" name="patient_chart_temp" id="patientchartTemp" placeholder="Enter Patient Temperature"></textarea>
+                                            </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const temperatureField = document.getElementById("patientchartTemp");
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", function() {
+                                                    const temperatureField = document.getElementById("patientchartTemp");
 
-        // Use the blur event to detect when the user leaves the field
-        temperatureField.addEventListener("blur", function() {
-            let value = temperatureField.value;
+                                                    // Use the blur event to detect when the user leaves the field
+                                                    temperatureField.addEventListener("blur", function() {
+                                                        let value = temperatureField.value;
 
-            // Append "°C" if the field is not empty and doesn't already have "°C"
-            if (value && !value.endsWith("°C")) {
-                temperatureField.value = value + "°C";
-            }
-        });
+                                                        // Append "°C" if the field is not empty and doesn't already have "°C"
+                                                        if (value && !value.endsWith("°C")) {
+                                                            temperatureField.value = value + "°C";
+                                                        }
+                                                    });
 
-        // Optional: Remove "°C" on focus, allowing the user to edit easily
-        temperatureField.addEventListener("focus", function() {
-            let value = temperatureField.value;
+                                                    // Optional: Remove "°C" on focus, allowing the user to edit easily
+                                                    temperatureField.addEventListener("focus", function() {
+                                                        let value = temperatureField.value;
 
-            // Remove the "°C" suffix if it's there, for easier editing
-            if (value.endsWith("°C")) {
-                temperatureField.value = value.slice(0, -2);
-            }
-        });
-    });
-</script>
-
-
-
+                                                        // Remove the "°C" suffix if it's there, for easier editing
+                                                        if (value.endsWith("°C")) {
+                                                            temperatureField.value = value.slice(0, -2);
+                                                        }
+                                                    });
+                                                });
+                                            </script>
 
                                             <div class="form-group col-md-6">
                                                 <!-- patient chart Diagnosis -->
