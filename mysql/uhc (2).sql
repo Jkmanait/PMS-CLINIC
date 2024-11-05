@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 06:52 PM
+-- Generation Time: Nov 05, 2024 at 12:41 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -32,7 +32,7 @@ CREATE TABLE `appointments` (
   `patient_id` int(11) NOT NULL,
   `patient_name` varchar(255) NOT NULL,
   `appointment_date` date NOT NULL,
-  `appointment_time` time NOT NULL,
+  `appointment_time` varchar(2) NOT NULL,
   `appointment_reason` varchar(255) DEFAULT NULL,
   `appointment_status` varchar(50) DEFAULT 'Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -43,7 +43,7 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `patient_id`, `patient_name`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
-(0, 1, 'Cardo Dalisay', '2024-10-15', '00:00:00', 'fever', 'Pending', '2024-10-14 13:08:16');
+(0, 8, 'Cardo Dalisay', '2024-10-24', 'AM', 'fever', 'Pending', '2024-10-17 08:12:06');
 
 -- --------------------------------------------------------
 
@@ -64,9 +64,11 @@ CREATE TABLE `appointment_schedule` (
 --
 
 INSERT INTO `appointment_schedule` (`id`, `date`, `time`, `slots`, `exception_reason`) VALUES
-(0, '2024-10-15', 'AM', 14, NULL),
-(0, '2024-10-15', 'PM', 15, NULL),
-(0, '2024-10-20', '', 0, 'dayoff');
+(0, '2024-10-24', 'AM', 9, NULL),
+(0, '2024-10-24', 'PM', 10, NULL),
+(0, '2024-12-25', '', 0, 'christmas'),
+(0, '2024-10-25', 'AM', 15, NULL),
+(0, '2024-10-25', 'PM', 15, NULL);
 
 -- --------------------------------------------------------
 
@@ -176,7 +178,34 @@ INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_
 (11, 'Mario ', 'Pierce', '2020-05-22', '4', 'Mara Pierce', '1235876', 'Alae, Manolo Fortich, Bukidnon', '09333333333', 'Male', '2024-10-14 12:25:22.566333', 'Allergies', NULL),
 (12, 'Lorenzo ', 'Marsh', '2015-06-22', '9', 'Tripp Marsh', '2375089', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-14 12:26:03.114944', 'Chronic pain', NULL),
 (13, 'Nora ', 'Vang', '2016-07-22', '8', 'Clay Vang', '2384957', 'Manolo Fortich, Bukidnon', '09090909092', 'Female', '2024-10-14 12:27:14.879647', 'fever', NULL),
-(14, 'Louie ', 'Crosby', '2019-08-22', '5', 'Olive Crosby', '1897053', 'Manolo Fortich, Bukidnon', '09090909091', 'Male', '2024-10-14 12:27:54.202248', 'Fever', NULL);
+(14, 'Louie ', 'Crosby', '2019-08-22', '5', 'Olive Crosby', '1897053', 'Manolo Fortich, Bukidnon', '09090909091', 'Male', '2024-10-14 12:27:54.202248', 'Fever', NULL),
+(15, 'James Kenneth', 'Manait', '2001-05-29', '23', 'Roniel Barrio', '6154723', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-17 02:50:20.397882', 'Chronic pain', NULL),
+(16, 'James Kenneth', 'Manait', '2001-07-29', '23', 'Roniel Barrio', '8401326', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-17 08:04:44.032157', 'Chronic pain', NULL),
+(17, 'Roniel', 'Puagang', '2001-11-11', '23', 'Connor Payne', '7021569', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-19 06:53:20.940221', 'fever', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_patient_chart`
+--
+
+CREATE TABLE `his_patient_chart` (
+  `patient_chart_id` int(11) NOT NULL,
+  `mdr_number` varchar(50) DEFAULT NULL,
+  `patient_chart_pat_name` varchar(255) NOT NULL,
+  `patient_chart_pat_sex` varchar(200) DEFAULT NULL,
+  `patient_chart_pat_parent_name` varchar(255) DEFAULT NULL,
+  `patient_chart_pat_adr` varchar(255) NOT NULL,
+  `patient_chart_pat_age` varchar(10) NOT NULL,
+  `patient_chart_pat_number` varchar(50) NOT NULL,
+  `patient_chart_pat_ailment` varchar(255) NOT NULL,
+  `patient_chart_weight` text NOT NULL,
+  `patient_chart_lenght` text NOT NULL,
+  `patient_chart_temp` text NOT NULL,
+  `patient_chart_diagnosis` text NOT NULL,
+  `patient_chart_prescription` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -226,7 +255,11 @@ INSERT INTO `his_soap_records` (`soap_id`, `mdr_number`, `soap_pat_name`, `soap_
 (675, '5719-0286-5719-0286', 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', '2024-10-14 14:38:02'),
 (676, '5719-0286-5719-0286', 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', '2024-10-14 14:38:17'),
 (677, '8763-4029-8763-4029', 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', '2024-10-14 14:38:44'),
-(678, '8763-4029-8763-4029', 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', '2024-10-14 14:39:08');
+(678, '8763-4029-8763-4029', 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', '2024-10-14 14:39:08'),
+(679, '8591-6024-8591-6024', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '6154723', 'Chronic pain', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbb', 'ccccccccccccccccccccccccccccccccccc', 'ddddddddddddddddddddddddddddddddddddd', '2024-10-17 02:51:01'),
+(680, '8591-6024-8591-6024', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '6154723', 'Chronic pain', 'eeeeeeeeeeeeeeeeeeeee', 'ffffffffffffffffffffffffffffff', 'gggggggggggggggggggggggggggg', 'hhhhhhhhhhhhhhhhhhhhh', '2024-10-17 02:51:35'),
+(681, '5610-9743-5610-9743', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8401326', 'Chronic pain', 'sample 1', 'sample2 ', 'sample 3 ', 'sample 4', '2024-10-17 08:06:08'),
+(682, '5610-9743-5610-9743', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8401326', 'fever', 'sample 5', 'sample 6', 'sample 7', 'sample 8', '2024-10-17 08:07:09');
 
 -- --------------------------------------------------------
 
@@ -282,9 +315,11 @@ CREATE TABLE `patient` (
 
 INSERT INTO `patient` (`patient_id`, `pemail`, `pname`, `ppassword`, `paddress`, `pnic`, `pdob`, `ptel`) VALUES
 (1, 'jkmanait@gmail.com', 'james kenneth manait', 'james@123', 'Damilag', '', '2001-05-29', '09090909090'),
-(2, 'arnel@gmail.com', 'ar nel', 'arnel@123', 'manolo', '', '2001-10-10', '09000000000'),
-(3, 'sa@gmail.com', 'joh kenneth', 'james@123', 'Damilag', '', '2001-11-11', '09099999999'),
-(4, 'roniel@gmail.com', 'Roniel Barrio', 'roniel@123', 'Lingion, Manolo Fortich, Bukidnon', '', '2001-11-11', '09090909090');
+(4, 'roniel@gmail.com', 'Roniel Barrio', 'roniel@123', 'Lingion, Manolo Fortich, Bukidnon', '', '2001-11-11', '09090909090'),
+(5, 'john@gmail.com', 'john cruz', 'john@123', 'Damilag, Manolo Fortich, Bukidnon', '', '2001-11-11', '09999999999'),
+(6, 'arnel@gmail.com', 'arnel puagang', 'arnel@123', 'Damilag, Manolo Fortich, Bukidnon', NULL, '0000-00-00', '09090909090'),
+(7, 'janjan@gmail.com', 'jan jan', 'janjan@123', 'Damilag, Manolo Fortich, Bukidnon', NULL, '0000-00-00', '09090909090'),
+(8, 'mike@gmail.com', 'Mike puagang', 'mike@123', 'Damilag, Manolo Fortich, Bukidnon', NULL, '0000-00-00', '09999999999');
 
 -- --------------------------------------------------------
 
@@ -330,7 +365,13 @@ CREATE TABLE `webuser` (
 
 INSERT INTO `webuser` (`email`, `usertype`) VALUES
 ('arnel@gmail.com', 'p'),
+('jan@gmail.com', 'p'),
+('janjan@gmail.com', 'p'),
 ('jkmanait@gmail.com', 'p'),
+('john@gmail.com', 'p'),
+('johnn@gmail.com', 'p'),
+('kenneth@gmail.com', 'p'),
+('mike@gmail.com', 'p'),
 ('roniel@gmail.com', 'p'),
 ('sa@gmail.com', 'p'),
 ('sample@gmail.com', 'p');
@@ -439,7 +480,7 @@ ALTER TABLE `his_nurse_note`
 -- AUTO_INCREMENT for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `his_pharmaceuticals`
@@ -451,7 +492,7 @@ ALTER TABLE `his_pharmaceuticals`
 -- AUTO_INCREMENT for table `his_soap_records`
 --
 ALTER TABLE `his_soap_records`
-  MODIFY `soap_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=679;
+  MODIFY `soap_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=683;
 
 --
 -- AUTO_INCREMENT for table `his_surgery`
@@ -469,7 +510,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `schedule`
