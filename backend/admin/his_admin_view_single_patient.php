@@ -174,43 +174,83 @@ $aid = $_SESSION['ad_id'];
                                             Medical Records History
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="#patient-chart" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                            Patient Chart
+                                        </a>
+                                    </li>
                                 </ul>
                                 <!-- Medical History -->
                                 <div class="tab-content">
-    <div class="tab-pane show active" id="aboutme">
-        <ul class="list-unstyled timeline-sm" style="margin-left: 85px;"> 
-            <?php
-            $soap_pat_number = $_GET['pat_number'];
-            $ret = "SELECT * FROM his_soap_records WHERE soap_pat_number = ?";
-            $stmt = $mysqli->prepare($ret);
-            $stmt->bind_param('s', $soap_pat_number); // Assuming pat_number is a string
-            $stmt->execute();
-            $res = $stmt->get_result();
-            
-            if ($res->num_rows > 0) {
-                while ($row = $res->fetch_object()) {
-            ?>
-                    <li class="timeline-sm-item">
-                        <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($row->created_at)); ?></span>
-                        <h5 class="mt-0 mb-1"><?php echo htmlspecialchars($row->soap_pat_ailment); ?></h5>
-                        <p class="text-muted mt-2">
-                            <strong>Subjective:</strong> <?php echo nl2br(htmlspecialchars($row->soap_subjective)); ?><br>
-                            <strong>Objective:</strong> <?php echo nl2br(htmlspecialchars($row->soap_objective)); ?><br>
-                            <strong>Assessment:</strong> <?php echo nl2br(htmlspecialchars($row->soap_assessment)); ?><br>
-                            <strong>Plan:</strong> <?php echo nl2br(htmlspecialchars($row->soap_plan)); ?>
-                        </p>
-                    </li>
-            <?php 
-                }
-            } else {
-            ?>
-                <li class="timeline-sm-item">
-                    <p class="text-muted mt-2">No Medical Record Yet</p>
-                </li>
-            <?php } ?>
-        </ul>
-    </div> <!-- end tab-pane -->
-</div> <!-- end tab-content -->
+                                    <div class="tab-pane show active" id="aboutme">
+                                        <ul class="list-unstyled timeline-sm" style="margin-left: 85px;"> 
+                                            <?php
+                                            $soap_pat_number = $_GET['pat_number'];
+                                            $ret = "SELECT * FROM his_soap_records WHERE soap_pat_number = ?";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->bind_param('s', $soap_pat_number); // Assuming pat_number is a string
+                                            $stmt->execute();
+                                            $res = $stmt->get_result();
+                                            
+                                            if ($res->num_rows > 0) {
+                                                while ($row = $res->fetch_object()) {
+                                            ?>
+                                                    <li class="timeline-sm-item">
+                                                        <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($row->created_at)); ?></span>
+                                                        <h5 class="mt-0 mb-1"><?php echo htmlspecialchars($row->soap_pat_ailment); ?></h5>
+                                                        <p class="text-muted mt-2">
+                                                            <strong>Subjective:</strong> <?php echo nl2br(htmlspecialchars($row->soap_subjective)); ?><br>
+                                                            <strong>Objective:</strong> <?php echo nl2br(htmlspecialchars($row->soap_objective)); ?><br>
+                                                            <strong>Assessment:</strong> <?php echo nl2br(htmlspecialchars($row->soap_assessment)); ?><br>
+                                                            <strong>Plan:</strong> <?php echo nl2br(htmlspecialchars($row->soap_plan)); ?>
+                                                        </p>
+                                                    </li>
+                                            <?php 
+                                                }
+                                            } else {
+                                            ?>
+                                                <li class="timeline-sm-item">
+                                                    <p class="text-muted mt-2">No Medical Record Yet</p>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div> <!-- end tab-pane -->
+
+                                    <div class="tab-pane" id="patient-chart">
+                                        <ul class="list-unstyled timeline-sm" style="margin-left: 85px;">
+                                            <?php
+                                            // Fetch patient chart records
+                                            $chart_ret = "SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ?";
+                                            $chart_stmt = $mysqli->prepare($chart_ret);
+                                            $chart_stmt->bind_param('s', $pat_number); // Assuming pat_number is a string
+                                            $chart_stmt->execute();
+                                            $chart_res = $chart_stmt->get_result();
+
+                                            if ($chart_res->num_rows > 0) {
+                                                while ($chart_row = $chart_res->fetch_object()) {
+                                            ?>
+                                                    <li class="timeline-sm-item">
+                                                        <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($chart_row->created_at)); ?></span>
+                                                        <h5 class="mt-0 mb-1"><?php echo htmlspecialchars($chart_row->patient_chart_pat_ailment); ?></h5>
+                                                        <p class="text-muted mt-2">
+                                                            <strong>Weight:</strong> <?php echo nl2br(htmlspecialchars($chart_row->patient_chart_weight)); ?> kg<br>
+                                                            <strong>Length:</strong> <?php echo nl2br(htmlspecialchars($chart_row->patient_chart_length)); ?> cm<br>
+                                                            <strong>Temperature:</strong> <?php echo nl2br(htmlspecialchars($chart_row->patient_chart_temp)); ?> <br>
+                                                            <strong>Diagnosis:</strong> <?php echo nl2br(htmlspecialchars($chart_row->patient_chart_diagnosis)); ?><br>
+                                                            <strong>Prescription:</strong> <?php echo nl2br(htmlspecialchars($chart_row->patient_chart_prescription)); ?>
+                                                        </p>
+                                                    </li>
+                                            <?php 
+                                                }
+                                            } else {
+                                            ?>
+                                                <li class="timeline-sm-item">
+                                                    <p class="text-muted mt-2">No Patient Chart Record Yet</p>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div> <!-- end tab-pane -->
+                                </div> <!-- end tab-content -->
 
                             </div> <!-- end card-box -->
                         </div> <!-- end col -->

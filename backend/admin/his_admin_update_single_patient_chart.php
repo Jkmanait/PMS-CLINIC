@@ -31,16 +31,16 @@ if (isset($_POST['add_chart_record'])) {
     
     $patient_chart_pat_ailment = $_POST['patient_chart_pat_ailment'];
     $patient_chart_weight = $_POST['patient_chart_weight'];
-    $patient_chart_lenght = $_POST['patient_chart_lenght'];
+    $patient_chart_length = $_POST['patient_chart_length'];
     $patient_chart_temp = $_POST['patient_chart_temp'];
     $patient_chart_diagnosis = $_POST['patient_chart_diagnosis'];
     $patient_chart_prescription = $_POST['patient_chart_prescription'];
 
     // SQL to insert captured values
-    $query = "INSERT INTO his_patient_chart (patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_parent_name, patient_chart_pat_adr, patient_chart_pat_age, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_lenght, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
+    $query = "INSERT INTO his_patient_chart (patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_parent_name, patient_chart_pat_adr, patient_chart_pat_age, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_sex, $patient_chart_pat_parent_name, $patient_chart_pat_adr, $patient_chart_pat_age, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_lenght, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
+    $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_sex, $patient_chart_pat_parent_name, $patient_chart_pat_adr, $patient_chart_pat_age, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
     $stmt->execute();
 
     if ($stmt) {
@@ -129,7 +129,7 @@ if (isset($_POST['add_chart_record'])) {
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label">Length</label>
-                                            <textarea class="form-control" name="patient_chart_lenght" required="required" placeholder="Enter Patient Lenght"></textarea>
+                                            <textarea class="form-control" name="patient_chart_length" required="required" placeholder="Enter Patient Length"></textarea>
                                         </div>
                                         <div class="form-group col-md-4">
                                                 <label for="patientchartTemp" class="col-form-label">Temperature</label>

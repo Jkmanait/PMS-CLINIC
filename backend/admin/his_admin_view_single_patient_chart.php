@@ -167,8 +167,8 @@ $aid = $_SESSION['ad_id'];
                                                             <hr>
                                                             <h5>Weight:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_weight); ?></p>
-                                                            <h5>Lenght:</h5>
-                                                            <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_lenght); ?></p>
+                                                            <h5>Length:</h5>
+                                                            <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_length); ?></p>
                                                             <h5>Temparature:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_temp); ?></p>
                                                             <h5>Diagnosis:</h5>

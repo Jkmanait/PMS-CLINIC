@@ -12,7 +12,7 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
     $patient_chart_pat_number = $_POST['patient_chart_pat_number'];
     $patient_chart_pat_ailment = $_POST['patient_chart_pat_ailment'];
     $patient_chart_weight = $_POST['patient_chart_weight'];
-    $patient_chart_lenght = $_POST['patient_chart_lenght'];
+    $patient_chart_length = $_POST['patient_chart_length'];
     $patient_chart_temp = $_POST['patient_chart_temp'];
     $patient_chart_diagnosis = $_POST['patient_chart_diagnosis'];
     $patient_chart_prescription = $_POST['patient_chart_prescription'];
@@ -29,10 +29,10 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
         $err = "Medical record for this patient already exists!";
     } else {
         // Proceed to insert the new record
-        $query = "INSERT INTO his_patient_chart ( patient_chart_pat_name, patient_chart_pat_parent_name, patient_chart_pat_sex, patient_chart_pat_age, patient_chart_pat_adr, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_lenght, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
+        $query = "INSERT INTO his_patient_chart ( patient_chart_pat_name, patient_chart_pat_parent_name, patient_chart_pat_sex, patient_chart_pat_age, patient_chart_pat_adr, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
                   VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_parent_name, $patient_chart_pat_sex, $patient_chart_pat_age, $patient_chart_pat_adr, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_lenght, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
+        $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_parent_name, $patient_chart_pat_sex, $patient_chart_pat_age, $patient_chart_pat_adr, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
 
         // Success or error message
         if ($stmt->execute()) {
@@ -205,8 +205,8 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
 
                                             <div class="form-group col-md-4">
                                                 <!-- patient chart lenght -->
-                                                <label for="patientchartLenght" class="col-form-label">Lenght</label>
-                                                <textarea required="required" class="form-control" name="patient_chart_lenght" id="patientchartLenght" placeholder="Enter Patient Lenght"></textarea>
+                                                <label for="patientchartLength" class="col-form-label">Length</label>
+                                                <textarea required="required" class="form-control" name="patient_chart_length" id="patientchartLength" placeholder="Enter Patient Length"></textarea>
                                             </div>
 
                                             <div class="form-group col-md-4">
