@@ -77,8 +77,8 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a href="his_admin_add_medical_record.php">Add Diagnoses and Prescription</a></li>
-                            <li><a href="his_admin_manage_medical_record.php">Manage Diagnoses and Prescription</a></li>
+                            <li><a href="his_admin_add_patient_chart.php">Add Patient Chart</a></li>
+                            <li><a href="his_admin_manage_patient_chart.php">Manage Patient Chart</a></li>
                         </ul>
                     </li>
                     <li>
