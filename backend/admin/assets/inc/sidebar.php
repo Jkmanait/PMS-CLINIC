@@ -72,6 +72,17 @@
                     </li>
                     <li>
                         <a href="javascript: void(0);">
+                            <i class="fe-file-text"></i>
+                            <span> Patient Chart </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="his_admin_add_medical_record.php">Add Diagnoses and Prescription</a></li>
+                            <li><a href="his_admin_manage_medical_record.php">Manage Diagnoses and Prescription</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);">
                             <i class="fa fa-calendar"></i>
                             <span> Appointment </span>
                             <span class="menu-arrow"></span>
