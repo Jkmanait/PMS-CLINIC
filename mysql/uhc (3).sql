@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2024 at 12:41 PM
+-- Generation Time: Nov 05, 2024 at 04:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -200,12 +200,21 @@ CREATE TABLE `his_patient_chart` (
   `patient_chart_pat_number` varchar(50) NOT NULL,
   `patient_chart_pat_ailment` varchar(255) NOT NULL,
   `patient_chart_weight` text NOT NULL,
-  `patient_chart_lenght` text NOT NULL,
+  `patient_chart_length` text NOT NULL,
   `patient_chart_temp` text NOT NULL,
   `patient_chart_diagnosis` text NOT NULL,
   `patient_chart_prescription` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `his_patient_chart`
+--
+
+INSERT INTO `his_patient_chart` (`patient_chart_id`, `mdr_number`, `patient_chart_pat_name`, `patient_chart_pat_sex`, `patient_chart_pat_parent_name`, `patient_chart_pat_adr`, `patient_chart_pat_age`, `patient_chart_pat_number`, `patient_chart_pat_ailment`, `patient_chart_weight`, `patient_chart_length`, `patient_chart_temp`, `patient_chart_diagnosis`, `patient_chart_prescription`, `created_at`) VALUES
+(5, NULL, 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'w', 'w', '11°C', 'w', 'w', '2024-11-05 14:22:00'),
+(6, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'x', 'x', '1°C', 'x', 'x', '2024-11-05 14:28:30'),
+(7, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Fever', 'c', 'c', '11°C', 'c', 'c', '2024-11-05 14:52:34');
 
 -- --------------------------------------------------------
 
@@ -245,21 +254,6 @@ CREATE TABLE `his_soap_records` (
   `soap_plan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `his_soap_records`
---
-
-INSERT INTO `his_soap_records` (`soap_id`, `mdr_number`, `soap_pat_name`, `soap_pat_sex`, `soap_pat_parent_name`, `soap_pat_adr`, `soap_pat_age`, `soap_pat_number`, `soap_pat_ailment`, `soap_subjective`, `soap_objective`, `soap_assessment`, `soap_plan`, `created_at`) VALUES
-(674, '5719-0286-5719-0286', 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'The findings suggest a possible middle ear infection, likely otitis media', 'The findings suggest a possible middle ear infection, likely otitis media', 'The findings suggest a possible middle ear infection, likely otitis media', 'The findings suggest a possible middle ear infection, likely otitis media', '2024-10-14 14:32:00'),
-(675, '5719-0286-5719-0286', 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', 'Physical examination reveals redness and fluid buildup in the right ear. No fever is present. The child winces when the ear is gently touched.', '2024-10-14 14:38:02'),
-(676, '5719-0286-5719-0286', 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', 'A 4-year-old patient’s father reports that the child has been frequently scratching her ears and seems irritable. The child complains of “ear hurting.”', '2024-10-14 14:38:17'),
-(677, '8763-4029-8763-4029', 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', 'Prescribe a course of antibiotics suitable for the child’s age and size. Advise the parents to monitor the child’s pain and return if symptoms worsen or do not improve in 48 hours. Recommend over-the-counter pain relief if necessary and schedule a follow-up appointment in one week to reassess the ear condition.', '2024-10-14 14:38:44'),
-(678, '8763-4029-8763-4029', 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', 'Vision screening in the office shows reduced visual acuity in the left eye. No signs of eye inflammation or discharge.', '2024-10-14 14:39:08'),
-(679, '8591-6024-8591-6024', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '6154723', 'Chronic pain', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbb', 'ccccccccccccccccccccccccccccccccccc', 'ddddddddddddddddddddddddddddddddddddd', '2024-10-17 02:51:01'),
-(680, '8591-6024-8591-6024', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '6154723', 'Chronic pain', 'eeeeeeeeeeeeeeeeeeeee', 'ffffffffffffffffffffffffffffff', 'gggggggggggggggggggggggggggg', 'hhhhhhhhhhhhhhhhhhhhh', '2024-10-17 02:51:35'),
-(681, '5610-9743-5610-9743', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8401326', 'Chronic pain', 'sample 1', 'sample2 ', 'sample 3 ', 'sample 4', '2024-10-17 08:06:08'),
-(682, '5610-9743-5610-9743', 'James Kenneth Manait', 'Male', 'Roniel Barrio', 'Damilag, Manolo Fortcih, Bukidnon', '23', '8401326', 'fever', 'sample 5', 'sample 6', 'sample 7', 'sample 8', '2024-10-17 08:07:09');
 
 -- --------------------------------------------------------
 
@@ -406,6 +400,12 @@ ALTER TABLE `his_patients`
   ADD PRIMARY KEY (`pat_id`);
 
 --
+-- Indexes for table `his_patient_chart`
+--
+ALTER TABLE `his_patient_chart`
+  ADD PRIMARY KEY (`patient_chart_id`);
+
+--
 -- Indexes for table `his_pharmaceuticals`
 --
 ALTER TABLE `his_pharmaceuticals`
@@ -481,6 +481,12 @@ ALTER TABLE `his_nurse_note`
 --
 ALTER TABLE `his_patients`
   MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `his_patient_chart`
+--
+ALTER TABLE `his_patient_chart`
+  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `his_pharmaceuticals`

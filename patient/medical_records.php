@@ -13,16 +13,15 @@ $medical_records = [];
 $showModal = false; // Flag to determine if modal should be shown
 $noRecordsFound = false; // Flag for no records found
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
-    $mdr_number = trim($_POST['mdr_number']);
     $pat_number = trim($_POST['pat_number']);
 
     // Validate input
-    if (!empty($mdr_number) && !empty($pat_number)) {
+    if (!empty($pat_number)) {
         // Query to fetch the medical records
-        $query = "SELECT * FROM his_soap_records WHERE mdr_number = ? AND soap_pat_number = ?";
+        $query = "SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ?";
         $stmt = $mysqli->prepare($query);
         if ($stmt) {
-            $stmt->bind_param('ss', $mdr_number, $pat_number);
+            $stmt->bind_param('s', $pat_number);
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
             echo "<p class='text-danger'>Error preparing statement: " . htmlspecialchars($mysqli->error) . "</p>";
         }
     } else {
-        echo "<p class='text-danger'>Please fill in both fields.</p>";
+        echo "<p class='text-danger'>Please fill in the Patient Number.</p>";
     }
 }
 ?>
@@ -110,14 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                         <div class="card">
                             <div class="card-body p-4">
                                 <div class="text-center w-75 m-auto">
-                                    <h3>Access Your Medical Records</h3>
+                                    <h3>Access Your Records</h3>
                                 </div>
 
                                 <form method="POST" class="mb-4">
-                                    <div class="form-group mb-3">
-                                        <label for="mdr_number">MRN: (Medical Record Number)</label>
-                                        <input type="text" class="form-control" name="mdr_number" placeholder="XXXX-XXXX-XXXX-XXXX" required>
-                                    </div>
                                     <div class="form-group mb-3">
                                         <label for="pat_number">Patient Number: (KPID)</label>
                                         <input type="text" class="form-control" name="pat_number" placeholder="XXXXXXXX" required>
@@ -130,72 +125,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
                         </div> <!-- end card -->
 
                         <div class="modal fade" id="recordsModal" tabindex="-1" aria-labelledby="recordsModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" style="max-width: 1500px;"> 
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="recordsModalLabel">Your Medical Records</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog" style="max-width: 1500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recordsModalLabel">Your Medical Records</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php if ($noRecordsFound): ?>
+                    <p>No Medical Record</p>
+                <?php else: ?>
+                    <ul class="list-unstyled timeline-sm" style="margin-left: 0;">
+                        
+                           
+                                <div class="row">
+                                    <div class="col-xl-7">
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Patient Name:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_name']); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Patient Sex:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_sex']); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Age:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_age']); ?> Years</span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>KPID:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_number']); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Parent/Guardian Name:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_parent_name']); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Address:</strong>
+                                            <span class="ml-2"><?php echo htmlspecialchars($medical_records[0]['patient_chart_pat_adr']); ?></span>
+                                        </p>
                                     </div>
-                                    <div class="modal-body">
-                                        <?php if ($noRecordsFound): ?>
-                                            <p>No Medical Record</p>
-                                        <?php else: ?>
-                                            <?php foreach ($medical_records as $record): ?>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="card-box">
-                                                            <div class="row text-left mt-3">
-                                                                <div class="col-xl-7">
-                                                                    <div class="pl-xl-3 mt-3 mt-xl-0">
-                                                                        <h6 class="mb-3">Patient Name: <?php echo htmlspecialchars($record['soap_pat_name']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Patient Sex: <?php echo htmlspecialchars($record['soap_pat_sex']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Age: <?php echo htmlspecialchars($record['soap_pat_age']); ?> Years</h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">MRN: <?php echo htmlspecialchars($record['mdr_number']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">KPID: <?php echo htmlspecialchars($record['soap_pat_number']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Patient Ailment: <?php echo htmlspecialchars($record['soap_pat_ailment']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Parent/Guardian Name: <?php echo htmlspecialchars($record['soap_pat_parent_name']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Address: <?php echo htmlspecialchars($record['soap_pat_adr']); ?></h6>
-                                                                        <hr>
-                                                                        <h6 class="text-danger">Date Recorded: <?php echo date("d/m/Y - h:i:s", strtotime($record['created_at'])); ?></h6>
-                                                                        <hr>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xl-5">
-                                                                    <div class="pl-xl-3 mt-3 mt-xl-0">
-                                                                        <h4 class="align-centre">Medical Records</h4>
-                                                                        <hr>
-                                                                        <h5>Subjective:</h5>
-                                                                        <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($record['soap_subjective'])); ?></p>
-                                                                        <h5>Objective:</h5>
-                                                                        <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($record['soap_objective'])); ?></p>
-                                                                        <h5>Assessment:</h5>
-                                                                        <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($record['soap_assessment'])); ?></p>
-                                                                        <h5>Plan:</h5>
-                                                                        <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($record['soap_plan'])); ?></p>
-                                                                        <hr>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-dismiss="modal">Close</button>
+                                    <?php foreach ($medical_records as $record): ?>
+                                    <li class="timeline-sm-item">
+                                    <span class="timeline-sm-date"><?php echo date("Y-m-d", strtotime($record['created_at'])); ?></span>
+                                    <h5 class="mt-0 mb-1">Ailment: <?php echo htmlspecialchars($record['patient_chart_pat_ailment']); ?></h5>
+                                    <div class="col-xl-5">
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Weight:</strong>
+                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_weight'])); ?> kg</span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Length:</strong>
+                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_length'])); ?> cm</span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Temperature:</strong>
+                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_temp'])); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Diagnosis:</strong>
+                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_diagnosis'])); ?></span>
+                                        </p>
+                                        <p class="text-muted mb-2 font-13 info-text">
+                                            <strong>Prescription:</strong>
+                                            <span class="ml-2"><?php echo nl2br(htmlspecialchars($record['patient_chart_prescription'])); ?></span>
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom btn-sm mt-2" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
 
                     </div> <!-- end col -->
                 </div> <!-- end row -->

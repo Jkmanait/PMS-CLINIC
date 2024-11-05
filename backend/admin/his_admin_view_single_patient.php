@@ -129,6 +129,10 @@ $aid = $_SESSION['ad_id'];
                                         <span class="ml-2"><?php echo htmlspecialchars($row->pat_fname); ?> <?php echo htmlspecialchars($row->pat_lname); ?></span>
                                     </p>
                                     <p class="text-muted mb-2 font-13 info-text">
+                                        <strong>Patient Sex:</strong>
+                                        <span class="ml-2"><?php echo htmlspecialchars($row->pat_sex); ?> </span>
+                                    </p>
+                                    <p class="text-muted mb-2 font-13 info-text">
                                         <strong>Parent/Guardian Name:</strong>
                                         <span class="ml-2"><?php echo htmlspecialchars($row->pat_parent_name); ?></span>
                                     </p>
@@ -151,6 +155,10 @@ $aid = $_SESSION['ad_id'];
                                     <p class="text-muted mb-2 font-13 info-text">
                                         <strong>Ailment:</strong>
                                         <span class="ml-2"><?php echo htmlspecialchars($row->pat_ailment); ?></span>
+                                    </p>
+                                    <p class="text-muted mb-2 font-13 info-text">
+                                        <strong>Patient Number:</strong>
+                                        <span class="ml-2"><?php echo htmlspecialchars($row->pat_number); ?></span>
                                     </p>
                                     <p class="text-muted mb-2 font-13 info-text">
                                         <strong>Patient MRN:</strong>
