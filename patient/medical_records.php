@@ -85,14 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
             position: fixed;
             left: 0;
             top: 0;
-            overflow-y: auto;
+            z-index: 10;
         }
+        
 
         .content {
-            margin-left: 300px;
-            padding: 20px;
-            width: 100%;
-        }
+    margin-left: 300px; /* adjust as needed */
+}
 
         .btn-light-pink {
             background-color: #ff66b2;
@@ -106,6 +105,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
             border-color: #ff4d94;
         }
     </style>
+    <script>
+        function printview(modalId) {
+            // Get the modal content you want to print
+            var modalContent = document.getElementById(modalId).innerHTML;
+
+            // Open a new window
+            var printWindow = window.open('', '', 'height=600,width=800');
+
+            // Write the content to the new window
+            printWindow.document.write('<html><head><title>Print Preview</title>');
+            printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">');
+            printWindow.document.write('</head><body>');
+            
+            // Add the modal content
+            printWindow.document.write(modalContent);
+            
+            printWindow.document.write('</body></html>');
+            
+            // Close the document for writing
+            printWindow.document.close();
+
+            // Wait for the document to load and then trigger the print dialog
+            printWindow.onload = function() {
+                printWindow.print();
+            };
+        }
+    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -128,6 +154,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
         </div>
         <div class="text-center">
             <button type="submit" name="fetch_records" class="btn btn-light-pink btn-block mt-3">View Records</button>
+            <!-- Print Button -->
+            <button type="button" class="btn btn-light-pink btn-block mt-3" onclick="printview('printModal')">
+    <i class="fas fa-print"></i> Print
+</button>
         </div>
     </form>
     </div>
@@ -240,6 +270,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_records'])) {
     </div>
 </div>
 
+<!-- Modal Content -->
+<div class="modal fade" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="printModalLabel">Patient Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                <div class="col-md-6">
+                        <h5>Patient Information</h5>
+                        <p><strong>Patient Name:</strong> <?php echo htmlspecialchars($patient_info['pat_fname']); ?> <?php echo htmlspecialchars($patient_info['pat_lname']); ?></p>
+                        <p><strong>Age:</strong> <?php echo htmlspecialchars($patient_info['pat_age']); ?> Years</p>
+                        <p><strong>Sex:</strong> <?php echo htmlspecialchars($patient_info['pat_sex']); ?></p>
+                        <p><strong>Address:</strong> <?php echo htmlspecialchars($patient_info['pat_addr']); ?></p>
+                        <p><strong>Phone:</strong> <?php echo htmlspecialchars($patient_info['pat_phone']); ?></p>
+                        <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($patient_info['pat_dob']); ?></p>
+                        <p><strong>Ailment:</strong> <?php echo htmlspecialchars($patient_info['pat_ailment']); ?></p>
+                    </div>
+                    <div class="col-md-6">
+                    <h5>Patient Chart</h5>
+                        <ul class="list-unstyled">
+                            <?php
+                            if (!empty($medical_records)) {
+                                foreach ($medical_records as $chart_row) {
+                            ?>
+                                    <li>
+                                        <span><?php echo date("Y-m-d", strtotime($chart_row['created_at'])); ?></span>
+                                        <h5><?php echo htmlspecialchars($chart_row['patient_chart_pat_ailment']); ?></h5>
+                                        <p>
+                                            <strong>Weight:</strong> <?php echo htmlspecialchars($chart_row['patient_chart_weight']); ?> kg<br>
+                                            <strong>Length:</strong> <?php echo htmlspecialchars($chart_row['patient_chart_length']); ?> cm<br>
+                                            <strong>Temperature:</strong> <?php echo htmlspecialchars($chart_row['patient_chart_temp']); ?><br>
+                                            <strong>Diagnosis:</strong> <?php echo htmlspecialchars($chart_row['patient_chart_diagnosis']); ?><br>
+                                            <strong>Prescription:</strong> <?php echo htmlspecialchars($chart_row['patient_chart_prescription']); ?>
+                                        </p>
+                                    </li>
+                            <?php
+                                }
+                            } else {
+                            ?>
+                                <li>No Patient Chart Record Yet</li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
