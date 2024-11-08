@@ -200,8 +200,8 @@ $result = $mysqli->query($query);
                                                 <td><?php echo $row->pat_parent_name; ?></td>
                                                 <td><?php echo $row->pat_phone; ?></td>
                                                 <td>
-                                                    <a href="his_admin_manage_patient.php?delete=<?php echo $row->pat_id;?>" class="badge badge-danger"><i class="mdi mdi-trash-can-outline"></i> Delete</a>
-                                                    <a href="his_admin_update_single_patient.php?pat_id=<?php echo $row->pat_id;?>" class="badge badge-primary"><i class="mdi mdi-check-box-outline"></i> Update</a>
+                                                    <a href="his_admin_manage_patient.php?delete=<?php echo $row->pat_number;?>" class="badge badge-danger"><i class="mdi mdi-trash-can-outline"></i> Delete</a>
+                                                    <a href="his_admin_update_single_patient.php?pat_number=<?php echo $row->pat_number;?>" class="badge badge-primary"><i class="mdi mdi-check-box-outline"></i> Update</a>
                                                 </td>
                                             </tr>
                                             <?php } ?>
