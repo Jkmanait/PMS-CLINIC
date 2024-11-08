@@ -164,8 +164,7 @@ CREATE TABLE `his_patients` (
   `pat_phone` varchar(200) DEFAULT NULL,
   `pat_sex` varchar(200) DEFAULT NULL,
   `pat_date_joined` varchar(200) DEFAULT NULL,
-  `pat_ailment` varchar(200) DEFAULT NULL,
-  `pat_discharge_status` varchar(200) DEFAULT NULL
+  `pat_ailment` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
