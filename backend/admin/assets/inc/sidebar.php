@@ -88,6 +88,7 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="his_admin_appointment_logbook.php">Appointment Logbook</a></li>
                             <li><a href="his_admin_appointment.php">Calendar Appointment</a></li>
                             <li><a href="his_admin_manage_appointments.php">Appointment Details</a></li>
                         </ul>

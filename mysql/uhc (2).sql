@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2024 at 03:39 PM
+-- Generation Time: Nov 08, 2024 at 05:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -34,7 +34,7 @@ CREATE TABLE `appointments` (
   `appointment_date` date NOT NULL,
   `appointment_time` varchar(2) NOT NULL,
   `appointment_reason` varchar(255) DEFAULT NULL,
-  `appointment_status` varchar(50) DEFAULT 'Pending',
+  `guardian_name` varchar(200) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -42,9 +42,11 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `patient_id`, `patient_name`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
+INSERT INTO `appointments` (`id`, `patient_id`, `patient_name`, `appointment_date`, `appointment_time`, `appointment_reason`, `guardian_name`, `created_at`) VALUES
 (0, 8, 'Cardo Dalisay', '2024-10-24', 'AM', 'fever', 'Pending', '2024-10-17 08:12:06'),
-(0, 1, 'arnel', '2024-11-08', 'AM', 'fever', 'Pending', '2024-11-07 07:29:55');
+(0, 1, 'arnel', '2024-11-08', 'AM', 'fever', 'Pending', '2024-11-07 07:29:55'),
+(0, 1, 's', '2024-11-11', 'AM', 'fever', '', '2024-11-08 16:19:34'),
+(0, 1, 'a', '1111-11-11', 'AM', '1', '', '2024-11-08 16:19:56');
 
 -- --------------------------------------------------------
 
@@ -176,38 +178,6 @@ INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_
 (0, 'James Kenneth', 'Manait', '2001-05-29', '23', 'Connor Payne', '0762189', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-11-09', 'Fever', NULL),
 (0, 'Arnel ', 'Puagang', '1999-10-16', '24', 'Elise Ponce', '0214873', 'Manolo Fortich, Bukidnon', '09090909092', 'Male', '2024-11-10', 'Allergies', NULL),
 (0, 'Hencez Heart', 'Taborno', '1111-11-11', '24', 'Connor Payne', '8501764', 'Manolo Fortich, Bukidnon', '09090909091', 'Female', '2024-11-20', 'Chronic pain', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `his_patient_chart`
---
-
-CREATE TABLE `his_patient_chart` (
-  `patient_chart_id` int(11) NOT NULL,
-  `mdr_number` varchar(50) DEFAULT NULL,
-  `patient_chart_pat_name` varchar(255) NOT NULL,
-  `patient_chart_pat_sex` varchar(200) DEFAULT NULL,
-  `patient_chart_pat_parent_name` varchar(255) DEFAULT NULL,
-  `patient_chart_pat_adr` varchar(255) NOT NULL,
-  `patient_chart_pat_age` varchar(10) NOT NULL,
-  `patient_chart_pat_number` varchar(50) NOT NULL,
-  `patient_chart_pat_ailment` varchar(255) NOT NULL,
-  `patient_chart_weight` text NOT NULL,
-  `patient_chart_length` text NOT NULL,
-  `patient_chart_temp` text NOT NULL,
-  `patient_chart_diagnosis` text NOT NULL,
-  `patient_chart_prescription` text NOT NULL,
-  `patient_chart_pat_date_joined` varchar(200) DEFAULT NULL
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `his_patient_chart`
---
-
-INSERT INTO `his_patient_chart` (`patient_chart_id`, `mdr_number`, `patient_chart_pat_name`, `patient_chart_pat_sex`, `patient_chart_pat_parent_name`, `patient_chart_pat_adr`, `patient_chart_pat_age`, `patient_chart_pat_number`, `patient_chart_pat_ailment`, `patient_chart_weight`, `patient_chart_length`, `patient_chart_temp`, `patient_chart_diagnosis`, `patient_chart_prescription`, `patient_chart_pat_date_joined`) VALUES
-(11, NULL, 'James Kenneth Manait', 'Male', 'Connor Payne', 'Damilag, Manolo Fortcih, Bukidnon', '23', '0762189', 'Fever', '11', '11', '11°C', 'fever', 'biogesic', NULL);
 
 -- --------------------------------------------------------
 
@@ -387,12 +357,6 @@ ALTER TABLE `his_nurse_note`
   ADD PRIMARY KEY (`nur_id`);
 
 --
--- Indexes for table `his_patient_chart`
---
-ALTER TABLE `his_patient_chart`
-  ADD PRIMARY KEY (`patient_chart_id`);
-
---
 -- Indexes for table `his_pharmaceuticals`
 --
 ALTER TABLE `his_pharmaceuticals`
@@ -464,12 +428,6 @@ ALTER TABLE `his_nurse_note`
   MODIFY `nur_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `his_patient_chart`
---
-ALTER TABLE `his_patient_chart`
-  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
 -- AUTO_INCREMENT for table `his_pharmaceuticals`
 --
 ALTER TABLE `his_pharmaceuticals`
@@ -491,24 +449,6 @@ ALTER TABLE `his_surgery`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `patient`
---
-ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `schedule`
---
-ALTER TABLE `schedule`
-  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `services`
---
-ALTER TABLE `services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
