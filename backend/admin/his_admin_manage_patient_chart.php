@@ -19,6 +19,10 @@ if (isset($_GET['delete_chart_number'])) {
     }
     $stmt->close();
 }
+
+// Fetch unique dates from the database for the dropdown
+$query = "SELECT DISTINCT patient_chart_pat_date_joined FROM his_patient_chart ORDER BY patient_chart_pat_date_joined ASC";
+$result = $mysqli->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +68,9 @@ if (isset($_GET['delete_chart_number'])) {
 
         <div class="content-page">
             <div class="content">
+
                 <div class="container-fluid">
+                    
                     <br>
                     <div class="row">
                         <div class="col-12">
@@ -72,66 +78,73 @@ if (isset($_GET['delete_chart_number'])) {
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Patient Chart</a></li>
-                                        <li class="breadcrumb-item active">Manage Patient Chart</li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Patients Chart</a></li>
+                                        <li class="breadcrumb-item active">Manage Patients Chart</li>
                                     </ol>
                                 </div>
                                 <h4 class="page-title">Manage Patient Chart</h4>
                             </div>
                         </div>
-                    </div>
+                    </div>     
 
                     <div class="row">
                         <div class="col-12">
                             <div class="card-box">
+                                <h4 class="header-title"></h4>
                                 <div class="mb-2">
                                     <div class="row">
                                         <div class="col-12 text-sm-center form-inline">
-                                            <div class="form-group mr-2" style="display:none">
-                                                <select id="demo-foo-filter-status" class="custom-select custom-select-sm">
-                                                    <option value="">Show all</option>
-                                                    <option value="Discharged">Discharged</option>
-                                                    <option value="OutPatients">OutPatients</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <input id="demo-foo-search" type="text" placeholder="Search" class="form-control form-control-sm" autocomplete="on">
-                                            </div>
+                                            <div class="form-group mr-2">
+                                                <input id="filter-name" type="text" placeholder="Search by Name" class="form-control form-control-sm">
+                                            </div>                    
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="table-responsive">
-                                <table class="table table-bordered toggle-circle mb-0">
+                                    <table class="table table-bordered toggle-circle mb-0" id="patientsTable">
                                         <thead>
                                         <tr>
+                                            <th>Date of Visit
+                                                <button class="btn dropdown-toggle" style="color: black;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <?php 
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            $date = $row['patient_chart_pat_date_joined'];
+                                                            echo "<a class='dropdown-item' href='#' onclick='filterByDate(\"$date\")'>" . date("F j, Y", strtotime($date)) . "</a>";
+                                                        }
+                                                    ?>
+                                                    <a class="dropdown-item" href="#" onclick="clearDateFilter()">Clear Date Filter</a>
+                                                </div>
+                                            </th>
                                             <th>Patient Name</th>
                                             <th>Age</th>
-                                            <th>Patient Sex</th>
-                                            <th>Patient Number</th>
+                                            <th>Sex</th>
                                             <th>Address</th>
+                                            <th>Guardian Name</th>
+                                            <th>Patient Number</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                        // Get details of all patient chart records
-                                        $ret = "SELECT patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_number, patient_chart_pat_adr, patient_chart_pat_age, patient_chart_id 
+                                        $ret = "SELECT patient_chart_pat_date_joined, patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_number, patient_chart_pat_adr, patient_chart_pat_parent_name, patient_chart_pat_age, patient_chart_id 
                                                 FROM his_patient_chart 
                                                 GROUP BY patient_chart_pat_number
-                                                ORDER BY created_at DESC";
+                                                ORDER BY patient_chart_pat_date_joined DESC";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute();
                                         $res = $stmt->get_result();
-                                        $cnt = 1;
                                         while ($row = $res->fetch_object()) {
                                         ?>
                                             <tr class="<?php echo ($row->patient_chart_pat_sex == 'Female') ? 'female' : ''; ?>">
+                                                <td><?php echo $row->patient_chart_pat_date_joined; ?></td>
                                                 <td><?php echo $row->patient_chart_pat_name; ?></td>
-                                                <td><?php echo $row->patient_chart_pat_age;?> Year's Old</td>
-                                                <td><?php echo $row->patient_chart_pat_sex;?></td>
-                                                <td><?php echo $row->patient_chart_pat_number;?></td>
+                                                <td><?php echo $row->patient_chart_pat_age; ?></td>
+                                                <td><?php echo $row->patient_chart_pat_sex; ?></td>
                                                 <td><?php echo $row->patient_chart_pat_adr; ?></td>
+                                                <td><?php echo $row->patient_chart_pat_parent_name; ?></td>
+                                                <td><?php echo $row->patient_chart_pat_number; ?></td>
                                                 <td>
                                                     <a href="his_admin_view_single_patient_chart.php?patient_chart_id=<?php echo $row->patient_chart_id; ?>" class="badge badge-success">
                                                         <i class="fas fa-eye"></i> View
@@ -144,10 +157,7 @@ if (isset($_GET['delete_chart_number'])) {
                                                     </a>
                                                 </td>
                                             </tr>
-                                        <?php 
-                                            $cnt++; 
-                                        } 
-                                        ?>
+                                        <?php } ?>
                                         </tbody>
                                         <tfoot>
                                         <tr class="active">
@@ -170,7 +180,6 @@ if (isset($_GET['delete_chart_number'])) {
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -191,35 +200,52 @@ if (isset($_GET['delete_chart_number'])) {
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
         let chartNumberToDelete;
 
-        // Set up delete button
         document.querySelectorAll('.delete-record').forEach(link => {
             link.addEventListener('click', function() {
                 chartNumberToDelete = this.getAttribute('data-chart-number');
             });
         });
 
-        // Handle confirm delete button click
         document.getElementById('confirmDeleteButton').addEventListener('click', function() {
             if (chartNumberToDelete) {
                 window.location.href = "his_admin_manage_patient_chart.php?delete_chart_number=" + chartNumberToDelete;
             }
         });
-    </script>
 
-    <!-- Include Bootstrap for the modal -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        document.getElementById('filter-name').addEventListener('input', filterTable);
+
+        function filterTable() {
+            const nameFilter = document.getElementById('filter-name').value.toLowerCase();
+            const rows = document.querySelectorAll('#patientsTable tbody tr');
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                row.style.display = name.includes(nameFilter) ? '' : 'none';
+            });
+        }
+
+        function filterByDate(date) {
+            const rows = document.querySelectorAll('#patientsTable tbody tr');
+            rows.forEach(row => {
+                const rowDate = row.querySelector('td:nth-child(1)').textContent;
+                row.style.display = rowDate === date ? '' : 'none';
+            });
+        }
+
+        function clearDateFilter() {
+            const rows = document.querySelectorAll('#patientsTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+        }
+    </script>
     <div class="rightbar-overlay"></div>
     <script src="assets/js/vendor.min.js"></script>
     <script src="assets/js/app.min.js"></script>
-    
 </body>
 </html>

@@ -147,21 +147,19 @@ $result = $mysqli->query($query);
                                     <table class="table table-bordered toggle-circle mb-0" id="patientsTable">
                                         <thead>
                                         <tr>
-                                        <th data-hide="phone">
-                                                    Date of visit
-                                                    <button class="btn dropdown-toggle" style="color: black;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-</button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <?php 
-        while ($row = $result->fetch_assoc()) {
-            $date = $row['pat_date_joined'];
-            echo "<a class='dropdown-item' href='#' onclick='filterByDate(\"$date\")'>" . date("F j, Y", strtotime($date)) . "</a>";
-        }
-    ?>
-    <a class="dropdown-item" href="#" onclick="clearDateFilter()">Clear Date Filter</a>
-</div>
-
-                                                </th>
+                                            <th data-hide="phone">
+                                                Date of visit
+                                                    <button class="btn dropdown-toggle" style="color: black;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <?php 
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $date = $row['pat_date_joined'];
+                                                                    echo "<a class='dropdown-item' href='#' onclick='filterByDate(\"$date\")'>" . date("F j, Y", strtotime($date)) . "</a>";
+                                                                }
+                                                            ?>
+                                                            <a class="dropdown-item" href="#" onclick="clearDateFilter()">Clear Date Filter</a>
+                                                        </div>
+                                            </th>
                                             <th data-toggle="true">Patient Name</th>
                                             <th data-hide="phone">Age</th>
                                             <th data-hide="phone">Patient Sex</th>

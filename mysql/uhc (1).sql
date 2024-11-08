@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2024 at 09:17 AM
+-- Generation Time: Nov 08, 2024 at 03:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -164,8 +164,18 @@ CREATE TABLE `his_patients` (
   `pat_phone` varchar(200) DEFAULT NULL,
   `pat_sex` varchar(200) DEFAULT NULL,
   `pat_date_joined` varchar(200) DEFAULT NULL,
-  `pat_ailment` varchar(200) DEFAULT NULL
+  `pat_ailment` varchar(200) DEFAULT NULL,
+  `pat_discharge_status` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `his_patients`
+--
+
+INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_parent_name`, `pat_number`, `pat_addr`, `pat_phone`, `pat_sex`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
+(0, 'James Kenneth', 'Manait', '2001-05-29', '23', 'Connor Payne', '0762189', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-11-09', 'Fever', NULL),
+(0, 'Arnel ', 'Puagang', '1999-10-16', '24', 'Elise Ponce', '0214873', 'Manolo Fortich, Bukidnon', '09090909092', 'Male', '2024-11-10', 'Allergies', NULL),
+(0, 'Hencez Heart', 'Taborno', '1111-11-11', '24', 'Connor Payne', '8501764', 'Manolo Fortich, Bukidnon', '09090909091', 'Female', '2024-11-20', 'Chronic pain', NULL);
 
 -- --------------------------------------------------------
 
@@ -188,6 +198,7 @@ CREATE TABLE `his_patient_chart` (
   `patient_chart_temp` text NOT NULL,
   `patient_chart_diagnosis` text NOT NULL,
   `patient_chart_prescription` text NOT NULL,
+  `patient_chart_pat_date_joined` varchar(200) DEFAULT NULL
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -195,12 +206,8 @@ CREATE TABLE `his_patient_chart` (
 -- Dumping data for table `his_patient_chart`
 --
 
-INSERT INTO `his_patient_chart` (`patient_chart_id`, `mdr_number`, `patient_chart_pat_name`, `patient_chart_pat_sex`, `patient_chart_pat_parent_name`, `patient_chart_pat_adr`, `patient_chart_pat_age`, `patient_chart_pat_number`, `patient_chart_pat_ailment`, `patient_chart_weight`, `patient_chart_length`, `patient_chart_temp`, `patient_chart_diagnosis`, `patient_chart_prescription`, `created_at`) VALUES
-(5, NULL, 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'w', 'w', '11°C', 'w', 'w', '2024-11-05 14:22:00'),
-(6, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'x', 'x', '1°C', 'x', 'x', '2024-11-05 14:28:30'),
-(7, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Fever', 'c', 'c', '11°C', 'c', 'c', '2024-11-05 14:52:34'),
-(8, NULL, 'Louisa Graham', 'Female', 'Karla Graham', 'Damilag, Manolo Fortcih, Bukidnon', '4', '3106982', 'Fever', '38', '260', '12°C', 'feveer', 'paracetamol', '2024-11-07 07:23:24'),
-(9, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', '68', '20', '60°C', 'headache', 'paracetamol', '2024-11-07 07:26:55');
+INSERT INTO `his_patient_chart` (`patient_chart_id`, `mdr_number`, `patient_chart_pat_name`, `patient_chart_pat_sex`, `patient_chart_pat_parent_name`, `patient_chart_pat_adr`, `patient_chart_pat_age`, `patient_chart_pat_number`, `patient_chart_pat_ailment`, `patient_chart_weight`, `patient_chart_length`, `patient_chart_temp`, `patient_chart_diagnosis`, `patient_chart_prescription`, `patient_chart_pat_date_joined`) VALUES
+(11, NULL, 'James Kenneth Manait', 'Male', 'Connor Payne', 'Damilag, Manolo Fortcih, Bukidnon', '23', '0762189', 'Fever', '11', '11', '11°C', 'fever', 'biogesic', NULL);
 
 -- --------------------------------------------------------
 
@@ -460,7 +467,7 @@ ALTER TABLE `his_nurse_note`
 -- AUTO_INCREMENT for table `his_patient_chart`
 --
 ALTER TABLE `his_patient_chart`
-  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `his_pharmaceuticals`

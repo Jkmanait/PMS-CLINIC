@@ -22,25 +22,26 @@ if (isset($_GET['patient_chart_id'])) {
 
 // Handle form submission (POST)
 if (isset($_POST['add_chart_record'])) {
+  
     $patient_chart_pat_name = $_POST['patient_chart_pat_name'];
     $patient_chart_pat_sex = $_POST['patient_chart_pat_sex'];
     $patient_chart_pat_parent_name = $_POST['patient_chart_pat_parent_name'];
     $patient_chart_pat_adr = $_POST['patient_chart_pat_adr'];
     $patient_chart_pat_age = $_POST['patient_chart_pat_age'];
     $patient_chart_pat_number = $_POST['patient_chart_pat_number'];
-    
     $patient_chart_pat_ailment = $_POST['patient_chart_pat_ailment'];
     $patient_chart_weight = $_POST['patient_chart_weight'];
     $patient_chart_length = $_POST['patient_chart_length'];
     $patient_chart_temp = $_POST['patient_chart_temp'];
     $patient_chart_diagnosis = $_POST['patient_chart_diagnosis'];
     $patient_chart_prescription = $_POST['patient_chart_prescription'];
+    $patient_chart_pat_date_joined = $_POST['patient_chart_pat_date_joined'];
 
     // SQL to insert captured values
-    $query = "INSERT INTO his_patient_chart (patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_parent_name, patient_chart_pat_adr, patient_chart_pat_age, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO his_patient_chart ( patient_chart_pat_name, patient_chart_pat_sex, patient_chart_pat_parent_name, patient_chart_pat_adr, patient_chart_pat_age, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription, patient_chart_pat_date_joined) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_sex, $patient_chart_pat_parent_name, $patient_chart_pat_adr, $patient_chart_pat_age, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
+    $stmt->bind_param('sssssssssssss', $patient_chart_pat_name, $patient_chart_pat_sex, $patient_chart_pat_parent_name, $patient_chart_pat_adr, $patient_chart_pat_age, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription, $patient_chart_pat_date_joined);
     $stmt->execute();
 
     if ($stmt) {
@@ -88,7 +89,7 @@ if (isset($_POST['add_chart_record'])) {
                                         <input type="hidden" name="patient_chart_id" value="<?php echo isset($row->patient_chart_id) ? $row->patient_chart_id : ''; ?>">
 
                                         <div class="form-row">
-                                            <div class="form-group col-md-4">
+                                        <div class="form-group col-md-4">
                                                 <label for="inputName" class="col-form-label">Patient Name</label>
                                                 <input type="text" required="required" readonly name="patient_chart_pat_name" value="<?php echo isset($row->patient_chart_pat_name) ? $row->patient_chart_pat_name : ''; ?>" class="form-control" id="inputName" placeholder="Patient's Name">
                                             </div>
@@ -107,9 +108,9 @@ if (isset($_POST['add_chart_record'])) {
                                                 <input type="text" required="required" readonly name="patient_chart_pat_number" value="<?php echo isset($row->patient_chart_pat_number) ? $row->patient_chart_pat_number : ''; ?>" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label class="col-form-label">Patient Ailment</label>
-                                                <input type="text" name="patient_chart_pat_ailment" value="<?php echo isset($row->patient_chart_pat_ailment) ? $row->patient_chart_pat_ailment : ''; ?>" class="form-control">
-                                            </div>                                                                       
+                                                <label class="col-form-label">Patient Parent Name</label>
+                                                <input type="text" required="required" readonly name="patient_chart_pat_parent_name" value="<?php echo isset($row->patient_chart_pat_parent_name) ? $row->patient_chart_pat_parent_name : ''; ?>" class="form-control">
+                                            </div>                                                                      
                                             <div class="form-group col-md-4">
                                                 <label class="col-form-label">Address</label>
                                                 <input type="text" required="required" readonly name="patient_chart_pat_adr" value="<?php echo isset($row->patient_chart_pat_adr) ? $row->patient_chart_pat_adr : ''; ?>" class="form-control">
@@ -117,10 +118,10 @@ if (isset($_POST['add_chart_record'])) {
                                         </div>
                                         <hr>
 
-                                        <div class="form-row">
+                                        <div class="form-row">                                        
                                             <div class="form-group col-md-4">
-                                                <label class="col-form-label">Patient Parent Name</label>
-                                                <input type="text" required="required" readonly name="patient_chart_pat_parent_name" value="<?php echo isset($row->patient_chart_pat_parent_name) ? $row->patient_chart_pat_parent_name : ''; ?>" class="form-control">
+                                                <label class="col-form-label">Patient Ailment</label>
+                                                <input type="text" name="patient_chart_pat_ailment" value="<?php echo isset($row->patient_chart_pat_ailment) ? $row->patient_chart_pat_ailment : ''; ?>" class="form-control" placeholder="Patient's Ailment">
                                             </div>
                                     
                                         <div class="form-group col-md-4">
@@ -135,6 +136,9 @@ if (isset($_POST['add_chart_record'])) {
                                                 <label for="patientchartTemp" class="col-form-label">Temperature</label>
                                                 <textarea required="required" class="form-control" name="patient_chart_temp" id="patientchartTemp" placeholder="Enter Patient Temperature"></textarea>
                                             </div>
+
+                                            <!-- Patient Number (Hidden) -->
+                                            <input type="hidden" name="patient_chart_pat_date_joined" value="<?php echo $row->pat_date_joined; ?>">
 
                                             <script>
                                                 document.addEventListener("DOMContentLoaded", function() {

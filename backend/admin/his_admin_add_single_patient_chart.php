@@ -2,11 +2,12 @@
 session_start();
 include('../../configuration/config.php');
 
-if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient chart naming
+if (isset($_POST['add_patient_chart_record'])) {  
     
+    // Retrieve data from POST request
     $patient_chart_pat_name = $_POST['patient_chart_pat_name'];
-    $patient_chart_pat_parent_name = $_POST['patient_chart_pat_parent_name']; // Added
-    $patient_chart_pat_sex = $_POST['patient_chart_pat_sex']; // Added
+    $patient_chart_pat_parent_name = $_POST['patient_chart_pat_parent_name'];
+    $patient_chart_pat_sex = $_POST['patient_chart_pat_sex'];
     $patient_chart_pat_age = $_POST['patient_chart_pat_age'];
     $patient_chart_pat_adr = $_POST['patient_chart_pat_adr'];
     $patient_chart_pat_number = $_POST['patient_chart_pat_number'];
@@ -16,8 +17,9 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
     $patient_chart_temp = $_POST['patient_chart_temp'];
     $patient_chart_diagnosis = $_POST['patient_chart_diagnosis'];
     $patient_chart_prescription = $_POST['patient_chart_prescription'];
+    $patient_chart_pat_date_joined = $_POST['patient_chart_pat_date_joined']; // New field for date joined
 
-    // First, check if a record already exists for the patient
+    // Check if a record already exists for the patient
     $check_query = "SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ?";
     $check_stmt = $mysqli->prepare($check_query);
     $check_stmt->bind_param('s', $patient_chart_pat_number);
@@ -25,16 +27,25 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
     $result = $check_stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Record already exists
         $err = "Medical record for this patient already exists!";
     } else {
-        // Proceed to insert the new record
-        $query = "INSERT INTO his_patient_chart ( patient_chart_pat_name, patient_chart_pat_parent_name, patient_chart_pat_sex, patient_chart_pat_age, patient_chart_pat_adr, patient_chart_pat_number, patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription) 
-                  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Insert new record with the date joined
+        $query = "INSERT INTO his_patient_chart (
+                    patient_chart_pat_name, patient_chart_pat_parent_name, patient_chart_pat_sex, 
+                    patient_chart_pat_age, patient_chart_pat_adr, patient_chart_pat_number, 
+                    patient_chart_pat_ailment, patient_chart_weight, patient_chart_length, 
+                    patient_chart_temp, patient_chart_diagnosis, patient_chart_prescription,
+                    patient_chart_pat_date_joined
+                  ) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                  
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('ssssssssssss', $patient_chart_pat_name, $patient_chart_pat_parent_name, $patient_chart_pat_sex, $patient_chart_pat_age, $patient_chart_pat_adr, $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, $patient_chart_prescription);
+        $stmt->bind_param('sssssssssssss', $patient_chart_pat_name, $patient_chart_pat_parent_name, 
+            $patient_chart_pat_sex, $patient_chart_pat_age, $patient_chart_pat_adr, 
+            $patient_chart_pat_number, $patient_chart_pat_ailment, $patient_chart_weight, 
+            $patient_chart_length, $patient_chart_temp, $patient_chart_diagnosis, 
+            $patient_chart_prescription, $patient_chart_pat_date_joined);
 
-        // Success or error message
         if ($stmt->execute()) {
             $success = "Medical Record Added Successfully";
         } else {
@@ -191,8 +202,9 @@ if (isset($_POST['add_patient_chart_record'])) {  // Changed to reflect patient 
 
                                             <!-- Patient Number (Hidden) -->
                                             <input type="hidden" name="patient_chart_pat_number" value="<?php echo $row->pat_number; ?>">
-
+                                            <input type="hidden" name="patient_chart_pat_date_joined" value="<?php echo $row->pat_date_joined; ?>">
                                             <?php } ?>
+                                            
                                             <hr>
 
                                             

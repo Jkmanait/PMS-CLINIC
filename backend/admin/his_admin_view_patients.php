@@ -134,19 +134,18 @@ $result = $mysqli->query($query);
                                             <tr>
                                                 <th data-toggle="true">Check</th>
                                                 <th data-hide="phone">
-                                                    Date of visit
+                                                    Date of Visit
                                                     <button class="btn dropdown-toggle" style="color: black;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-</button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <?php 
-        while ($row = $result->fetch_assoc()) {
-            $date = $row['pat_date_joined'];
-            echo "<a class='dropdown-item' href='#' onclick='filterByDate(\"$date\")'>" . date("F j, Y", strtotime($date)) . "</a>";
-        }
-    ?>
-    <a class="dropdown-item" href="#" onclick="clearDateFilter()">Clear Date Filter</a>
-</div>
-
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <?php 
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                $date = $row['pat_date_joined'];
+                                                                echo "<a class='dropdown-item' href='#' onclick='filterByDate(\"$date\")'>" . date("F j, Y", strtotime($date)) . "</a>";
+                                                            }
+                                                        ?>
+                                                        <a class="dropdown-item" href="#" onclick="clearDateFilter()">Clear Date Filter</a>
+                                                    </div>
                                                 </th>
                                                 <th data-toggle="true">Patient Name</th>
                                                 <th data-hide="phone">Age</th>

@@ -39,13 +39,13 @@ $aid = $_SESSION['ad_id'];
 
     /* Make text bigger and color black */
     body, label, th, td, h4, h1, h2, h3, h5, h6, .breadcrumb-item a {
-        font-size: 18px; /* Adjust size as needed */
-        color: black;    /* Text color */
+        font-size: 18px;
+        color: black;
     }
 
     /* Increase font size for table headers */
     th {
-        font-size: 20px; /* Larger font for headers */
+        font-size: 20px;
     }
 
     /* Larger font size for page titles */
@@ -114,7 +114,6 @@ $aid = $_SESSION['ad_id'];
                                             <li class="breadcrumb-item active">View Patient Chart Records</li>
                                         </ol>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -122,8 +121,7 @@ $aid = $_SESSION['ad_id'];
 
                         <div class="card-box">
                             <?php
-                            
-                            $ret_all = "SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ? ORDER BY created_at DESC"; // No LIMIT
+                            $ret_all = "SELECT * FROM his_patient_chart WHERE patient_chart_pat_number = ? ORDER BY created_at DESC";
                             $stmt_all = $mysqli->prepare($ret_all);
                             $stmt_all->bind_param('s', $patient_chart_pat_number);
                             $stmt_all->execute();
@@ -137,7 +135,6 @@ $aid = $_SESSION['ad_id'];
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-box">
-                                                <!-- <img src="assets/images/users/patient.png" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image"> -->
                                                 <div class="row text-left mt-3">
                                                     <div class="col-xl-7">
                                                         <div class="pl-xl-3 mt-3 mt-xl-0">
@@ -146,7 +143,6 @@ $aid = $_SESSION['ad_id'];
                                                             <h6 class="text-danger">Patient Sex: <?php echo $record->patient_chart_pat_sex; ?></h6>
                                                             <hr>
                                                             <h6 class="text-danger">Age: <?php echo $record->patient_chart_pat_age; ?> Years</h6>                                                    
-                                                            
                                                             <hr>
                                                             <h6 class="text-danger">Patient Number: <?php echo $record->patient_chart_pat_number; ?></h6>
                                                             <hr>
@@ -156,6 +152,7 @@ $aid = $_SESSION['ad_id'];
                                                             <hr>
                                                             <h6 class="text-danger">Address: <?php echo $record->patient_chart_pat_adr; ?></h6>
                                                             <hr>
+                                                            
                                                             <h6 class="text-danger">Date Recorded: <?php echo date("d/m/Y - h:i:s", strtotime($createdAt)); ?></h6>
                                                             <hr>
                                                         </div>
@@ -169,11 +166,11 @@ $aid = $_SESSION['ad_id'];
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_weight); ?></p>
                                                             <h5>Length:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_length); ?></p>
-                                                            <h5>Temparature:</h5>
+                                                            <h5>Temperature:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_temp); ?></p>
                                                             <h5>Diagnosis:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_diagnosis); ?></p>
-                                                            <h5>Priscription:</h5>
+                                                            <h5>Prescription:</h5>
                                                             <p class="text-muted mb-4"><?php echo nl2br($record->patient_chart_prescription); ?></p>
                                                             <hr>
                                                         </div>
