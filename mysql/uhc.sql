@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2024 at 04:34 PM
+-- Generation Time: Nov 08, 2024 at 09:17 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -43,7 +43,8 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `patient_id`, `patient_name`, `appointment_date`, `appointment_time`, `appointment_reason`, `appointment_status`, `created_at`) VALUES
-(0, 8, 'Cardo Dalisay', '2024-10-24', 'AM', 'fever', 'Pending', '2024-10-17 08:12:06');
+(0, 8, 'Cardo Dalisay', '2024-10-24', 'AM', 'fever', 'Pending', '2024-10-17 08:12:06'),
+(0, 1, 'arnel', '2024-11-08', 'AM', 'fever', 'Pending', '2024-11-07 07:29:55');
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,10 @@ INSERT INTO `appointment_schedule` (`id`, `date`, `time`, `slots`, `exception_re
 (0, '2024-10-24', 'PM', 10, NULL),
 (0, '2024-12-25', '', 0, 'christmas'),
 (0, '2024-10-25', 'AM', 15, NULL),
-(0, '2024-10-25', 'PM', 15, NULL);
+(0, '2024-10-25', 'PM', 15, NULL),
+(0, '2024-11-08', 'AM', 9, NULL),
+(0, '2024-11-08', 'PM', 10, NULL),
+(0, '2024-11-09', '', 0, 'dayoff');
 
 -- --------------------------------------------------------
 
@@ -159,29 +163,10 @@ CREATE TABLE `his_patients` (
   `pat_addr` varchar(200) DEFAULT NULL,
   `pat_phone` varchar(200) DEFAULT NULL,
   `pat_sex` varchar(200) DEFAULT NULL,
-  `pat_date_joined` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
+  `pat_date_joined` varchar(200) DEFAULT NULL,
   `pat_ailment` varchar(200) DEFAULT NULL,
   `pat_discharge_status` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `his_patients`
---
-
-INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_parent_name`, `pat_number`, `pat_addr`, `pat_phone`, `pat_sex`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
-(5, 'Kaitlyn ', 'Payne', '2019-12-12', '4', 'Connor Payne', '5946817', 'Dicklum, Manolo Fortich, Bukidnon', '09090909092', 'Female', '2024-10-14 12:14:04.974712', 'fever', NULL),
-(6, 'Edward', 'Cochran', '2020-11-11', '3', 'Wesson Cochran', '4697805', 'Manolo Fortich, Bukidnon', '09111111111', 'Male', '2024-10-14 12:15:22.987372', 'Allergies', NULL),
-(7, 'Louisa', 'Graham', '2020-05-29', '4', 'Karla Graham', '3106982', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Female', '2024-10-14 12:16:31.054794', 'Fever', NULL),
-(8, 'Alfredo', 'Ponce', '2019-01-01', '5', 'Elise Ponce', '7628095', 'Dicklum, Manolo Fortich, Bukidnon', '09090909091', 'Male', '2024-10-14 12:18:35.872012', 'fever', NULL),
-(9, 'Samuel ', 'Poole', '2020-02-22', '4', 'Bonnie Poole', '7380451', 'Alae, Manolo Fortich, Bukidnon', '09090909092', 'Male', '2024-10-14 12:20:54.913074', 'fever', NULL),
-(10, 'Sophia ', 'Terrell', '2015-11-11', '9', 'Drake Terrell', '6187329', 'Alae, Manolo Fortich, Bukidnon', '09090909091', 'Female', '2024-10-14 12:21:53.244223', 'fever', NULL),
-(11, 'Mario ', 'Pierce', '2020-05-22', '4', 'Mara Pierce', '1235876', 'Alae, Manolo Fortich, Bukidnon', '09333333333', 'Male', '2024-10-14 12:25:22.566333', 'Allergies', NULL),
-(12, 'Lorenzo ', 'Marsh', '2015-06-22', '9', 'Tripp Marsh', '2375089', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-14 12:26:03.114944', 'Chronic pain', NULL),
-(13, 'Nora ', 'Vang', '2016-07-22', '8', 'Clay Vang', '2384957', 'Manolo Fortich, Bukidnon', '09090909092', 'Female', '2024-10-14 12:27:14.879647', 'fever', NULL),
-(14, 'Louie ', 'Crosby', '2019-08-22', '5', 'Olive Crosby', '1897053', 'Manolo Fortich, Bukidnon', '09090909091', 'Male', '2024-10-14 12:27:54.202248', 'Fever', NULL),
-(15, 'James Kenneth', 'Manait', '2001-05-29', '23', 'Roniel Barrio', '6154723', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-17 02:50:20.397882', 'Chronic pain', NULL),
-(16, 'James Kenneth', 'Manait', '2001-07-29', '23', 'Roniel Barrio', '8401326', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-17 08:04:44.032157', 'Chronic pain', NULL),
-(17, 'Roniel', 'Puagang', '2001-11-11', '23', 'Connor Payne', '7021569', 'Damilag, Manolo Fortcih, Bukidnon', '09333333333', 'Male', '2024-10-19 06:53:20.940221', 'fever', NULL);
 
 -- --------------------------------------------------------
 
@@ -214,7 +199,9 @@ CREATE TABLE `his_patient_chart` (
 INSERT INTO `his_patient_chart` (`patient_chart_id`, `mdr_number`, `patient_chart_pat_name`, `patient_chart_pat_sex`, `patient_chart_pat_parent_name`, `patient_chart_pat_adr`, `patient_chart_pat_age`, `patient_chart_pat_number`, `patient_chart_pat_ailment`, `patient_chart_weight`, `patient_chart_length`, `patient_chart_temp`, `patient_chart_diagnosis`, `patient_chart_prescription`, `created_at`) VALUES
 (5, NULL, 'Kaitlyn  Payne', 'Female', 'Connor Payne', 'Dicklum, Manolo Fortich, Bukidnon', '4', '5946817', 'fever', 'w', 'w', '11°C', 'w', 'w', '2024-11-05 14:22:00'),
 (6, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', 'x', 'x', '1°C', 'x', 'x', '2024-11-05 14:28:30'),
-(7, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Fever', 'c', 'c', '11°C', 'c', 'c', '2024-11-05 14:52:34');
+(7, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Fever', 'c', 'c', '11°C', 'c', 'c', '2024-11-05 14:52:34'),
+(8, NULL, 'Louisa Graham', 'Female', 'Karla Graham', 'Damilag, Manolo Fortcih, Bukidnon', '4', '3106982', 'Fever', '38', '260', '12°C', 'feveer', 'paracetamol', '2024-11-07 07:23:24'),
+(9, NULL, 'Edward Cochran', 'Male', 'Wesson Cochran', 'Manolo Fortich, Bukidnon', '3', '4697805', 'Allergies', '68', '20', '60°C', 'headache', 'paracetamol', '2024-11-07 07:26:55');
 
 -- --------------------------------------------------------
 
@@ -394,12 +381,6 @@ ALTER TABLE `his_nurse_note`
   ADD PRIMARY KEY (`nur_id`);
 
 --
--- Indexes for table `his_patients`
---
-ALTER TABLE `his_patients`
-  ADD PRIMARY KEY (`pat_id`);
-
---
 -- Indexes for table `his_patient_chart`
 --
 ALTER TABLE `his_patient_chart`
@@ -477,16 +458,10 @@ ALTER TABLE `his_nurse_note`
   MODIFY `nur_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `his_patients`
---
-ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
 -- AUTO_INCREMENT for table `his_patient_chart`
 --
 ALTER TABLE `his_patient_chart`
-  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `patient_chart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `his_pharmaceuticals`
